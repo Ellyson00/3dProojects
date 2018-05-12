@@ -201,7 +201,7 @@ export default class FirstWork extends React.Component {
 				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
 					<Button  onClick={()=>{
 						this.setState({checked: !this.state.checked})
-					}}>{this.state.checked ? "MouseMod" : "Perlin Noise"}</Button>
+					}}>{!this.state.checked ? "MouseMod" : "Perlin Noise"}</Button>
 				</header>
 				<div ref="anchor" />
 			</div>)
