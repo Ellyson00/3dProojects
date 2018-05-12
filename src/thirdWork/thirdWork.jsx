@@ -58,7 +58,7 @@ export default class ThirdWork extends React.Component {
 		this.analyser = audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;
 		this.analyser.fftSize = this.analyser.frequencyBinCount;
-		this.analyser.smoothingTimeConstant = 0.90;
+		this.analyser.smoothingTimeConstant = 0.95;
 		audioSrc.connect(this.analyser);
 
 		this.dataArray = new Uint8Array(bufferLength);
