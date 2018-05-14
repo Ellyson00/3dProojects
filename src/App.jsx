@@ -6,6 +6,7 @@ import FirstWork from "./firstWork/firstWork.jsx";
 import SecondWork from "./secondWork/secondWork.jsx";
 import ThirdWork from "./thirdWork/thirdWork.jsx";
 import FourthWork from "./fourthWork/fourthWork.jsx";
+import Grass from "./grass/grass.jsx";
 
 class App extends React.Component {
     constructor(){
@@ -15,6 +16,7 @@ class App extends React.Component {
             string:"lol",
 			  currentProject: 0,
 			  projects:[
+				  {project:[<Grass/>],name:"Grass"},
 				  {project:[<FourthWork/>],name:"Star"},
 				  {project:[<FirstWork/>],name:"Tringle Plane"},
 				  {project:[<SecondWork/>],name:"Air Plane"},

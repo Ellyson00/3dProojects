@@ -81,11 +81,29 @@ export default class FourthWork extends React.Component {
 		this.mesh.add(this.pointLight);
 		console.log(this.mesh);
 		this.scene.add(this.mesh);
+
+
+		const width = 10;
+		const height = 2	;
+		const intensity = 5;
+		const rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
+		rectLight.position.set( 0, 4.5, .5 );
+		rectLight.rotation.set( 3.14/2, 0, 0 );
+		console.log(rectLight)
+		// rectLight.rotation.x = Math.Pi/3;
+		// rectLight.lookAt( 0, 0, 0 );
+		this.scene.add( rectLight );
+		var ambient = new THREE.AmbientLight( 0xffffff, 0.1 );
+
+		this.scene.add( ambient );
+		const rectLightHelper = new THREE.RectAreaLightHelper( rectLight );
+		this.scene.add( rectLightHelper );
+
 	}
 	initGround(){
 
 		this.planeGeometry = new THREE.PlaneGeometry(10,10);
-		this.planeMaterial = new THREE.MeshLambertMaterial({side:THREE.DoubleSide});
+		this.planeMaterial = new THREE.MeshPhysicalMaterial({ metalness: 0.2, roughness: 0.2 ,side:THREE.DoubleSide});
 		this.planeMesh = new THREE.Mesh(this.planeGeometry,this.planeMaterial);
 		this.scene.add(this.planeMesh);
 		this.planeMesh.position.set(0,-.5,-.5);
