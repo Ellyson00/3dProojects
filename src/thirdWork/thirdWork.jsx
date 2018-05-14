@@ -123,12 +123,22 @@ export default class ThirdWork extends React.Component {
 
 		this.animate();
 		this.audio.play();
+		window.addEventListener('resize', this.handleWindowResize.bind(this));
 
 		// document.getElementById("webgl-container").appendChild(this.renderer.domElement);
 
 		// window.addEventListener("resize", this.resize.bind(this));
 
 	}
+
+	handleWindowResize(){
+		this.HEIGHT = window.innerHeight;
+		this.WIDTH = window.innerWidth;
+		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.camera.aspect = this.WIDTH / this.HEIGHT;
+		this.camera.updateProjectionMatrix();
+	}
+
 	componentWillUnmount(){
 
 		this.audio.pause();
@@ -179,7 +189,10 @@ export default class ThirdWork extends React.Component {
 					}}>Matt Darey Pres. Urban - See the Sun</Button>
 
 				</header>
-				<div ref="visualisation" />
+				<div ref="visualisation" style={{
+					width: "100%",
+					height: "100%",
+					overflow: "hidden"}} />
 			</div>)
 	}
 }

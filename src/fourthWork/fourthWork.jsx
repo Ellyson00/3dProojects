@@ -3,8 +3,28 @@
  */
 
 import React from 'react';
-import {Button} from 'react-bootstrap';
 import * as THREE from 'three';
+import Delaunator from 'delaunator';
+
+let dots = [];
+// dots.push([0, 0]);
+dots.push([0, 1]);
+dots.push([-0.25, 0.5]);
+dots.push([-1, 0.5]);
+dots.push([-.5, 0]);
+dots.push([-1, -.5]);
+dots.push([-0.25, -0.5]);
+dots.push([0, -1]);
+dots.push([0.25, -0.5]);
+dots.push([1, -0.5]);
+dots.push([.5, 0]);
+dots.push([1, 0.5]);
+dots.push([0.25, 0.5]);
+dots.push([0, 1]);
+
+
+const delaunay = new Delaunator.from(dots);
+let triangles = delaunay.triangles;
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -19,7 +39,7 @@ export default class FourthWork extends React.Component {
 
 	initScene(){
 		this.scene = new THREE.Scene();
-		this.scene.background = new THREE.Color(0xffffff);
+		this.scene.background = new THREE.Color(0x000000);
 	}
 
 	initRenderer(){
@@ -31,12 +51,45 @@ export default class FourthWork extends React.Component {
 	}
 	initCamera(){
 		this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight , 0.1, 2000 );
+
 	}
 
 	initControls(){
 		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-		this.camera.position.set(1366/2, 768/2, 770);
-		this.controls.target.set(1366/2, 768/2, 0);
+		this.camera.position.z = 10;
+	}
+
+	initStar(){
+
+		this.geometry = new THREE.Geometry();
+		dots.forEach((dot)=>{
+			this.geometry.vertices.push(new THREE.Vector3(dot[0],dot[1],0));
+		});
+		console.log(triangles)
+		for(let i = 0; i< triangles.length;i=i+3){
+			if(i === 3 || i ===12 || i === 30 || i === 39 || i === 42 || i === 45) continue;
+			this.geometry.faces.push(new THREE.Face3(triangles[i],triangles[i+1],triangles[i+2]));
+		}
+		console.log(this.geometry.faces)
+
+		this.geometry.computeBoundingBox();
+
+		this.material = new THREE.MeshBasicMaterial({side:THREE.DoubleSide});
+		this.mesh = new THREE.Mesh(this.geometry,this.material);
+		this.mesh.position.set(0,0,0);
+		this.pointLight = new THREE.PointLight(0xffffff, 1, 24);
+		this.mesh.add(this.pointLight);
+		console.log(this.mesh);
+		this.scene.add(this.mesh);
+	}
+	initGround(){
+
+		this.planeGeometry = new THREE.PlaneGeometry(10,10);
+		this.planeMaterial = new THREE.MeshLambertMaterial({side:THREE.DoubleSide});
+		this.planeMesh = new THREE.Mesh(this.planeGeometry,this.planeMaterial);
+		this.scene.add(this.planeMesh);
+		this.planeMesh.position.set(0,-.5,-.5);
+		this.planeMesh.rotation.x = -Math.PI;
 	}
 
 	componentDidMount() {
@@ -44,11 +97,20 @@ export default class FourthWork extends React.Component {
 		this.initRenderer();
 		this.initScene();
 		this.initCamera();
-		// this.initControls();
-
+		this.initStar();
+		this.initGround();
+		this.initControls();
+		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
 		this.looped = true;
 		this.animate();
 
+	}
+	handleWindowResize(){
+		this.HEIGHT = window.innerHeight;
+		this.WIDTH = window.innerWidth;
+		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.camera.aspect = this.WIDTH / this.HEIGHT;
+		this.camera.updateProjectionMatrix();
 	}
 	componentWillUnmount(){
 		this.renderer = null;
@@ -68,7 +130,10 @@ export default class FourthWork extends React.Component {
 			<div>
 				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
 				</header>
-				<div ref="anchor" />
+				<div ref="anchor" style={{
+					width: "100%",
+					height: "100%",
+					overflow: "hidden"}}/>
 			</div>)
 	}
 }

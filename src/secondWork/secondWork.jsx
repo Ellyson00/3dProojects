@@ -497,7 +497,7 @@ export default class SecondWork extends React.Component {
 
 		// Listen to the screen: if the user resizes it
 		// we have to update the camera and the renderer size
-		// window.addEventListener('resize', this.handleWindowResize.bind(this), false);
+
 	}
 
 	createLights() {
@@ -556,10 +556,19 @@ export default class SecondWork extends React.Component {
 
 		//add the listener
 		this.renderer.domElement.addEventListener('mousemove', this.handleMouseMove.bind(this), false);
+		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
 		this.stop = true;
 		this.loop();//update the object's
 
 	}
+	handleWindowResize(){
+		this.HEIGHT = window.innerHeight;
+		this.WIDTH = window.innerWidth;
+		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.camera.aspect = this.WIDTH / this.HEIGHT;
+		this.camera.updateProjectionMatrix();
+	}
+
 	componentWillUnmount(){
 		this.renderer = null;
 		this.stop = false;

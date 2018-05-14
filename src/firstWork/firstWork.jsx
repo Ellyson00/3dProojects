@@ -157,6 +157,14 @@ export default class FirstWork extends React.Component {
 			this.scene.add( this.planeMesh );
 		});
 	}
+	handleWindowResize(){
+		this.HEIGHT = window.innerHeight;
+		this.WIDTH = window.innerWidth;
+		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.camera.aspect = this.WIDTH / this.HEIGHT;
+		this.camera.updateProjectionMatrix();
+	}
+
 
 	componentDidMount() {
 
@@ -169,6 +177,7 @@ export default class FirstWork extends React.Component {
 		this.pos = new Mouse(this.renderer.domElement);
 
 		window.addEventListener( 'mousemove', this.onDocumentMouseDown.bind(this), false );
+		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
 		this.looped = true;
 		this.animate();
 
@@ -203,7 +212,10 @@ export default class FirstWork extends React.Component {
 						this.setState({checked: !this.state.checked})
 					}}>{!this.state.checked ? "MouseMod" : "Perlin Noise"}</Button>
 				</header>
-				<div ref="anchor" />
+				<div ref="anchor" style={{
+					width: "100%",
+					height: "100%",
+					overflow: "hidden"}} />
 			</div>)
 	}
 }

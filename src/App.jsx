@@ -15,7 +15,7 @@ class App extends React.Component {
             string:"lol",
 			  currentProject: 0,
 			  projects:[
-				  {project:[<FourthWork/>],name:"Tringle Plane"},
+				  {project:[<FourthWork/>],name:"Star"},
 				  {project:[<FirstWork/>],name:"Tringle Plane"},
 				  {project:[<SecondWork/>],name:"Air Plane"},
 				  {project:[<ThirdWork/>],name:"Music Visualisation"},
@@ -30,7 +30,7 @@ class App extends React.Component {
     render() {
     	return (
     		<div className="App">
-				<header style={{position:"fixed",right:"0"}} className="App-header">
+				<header style={{position:"absolute",right:"0"}} className="App-header">
 					<Component projects={this.state.projects} show={this.state.currentProject} method={this.setNewState.bind(this)} something={this.state.something} text={this.state.string}/>
 				</header>
 				<div style={{height:"100%",width:"100%"}}>
