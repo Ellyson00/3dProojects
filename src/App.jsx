@@ -5,6 +5,7 @@ import Component from "./rightMainPanel/componentOne.jsx";
 import FirstWork from "./firstWork/firstWork.jsx";
 import SecondWork from "./secondWork/secondWork.jsx";
 import ThirdWork from "./thirdWork/thirdWork.jsx";
+import FourthWork from "./fourthWork/fourthWork.jsx";
 
 class App extends React.Component {
     constructor(){
@@ -14,6 +15,7 @@ class App extends React.Component {
             string:"lol",
 			  currentProject: 0,
 			  projects:[
+				  {project:[<FourthWork/>],name:"Tringle Plane"},
 				  {project:[<FirstWork/>],name:"Tringle Plane"},
 				  {project:[<SecondWork/>],name:"Air Plane"},
 				  {project:[<ThirdWork/>],name:"Music Visualisation"},
