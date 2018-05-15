@@ -1,15 +1,17 @@
 /**
  * Created by Ellyson on 5/14/2018.
  */
-/**
- * Created by Ellyson on 5/11/2018.
- */
-
 import React from 'react';
 import * as THREE from 'three';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
+const OBJLoader = require('three-obj-loader');
+const MTLLoader = require('three-mtl-loader');
+
 const grass = require('./grass.jpg');
+const rockObj = require('./obj/Rock1.obj');
+const rockMtl = require('./obj/Rock1.mtl');
+OBJLoader(THREE);
 
 export default class FourthWork extends React.Component {
 	constructor(){
@@ -18,11 +20,14 @@ export default class FourthWork extends React.Component {
 			checked: false
 		};
 		this.time = 0;
+		this.THREE = THREE;
 	}
 
 	initScene(){
 		this.scene = new THREE.Scene();
 		this.scene.background = new THREE.Color( 0x003300 );
+		this.light = new THREE.DirectionalLight(0xffffff, 1)
+		this.scene.add(this.light);
 	}
 
 	initRenderer(){
@@ -51,7 +56,7 @@ export default class FourthWork extends React.Component {
 			const material = new THREE.MeshBasicMaterial( {
 				color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
 				map: texture,
-				depthTest: false,
+				// depthTest: false, //meshes dissapear
 				depthWrite: false,
 				transparent: true
 			} );
@@ -62,7 +67,43 @@ export default class FourthWork extends React.Component {
 
 		}
 		this.scene.add( this.group );
-		// this.scene.children.reverse();
+		const mtlLoader = new MTLLoader();
+
+		mtlLoader.load(rockMtl, (matl)=> {
+			// matl.preload(); //todo : empty materials
+			const objLoader = new this.THREE.OBJLoader();
+
+			objLoader.load(rockObj, (object) => {
+
+				object.children.forEach((item)=>{
+					item.material = new THREE.MeshPhongMaterial({color:0x8A804C,side:THREE.DoubleSide,flatShading:true})
+					//adding frame to boxes
+					const geo = new THREE.EdgesGeometry( item.geometry, 1 ); // or WireframeGeometry
+					const mat = new THREE.LineBasicMaterial( { color: 0x2D2C23, linewidth: 5 } );
+
+					const wireframe = new THREE.LineSegments( geo, mat );
+
+					// item.add(wireframe);
+				});
+				const object2 = object.clone();
+				const object3 = object.clone();
+				object2.scale.set(6,6,6);
+				object3.scale.set(15,15,15);
+				console.log(object2)
+				object2.position.x =  0;
+				object.scale.set(10,10,10);
+				object.position.set(16,12,-15);
+				object3.position.set(-5,-5,-25);
+				object.rotation.set(Math.PI,0,0);
+				object2.rotation.set(0,Math.PI/3,0);
+				object3.rotation.set(Math.PI/2,0,0);
+				this.rocks = new THREE.Object3D();
+				this.rocks.add(object,object2,object3);
+				this.rocks.rotation.y = -Math.PI/5;
+				this.scene.add(this.rocks);
+			});
+		});
+
 	}
 
 
