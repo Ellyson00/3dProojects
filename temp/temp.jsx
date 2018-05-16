@@ -68,7 +68,10 @@ export default class Name extends React.Component {
 			<div>
 				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
 				</header>
-				<div ref="anchor" />
+				<div ref="anchor" style={{
+					width: "100%",
+					height: "100%",
+					overflow: "hidden"}} />
 			</div>)
 	}
 }
