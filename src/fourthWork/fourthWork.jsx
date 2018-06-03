@@ -65,12 +65,11 @@ export default class FourthWork extends React.Component {
 		dots.forEach((dot)=>{
 			this.geometry.vertices.push(new THREE.Vector3(dot[0],dot[1],0));
 		});
-		console.log(triangles)
+
 		for(let i = 0; i< triangles.length;i=i+3){
 			if(i === 3 || i ===12 || i === 30 || i === 39 || i === 42 || i === 45) continue;
 			this.geometry.faces.push(new THREE.Face3(triangles[i],triangles[i+1],triangles[i+2]));
 		}
-		console.log(this.geometry.faces)
 
 		this.geometry.computeBoundingBox();
 
@@ -89,7 +88,6 @@ export default class FourthWork extends React.Component {
 		const rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
 		rectLight.position.set( 0, 4.5, .5 );
 		rectLight.rotation.set( 3.14/2, 0, 0 );
-		console.log(rectLight)
 		// rectLight.rotation.x = Math.Pi/3;
 		// rectLight.lookAt( 0, 0, 0 );
 		this.scene.add( rectLight );
