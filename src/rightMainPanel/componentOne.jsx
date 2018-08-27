@@ -4,12 +4,16 @@ import {DropdownButton, MenuItem} from 'react-bootstrap';
 class Component extends React.Component {
     constructor(props){
         super(props);
-        this.state={something:props.something,input:""};
+        this.state={
+           something:props.something,
+           input:""
+        };
 
     }
     updateOurProps(status){
        this.props.method(status)
     }
+
     render() {
        return (
           <div style={{color:"b"}}>
