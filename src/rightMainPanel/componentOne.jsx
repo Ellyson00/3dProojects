@@ -5,8 +5,8 @@ class Component extends React.Component {
     constructor(props){
         super(props);
         this.state={
-           something:props.something,
-           input:""
+           something: props.something,
+           input: ""
         };
 
     }
@@ -16,8 +16,8 @@ class Component extends React.Component {
 
     render() {
        return (
-          <div style={{color:"b"}}>
-             <DropdownButton id="dropSown" title={this.props.projects[this.props.show].name}>
+          <div style={{position: "fixed", right: "0", margin: "20px"}}>
+             <DropdownButton id="dropSown" pullRight title={this.props.projects[this.props.show].name}>
                 {this.props.projects.map((elem,i)=>{
                    return <MenuItem eventKey={i} onSelect={()=>this.updateOurProps(i)}>{elem.name}</MenuItem>
                 })}

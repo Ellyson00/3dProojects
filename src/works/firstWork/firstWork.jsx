@@ -8,9 +8,9 @@ import Delaunator from 'delaunator';
 import * as THREE from 'three';
 // import vertexShader from "./shaders/vertexShader.vert"; //not working ...coming only string of strange link
 // import fragmentShader from "./shaders/fragmentShader.frag";
-import Mouse from "../plagin/mouse.js";
-import Particle from "../plagin/particles.js";
-import Perlin from "../plagin/perlin.js";
+import Mouse from "../../plagin/mouse.js";
+import Particle from "../../plagin/particles.js";
+import Perlin from "../../plagin/perlin.js";
 
 
 const vertexShader = `
