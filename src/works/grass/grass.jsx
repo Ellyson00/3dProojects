@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import * as THREE from 'three';
-
-const OrbitControls = require('three-orbit-controls')(THREE);
+//
+// const OrbitControls = require('three-orbit-controls')(THREE);
 const OBJLoader = require('three-obj-loader');
 const MTLLoader = require('three-mtl-loader');
 
@@ -44,8 +44,7 @@ export default class FourthWork extends React.Component {
 
 	initControls(){
 		// this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-		this.camera.position.z = 75;
-		this.camera.position.y = 75;
+		this.camera.position.y = this.camera.position.z = 75;
 	}
 
 	initStar(){
@@ -77,11 +76,12 @@ export default class FourthWork extends React.Component {
 
 				object.children.forEach((item)=>{
 					item.material = new THREE.MeshPhongMaterial({color:0x8A804C,side:THREE.DoubleSide,flatShading:true})
-					//adding frame to boxes
-					const geo = new THREE.EdgesGeometry( item.geometry, 1 ); // or WireframeGeometry
-					const mat = new THREE.LineBasicMaterial( { color: 0x2D2C23, linewidth: 5 } );
 
-					const wireframe = new THREE.LineSegments( geo, mat );
+					//adding frame to boxes
+					// const geo = new THREE.EdgesGeometry( item.geometry, 1 ); // or WireframeGeometry
+					// const mat = new THREE.LineBasicMaterial( { color: 0x2D2C23, linewidth: 5 } );
+					//
+					// const wireframe = new THREE.LineSegments( geo, mat );
 
 					// item.add(wireframe);
 				});

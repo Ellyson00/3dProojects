@@ -1,7 +1,7 @@
 import React from 'react';
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 
-class Component extends React.Component {
+class RightDropDownMenu extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -19,7 +19,7 @@ class Component extends React.Component {
           <div style={{position: "fixed", right: "0", margin: "20px"}}>
              <DropdownButton id="dropSown" pullRight title={this.props.projects[this.props.show].name}>
                 {this.props.projects.map((elem,i)=>{
-                   return <MenuItem eventKey={i} onSelect={()=>this.updateOurProps(i)}>{elem.name}</MenuItem>
+                   return <MenuItem key={i} onSelect={()=>this.updateOurProps(i)}>{elem.name}</MenuItem>
                 })}
              </DropdownButton>
           </div>
@@ -27,5 +27,5 @@ class Component extends React.Component {
     }
 }
 
-export default Component;
+export default RightDropDownMenu;
     

@@ -12,7 +12,7 @@ const trek3 = require("./music2.mp3");
 const trek4 = require("./music3.mp3");
 const background = require("./intothree.png");
 
-const OrbitControls = require('three-orbit-controls')(THREE);
+// const OrbitControls = require('three-orbit-controls')(THREE);
 
 export default class ThirdWork extends React.Component {
 	constructor(){
