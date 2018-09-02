@@ -22,7 +22,7 @@ class App extends React.Component {
 			  currentProject: 0,
 			  currentWork: 0,
 			  works:[
-				  // {project:[<Shaders/>],name:"Shaders"},
+				  // {project:[<Shaders/>], name: "Shaders"},
 				  {project: [<Planet/>], name: "Planet"},
 				  {project: [<Sky/>], name: "Sky"},
 				  {project: [<Grass/>], name: "Grass"},
@@ -39,7 +39,7 @@ class App extends React.Component {
 
     }
     setNewState(show){
-    	this.setState(this.state.mode ? {currentProject:show} : {currentWork:show})
+    	this.setState(this.state.mode ? {currentProject: show} : {currentWork: show})
 	 }
 
     render() {
