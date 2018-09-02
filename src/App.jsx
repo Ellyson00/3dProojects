@@ -9,6 +9,7 @@ import Planet from "./works/planet/Planet.jsx";
 import Grass from "./works/grass/grass.jsx";
 import Sky from "./works/sky/Sky.jsx";
 import Galaxy from "./codevember/1st_Day_Galaxy/Galaxy.jsx";
+import PointLight from "./works/Points light/Galaxy.jsx";
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 // import Shaders from "./works/Shaders/Shaders.jsx";
 
@@ -29,6 +30,7 @@ class App extends React.Component {
 				  {project: [<FirstWork/>], name: "Tringle Plane"},
 				  {project: [<SecondWork/>], name: "Air Plane"},
 				  {project: [<ThirdWork/>], name: "Music Visualisation"},
+				  {project: [<PointLight/>], name: "Point Light"},
 			  ],
 			  codevember: [
 				  {project: [<Galaxy/>], name: "Galaxy"},
