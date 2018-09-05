@@ -38,8 +38,8 @@ export default class Shader1 extends React.Component {
 		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 		this.camera.position.set(0, 0, 10);
 	}
-//------------------------------------------------------------
-	firstShader(){
+
+	initShader(){
 
 		const  geometry = new THREE.BoxBufferGeometry(5, 5, 5 );
 		const customMaterial = new THREE.ShaderMaterial(
@@ -57,7 +57,7 @@ export default class Shader1 extends React.Component {
 		this.initRenderer();
 		this.initScene();
 		this.initCamera();
-		this.firstShader();
+		this.initShader();
 		this.initControls();
 		this.renderer.domElement.addEventListener("mousemove",this.onMouseMove.bind(this));
 		this.looped = true;
