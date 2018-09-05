@@ -52,6 +52,10 @@ export default class Galaxy extends React.Component {
 
 	initControls(){
 		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+		this.controls.enableZoom = false;
+		this.controls.enableRotate = false;
+		this.controls.enablePan = false;
+		this.controls.update();
 	}
 
 	initSaturn() {

@@ -11,18 +11,17 @@ import Sky from "./works/sky/Sky.jsx";
 import Galaxy from "./codevember/1st_Day_Galaxy/Galaxy.jsx";
 import PointLight from "./works/Points light/Galaxy.jsx";
 import {DropdownButton, MenuItem} from 'react-bootstrap';
-// import Shaders from "./works/Shaders/Shaders.jsx";
+import Shader1 from "./shaders/1st_Shader/1st_Shader.jsx";
 
 class App extends React.Component {
     constructor(){
 		super();
         this.state={
-			  page: ["codevember", "samples"],
+			  page: ["codevember", "samples", "shaders"],
 			  mode: 0,
 			  currentProject: 0,
 			  currentWork: 0,
 			  works:[
-				  // {project:[<Shaders/>], name: "Shaders"},
 				  {project: [<Planet/>], name: "Planet"},
 				  {project: [<Sky/>], name: "Sky"},
 				  {project: [<Grass/>], name: "Grass"},
@@ -34,6 +33,9 @@ class App extends React.Component {
 			  ],
 			  codevember: [
 				  {project: [<Galaxy/>], name: "Galaxy"},
+			  ],
+			  shaders: [
+				  {project: [<Shader1/>], name: "Shader1"},
 			  ]
         }
 
@@ -43,6 +45,24 @@ class App extends React.Component {
 	 }
 
     render() {
+
+    	const works = <div style={{height: "100%",width: "100%", position: "fixed"}}>
+			 <RightDropDownMenu projects={this.state.works} show={this.state.currentProject} method={this.setNewState.bind(this)}/>
+			 {this.state.works[this.state.currentProject].project[0]}
+		 </div>;
+
+		 const codevember = <div style={{height: "100%",width: "100%", position: "fixed"}}>
+			 <RightDropDownMenu projects={this.state.codevember} show={this.state.currentWork} method={this.setNewState.bind(this)}/>
+			 {this.state.codevember[this.state.currentWork].project[0]}
+		 </div>;
+
+		 const shaders = <div style={{height: "100%",width: "100%", position: "fixed"}}>
+			 <RightDropDownMenu projects={this.state.shaders} show={this.state.currentProject} method={this.setNewState.bind(this)}/>
+			 {this.state.shaders[this.state.currentProject].project[0]}
+		 </div>;
+
+
+
     	return (
     		<div className="App">
 				<header style={{position: "fixed", left: "45%", zIndex: "1"}} className="App-header">
@@ -53,13 +73,10 @@ class App extends React.Component {
 					</DropdownButton>
 
 				</header>
-				{ this.state.mode ? <div style={{height: "100%",width: "100%", position: "fixed"}}>
-					 <RightDropDownMenu projects={this.state.works} show={this.state.currentProject} method={this.setNewState.bind(this)}/>
-					{this.state.works[this.state.currentProject].project[0]}
-				</div> : <div style={{height: "100%",width: "100%", position: "fixed"}}>
-					<RightDropDownMenu projects={this.state.codevember} show={this.state.currentWork} method={this.setNewState.bind(this)}/>
-					{this.state.codevember[this.state.currentWork].project[0]}
-				</div>};
+				{this.state.mode === 0 && codevember}
+				{this.state.mode === 1 && works}
+				{this.state.mode === 2 && shaders}
+
 			</div>);
     }
 }
