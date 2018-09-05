@@ -41,15 +41,15 @@ export default class Shader1 extends React.Component {
 
 	initShader(){
 
-		const  geometry = new THREE.BoxBufferGeometry(5, 5, 5 );
+		const geometry = new THREE.SphereBufferGeometry(4, 30, 30);
 		const customMaterial = new THREE.ShaderMaterial(
 			{
 				uniforms: {  },
 				vertexShader: vertexShader,
 				fragmentShader: fragmentShader,
 			}   );
-		this.cube = new THREE.Mesh( geometry, customMaterial );
-		this.scene.add( this.cube );
+		this.sphere = new THREE.Mesh( geometry, customMaterial );
+		this.scene.add( this.sphere );
 	}
 
 	componentDidMount() {

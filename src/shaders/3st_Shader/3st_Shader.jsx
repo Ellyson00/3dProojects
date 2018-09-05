@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import {vertexShader, fragmentShader} from './shaders';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
-export default class Shader2 extends React.Component {
+export default class Shader3 extends React.Component {
 	constructor(){
 		super();
 		this.mouse=new THREE.Vector2(0,0);
@@ -42,13 +42,23 @@ export default class Shader2 extends React.Component {
 	initShader(){
 
 		const geometry = new THREE.SphereBufferGeometry(4, 30, 30);
+		let array = [];
+
+		for (let v = 0; v < geometry.attributes.position.array.length/3; v++) {
+			array.push(Math.random() * 3);
+		}
+		geometry.addAttribute("displacement",new THREE.Float32BufferAttribute( array, 1 ).setDynamic( true ));
 		const customMaterial = new THREE.ShaderMaterial(
 			{
-				uniforms: {  },
+				uniforms: {
+				},
 				vertexShader: vertexShader,
 				fragmentShader: fragmentShader,
 			}   );
-		this.sphere = new THREE.Mesh( geometry, customMaterial );
+
+		this.sphere = new THREE.Mesh(geometry, customMaterial );
+		console.log(geometry.vertices,this.sphere)
+		//
 		this.scene.add( this.sphere );
 	}
 

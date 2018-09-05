@@ -13,6 +13,7 @@ import PointLight from "./works/Points light/Galaxy.jsx";
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 import Shader1 from "./shaders/1st_Shader/1st_Shader.jsx";
 import Shader2 from "./shaders/2st_Shader/2st_Shader.jsx";
+import Shader3 from "./shaders/3st_Shader/3st_Shader.jsx";
 
 class App extends React.Component {
     constructor(){
@@ -38,6 +39,7 @@ class App extends React.Component {
 			  shaders: [
 				  {project: [<Shader1/>], name: "Base Shader"},
 				  {project: [<Shader2/>], name: "Fake Light"},
+				  {project: [<Shader3/>], name: "Fake Light"},
 			  ]
         }
 
