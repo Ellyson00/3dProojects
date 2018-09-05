@@ -5,9 +5,9 @@
 import React from 'react';
 //import {Button} from 'react-bootstrap';
 import * as THREE from 'three';
+import {vertexShader, fragmentShader} from './shaders';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
-
 export default class Shader1 extends React.Component {
 	constructor(){
 		super();
@@ -41,47 +41,14 @@ export default class Shader1 extends React.Component {
 //------------------------------------------------------------
 	firstShader(){
 
-		const vertexShader =
-		`	varying vec2 vUv;
-		varying vec3 vecPos;
-		varying vec3 vNormal;
-
-		void main() {
-			vUv = uv;
-			vNormal = normal;
-			vecPos = (modelViewMatrix * vec4(position, 1.0)).xyz;
-			gl_Position = projectionMatrix * vec4(vecPos, 1.0);
-		}`;
-
-		const fragmentShader =
-			`uniform sampler2D textureSampler;
-			varying vec3 vNormal;
-			
-			vec4 purple(){
-				vec4 color = vec4(vec3(1.0,0.0,1.0),1.0);
-			 	return color;
-			}
-			void main() {
-			vec3 light = vec3(0.7, 0.5, 1.0);
-			//light = normalize(light);
-			float dProd = max(0.0,
-                    dot(vNormal, light));
-		  	gl_FragColor = vec4(dProd, // R
-                      dProd, // G
-                      dProd, // B
-                      1.0);  // A 	
-			}`;
-
-
 		const  geometry = new THREE.BoxBufferGeometry(5, 5, 5 );
 		const customMaterial = new THREE.ShaderMaterial(
 			{
 				uniforms: {  },
-				vertexShader:   vertexShader,
+				vertexShader: vertexShader,
 				fragmentShader: fragmentShader,
 			}   );
 		this.cube = new THREE.Mesh( geometry, customMaterial );
-		// this.cube.position.set(-3,0,0);
 		this.scene.add( this.cube );
 	}
 
