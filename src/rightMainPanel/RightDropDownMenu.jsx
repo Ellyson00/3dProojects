@@ -17,7 +17,7 @@ class RightDropDownMenu extends React.Component {
     render() {
        return (
           <div style={{position: "fixed", right: "0", margin: "20px"}}>
-             <DropdownButton id="dropSown" pullRight title={this.props.projects[this.props.show].name}>
+             <DropdownButton id="dropSown" pullRight title={this.props.projects[this.props.show] ? this.props.projects[this.props.show].name : ""}>
                 {this.props.projects.map((elem,i)=>{
                    return <MenuItem key={i} onSelect={()=>this.updateOurProps(i)}>{elem.name}</MenuItem>
                 })}

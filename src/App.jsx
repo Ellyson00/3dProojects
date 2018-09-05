@@ -23,7 +23,6 @@ class App extends React.Component {
 			  page: ["codevember", "samples", "shaders"],
 			  mode: 0,
 			  currentProject: 0,
-			  currentWork: 0,
 			  works:[
 				  {project: [<Planet/>], name: "Planet"},
 				  {project: [<Sky/>], name: "Sky"},
@@ -46,26 +45,48 @@ class App extends React.Component {
         }
 
     }
+
+	componentWillUpdate(prevProps, prevState){
+		if(prevState.mode !== this.state.mode){
+			this.setNewState(0)
+		}
+	}
+
+
     setNewState(show){
-    	this.setState(this.state.mode ? {currentProject: show} : {currentWork: show})
+    	this.setState({currentProject: show})
+	 }
+
+	 getModeComponent(){
+		 let project;
+		 switch(this.state.mode) {
+			 case 0:
+				 project = <div style={{height: "100%", width: "100%", position: "fixed"}}>
+					 <RightDropDownMenu projects={this.state.codevember} show={this.state.currentProject}
+											  method={this.setNewState.bind(this)}/>
+					 {this.state.codevember[this.state.currentProject] && this.state.codevember[this.state.currentProject].project[0]}
+				 </div>;
+				 break;
+			 case 1:
+				 project = <div style={{height: "100%", width: "100%", position: "fixed"}}>
+					 <RightDropDownMenu projects={this.state.works} show={this.state.currentProject}
+											  method={this.setNewState.bind(this)}/>
+					 {this.state.works[this.state.currentProject] && this.state.works[this.state.currentProject].project[0]}
+				 </div>;
+				 break;
+			 case 2:
+				 project = <div style={{height: "100%", width: "100%", position: "fixed"}}>
+					 <RightDropDownMenu projects={this.state.shaders} show={this.state.currentProject}
+											  method={this.setNewState.bind(this)}/>
+					 {this.state.shaders[this.state.currentProject] && this.state.shaders[this.state.currentProject].project[0]}
+				 </div>;
+				 break;
+		 }
+		 return project;
 	 }
 
     render() {
 
-    	const works = <div style={{height: "100%",width: "100%", position: "fixed"}}>
-			 <RightDropDownMenu projects={this.state.works} show={this.state.currentProject} method={this.setNewState.bind(this)}/>
-			 {this.state.works[this.state.currentProject].project[0]}
-		 </div>;
-
-		 const codevember = <div style={{height: "100%",width: "100%", position: "fixed"}}>
-			 <RightDropDownMenu projects={this.state.codevember} show={this.state.currentWork} method={this.setNewState.bind(this)}/>
-			 {this.state.codevember[this.state.currentWork].project[0]}
-		 </div>;
-
-		 const shaders = <div style={{height: "100%",width: "100%", position: "fixed"}}>
-			 <RightDropDownMenu projects={this.state.shaders} show={this.state.currentProject} method={this.setNewState.bind(this)}/>
-			 {this.state.shaders[this.state.currentProject].project[0]}
-		 </div>;
 
 
 
@@ -79,9 +100,7 @@ class App extends React.Component {
 					</DropdownButton>
 
 				</header>
-				{this.state.mode === 0 && codevember}
-				{this.state.mode === 1 && works}
-				{this.state.mode === 2 && shaders}
+				{this.getModeComponent()}
 
 			</div>);
     }
