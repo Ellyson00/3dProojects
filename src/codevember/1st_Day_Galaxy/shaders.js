@@ -82,34 +82,46 @@ export const vert_titan = `
 	uniform float delta;
 	uniform float radius;
 	uniform float time;
+	uniform sampler2D texture;
+	varying vec3 vNormal;
 
-	varying vec4 vUv;
+	varying vec2 vUv;
+	varying vec3 p;
 
 	void main()
 	{
-		vec3 p = position;
-
-		p.x += (time*0.03+120.0)*cos(time);
-		p.z += (time*0.03+120.0)*sin(time);
-		p.y += 100.0;
+		p = position;
+		vUv = uv;
+		vNormal = normal;
+		p.x += (time*0.03+200.0)*cos(time) + 50.;
+		p.z += (time*0.03+200.0)*sin(time);
+		p.y += 70.0 + 60. * cos(time);
 
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-
-		vUv = vec4(p, 1.0);
 	}`;
 export const frag_titan =`
 	uniform sampler2D texture;
 	uniform vec2 tile;
-
-	varying vec4 vUv;
+	
+	varying vec4 currentPostion;
+	varying vec2 vUv;
+	varying vec3 p;
+	varying vec3 vNormal;
 
 	void main() {
-	float R = 0.913 + (cos(vUv.y/10.0))/6.0;
-	float G = 0.78 + (cos(vUv.y/10.0))/6.0;
-	float B = 0.38 + (cos(vUv.y/10.0))/6.0;
 	
-	if(vUv.z > 0.0)
-	gl_FragColor = vec4(R, G, B, 1.0);
-	else
-	gl_FragColor = vec4(R+vUv.z*0.05, G+vUv.z*0.05, B+vUv.z*0.05, 1.0);
+	float R = 0.68 + (cos(vUv.y/10.0))/6.0;
+	float G = 0.78 + (cos(vUv.y/10.0))/6.0;
+	float B = 0.78 + (cos(vUv.y/10.0))/6.0;
+	
+	vec4 baseColor = texture2D( texture, vUv.xy );
+	vec4 theColor = baseColor + vec4(vec3((vNormal.xyz - vNormal.yzx) * 0.2) + vNormal.zzz * 0.7, 1.0);
+	
+	if(p.z < 0.0){
+		theColor.x += p.z/200.0;
+		theColor.y += p.z/200.0;
+		theColor.z += p.z/200.0;
+	}
+	theColor.a = 1.0;
+	gl_FragColor = vec4(R * theColor.x, G * theColor.y , B * theColor.z, 1.0);
 }`;
