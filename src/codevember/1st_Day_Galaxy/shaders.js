@@ -74,7 +74,7 @@ export const frag_derbis = `
 	gl_FragColor = vec4(0.58, 0.49, 0.45, 0.90);
 
 	if((shadowType == 0.0 && vUv.z > 0.0) || (shadowType == 1.0 && vUv.z > 0.0 && abs(vUv.x) < 64.0))
-	gl_FragColor = gl_FragColor - vec4(vUv.zzz*0.0076, 0.0);
+	gl_FragColor = vec4(gl_FragColor.xyz * .1, 0.5);
 
 }`;
 
