@@ -7,7 +7,8 @@ import * as THREE from 'three';
 import {frag_titan, vert_titan, frag_derbis, vertex_derbis, frag_saturn, vertex_saturn} from "./shaders";
 
 const saturn = require("./images/saturn.jpg");
-const titano = require("./images/titano.jpg");
+const titano = require("./images/titano2.jpg");
+const titano2 = require("./images/moon.jpg");
 
 const dn = require(`./images/skyBox/dn.png`);
 const up = require(`./images/skyBox/up.png`);
@@ -80,6 +81,7 @@ export default class Galaxy extends React.Component {
 		const titanoMaterial = new THREE.ShaderMaterial({
 			uniforms: {
 				texture: { type: 't', value: textureLoader.load(titano) },
+				textureNormal: { type: 't', value: textureLoader.load(titano2) },
 				time: {value: 1.0}
 			},
 			vertexShader: vert_titan,

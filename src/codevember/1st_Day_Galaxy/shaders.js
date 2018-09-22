@@ -91,17 +91,43 @@ export const vert_titan = `
 	void main()
 	{
 		p = position;
-		vUv = uv;
+		
+		// Specify the axis to rotate about:
+		float x = 0.0;
+		float y = 1.0;
+		float z = 0.0;
+		
 		vNormal = normal;
-		p.x += (time*0.03+200.0)*cos(time) + 50.;
-		p.z += (time*0.03+200.0)*sin(time);
-		p.y += 70.0 + 60. * cos(time);
+		
+		// Specify the angle in radians:
+		float angle = 90.0 * 3.14 / 180.0 + time * 15.; // 90 degrees, CCW
+		
+		// rotate 
+		vec3 q;
+		vNormal.x = q.x = p.x * (x*x * (1.0 - cos(angle)) + cos(angle))
+    	+ p.y * (x*y * (1.0 - cos(angle)) + z * sin(angle))
+    	+ p.z * (x*z * (1.0 - cos(angle)) - y * sin(angle));
 
-		gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+		vNormal.y = q.y = p.x * (y*x * (1.0 - cos(angle)) - z * sin(angle))
+			 + p.y * (y*y * (1.0 - cos(angle)) + cos(angle))
+			 + p.z * (y*z * (1.0 - cos(angle)) + x * sin(angle));
+		
+		vNormal.z = q.z = p.x * (z*x * (1.0 - cos(angle)) + y * sin(angle))
+			 + p.y * (z*y * (1.0 - cos(angle)) - x * sin(angle))
+			 + p.z * (z*z * (1.0 - cos(angle)) + cos(angle));
+				
+		vUv = uv;
+		
+		p.x = q.x += (time*0.03+200.0)*cos(time) + 50.;
+		p.z = q.z += (time*0.03+200.0)*sin(time);
+		p.y = q.y += 70.0 + 60. * cos(time);
+
+		gl_Position = projectionMatrix * modelViewMatrix * vec4(q, 1.0);
 	}`;
 export const frag_titan =`
 	uniform sampler2D texture;
 	uniform vec2 tile;
+	uniform sampler2D textureNormal;
 	
 	varying vec4 currentPostion;
 	varying vec2 vUv;
@@ -114,14 +140,20 @@ export const frag_titan =`
 	float G = 0.78 + (cos(vUv.y/10.0))/6.0;
 	float B = 0.78 + (cos(vUv.y/10.0))/6.0;
 	
-	vec4 baseColor = texture2D( texture, vUv.xy );
-	vec4 theColor = baseColor + vec4(vec3((vNormal.xyz - vNormal.yzx) * 0.2) + vNormal.zzz * 0.7, 1.0);
 	
-	if(p.z < 0.0){
-		theColor.x += p.z/200.0;
-		theColor.y += p.z/200.0;
-		theColor.z += p.z/200.0;
+	//mix merge textures
+	vec4 baseColor = mix(texture2D( texture , vUv.xy ) , texture2D( textureNormal , vUv.xy ), .6);
+
+	vec4 theColor = baseColor+ vec4(vNormal.zzz * 0.04, 1.0);
+	
+	if(p.z < 0.0 && p.x < 80.0 && p.x > -100.){
+		theColor.x += p.z/100.0;
+		theColor.y += p.z/100.0;
+		theColor.z += p.z/100.0;
 	}
 	theColor.a = 1.0;
-	gl_FragColor = vec4(R * theColor.x, G * theColor.y , B * theColor.z, 1.0);
+	if(theColor.z > 0.9){
+		theColor  = vec4(theColor.x - 0.2, theColor.y - 0.2, theColor.z - 0.2, 1.);
+	}
+	gl_FragColor = vec4(theColor.xyz, 1.0);
 }`;
