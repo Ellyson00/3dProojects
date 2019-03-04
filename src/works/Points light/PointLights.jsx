@@ -1,0 +1,87 @@
+/**
+ * Created by Ellyson on 5/11/2018.
+ */
+
+import TemplateFor3D from '../../template3D/temp';
+import * as THREE from 'three';
+
+const spark = require("./spark1.png");
+
+const vertex = `
+		attribute float size;
+		varying vec3 vColor;
+		void main() {
+		vColor = color;
+		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+		gl_PointSize = size * ( 300.0 / -mvPosition.z);
+		gl_Position = projectionMatrix * mvPosition;
+	}`;
+
+const frag = `uniform sampler2D texture;
+varying vec3 vColor;
+void main() {
+	gl_FragColor = vec4( vColor, 1.0 );
+	gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+}`;
+
+const particles = 100000;
+
+export default class PointLights extends TemplateFor3D {
+	constructor(){
+		super();
+	}
+
+	initControls(){
+		super.initControls();
+		this.camera.position.set(0, 0, 770);
+	}
+
+	componentDidMount() {
+		super.componentDidMount();
+		const uniforms = {
+			texture: {value: new THREE.TextureLoader().load(spark)}
+		};
+		const shaderMaterial = new THREE.ShaderMaterial({
+			uniforms: uniforms,
+			vertexShader: vertex,
+			fragmentShader: frag,
+			blending: THREE.AdditiveBlending,
+			depthTest: false,
+			transparent: true,
+			vertexColors: true
+		});
+		const radius = 200;
+		this.geometry = new THREE.BufferGeometry();
+		const positions = [];
+		const colors = [];
+		const sizes = [];
+		const color = new THREE.Color();
+		for ( let i = 0; i < particles; i ++ ) {
+			positions.push((Math.random() * 2 - 1) * radius);
+			positions.push((Math.random() * 2 - 1) * radius);
+			positions.push((Math.random() * 2 - 1) * radius);
+			color.setHSL(i / particles, 1.0, 0.5);
+			colors.push(color.r, color.g, color.b);
+			sizes.push(20);
+		}
+		this.geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+		this.geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+		this.geometry.addAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+		this.particleSystem = new THREE.Points(this.geometry, shaderMaterial);
+		this.scene.add(this.particleSystem);
+		this.initControls();
+		this.animate();
+
+	}
+
+	animate() {
+		const time = Date.now() * 0.005;
+		// this.particleSystem.position.z -=1;
+		let sizes = this.geometry.attributes.size.array;
+		for ( var i = 0; i < particles; i++ ) {
+			sizes[ i ] = 10 * ( 1 + Math.sin( 0.1 * i + time ) );
+		}
+		this.geometry.attributes.size.needsUpdate = true;
+		super.animate();
+	}
+}

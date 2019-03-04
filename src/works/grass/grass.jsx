@@ -1,81 +1,64 @@
 /**
  * Created by Ellyson on 5/14/2018.
  */
+
 import React from 'react';
 import * as THREE from 'three';
-//
-// const OrbitControls = require('three-orbit-controls')(THREE);
+import TemplateFor3D from '../../template3D/temp';
 const OBJLoader = require('three-obj-loader');
 const MTLLoader = require('three-mtl-loader');
-
 const grass = require('./grass.jpg');
 const rockObj = require('./obj/Rock1.obj');
 const rockMtl = require('./obj/Rock1.mtl');
 OBJLoader(THREE);
 
-export default class FourthWork extends React.Component {
+export default class FourthWork extends TemplateFor3D {
 	constructor(){
 		super();
-		this.state = {
-			checked: false
-		};
-		this.time = 0;
 		this.THREE = THREE;
 	}
 
 	initScene(){
-		this.scene = new THREE.Scene();
-		this.scene.background = new THREE.Color( 0x003300 );
+		super.initScene();
+		this.scene.background = new THREE.Color(0x003300);
 		this.light = new THREE.DirectionalLight(0xffffff, 1)
 		this.scene.add(this.light);
 	}
 
-	initRenderer(){
-		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.renderer.setSize( window.innerWidth, window.innerHeight);
-		this.refs.anchor.appendChild(this.renderer.domElement);
-
-	}
-	initCamera(){
-		this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight , 0.1, 2000 );
-
-	}
-
-	initControls(){
-		// this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+	initCamera() {
+		super.initCamera();
 		this.camera.position.y = this.camera.position.z = 75;
 	}
 
 	initStar(){
-		const geometry = new THREE.PlaneBufferGeometry( 100, 100 );
-		const texture = new THREE.CanvasTexture( this.generateTexture() );
+		const geometry = new THREE.PlaneBufferGeometry(100, 100);
+		const texture = new THREE.CanvasTexture(this.generateTexture());
 		this.group = new THREE.Object3D();
-		for ( let i = 0; i < 22; i ++ ) {
+		for (let i = 0; i < 22; i ++) {
 			const material = new THREE.MeshBasicMaterial( {
-				color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
+				color: new THREE.Color().setHSL(0.3, 0.75, ( i / 15 ) * 0.4 + 0.1),
 				map: texture,
 				// depthTest: false, //meshes dissapear
 				depthWrite: false,
 				transparent: true
 			} );
-			const mesh = new THREE.Mesh( geometry, material );
+			const mesh = new THREE.Mesh(geometry, material);
 			mesh.position.y = i * 0.25;
-			mesh.rotation.x = - Math.PI / 2;
+			mesh.rotation.x = -Math.PI / 2;
 			this.group.add(mesh);
 
 		}
 		this.scene.add( this.group );
 		const mtlLoader = new MTLLoader();
 
-		mtlLoader.load(rockMtl, (matl)=> {
+		mtlLoader.load(rockMtl, (matl) => {
 			// matl.preload(); //todo : empty materials
 			const objLoader = new this.THREE.OBJLoader();
 
 			objLoader.load(rockObj, (object) => {
 
-				object.children.forEach((item)=>{
-					item.material = new THREE.MeshPhongMaterial({color:0x8A804C,side:THREE.DoubleSide,flatShading:true})
+				object.children.forEach((item) => {
+					item.material = new THREE.MeshPhongMaterial({color: 0x8A804C, side: THREE.DoubleSide, flatShading: true})
 
 					//adding frame to boxes
 					// const geo = new THREE.EdgesGeometry( item.geometry, 1 ); // or WireframeGeometry
@@ -122,73 +105,40 @@ export default class FourthWork extends React.Component {
 		this.context.globalCompositeOperation = 'lighter';
 		return this.canvas;
 	}
-	initGround(){
 
+	initGround(){
 		let loader = new THREE.TextureLoader();
-		loader.load(grass, (texture)=>{
+		loader.load(grass, (texture) => {
 			this.geometry = new THREE.PlaneGeometry(120,120);
 			this.material = new THREE.MeshBasicMaterial(
 				{
 					map: texture
 				}
 			);
-			const ground = new THREE.Mesh(this.geometry,this.material);
-			ground.rotation.x = -Math.PI/2;
+			const ground = new THREE.Mesh(this.geometry, this.material);
+			ground.rotation.x = -Math.PI / 2;
 			this.scene.add(ground);
 		});
 
 	}
 
 	componentDidMount() {
-
-		this.initRenderer();
-		this.initScene();
-		this.initCamera();
+		super.componentDidMount()
 		this.initStar();
 		this.initGround();
-		this.initControls();
-		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
-		this.looped = true;
 		this.animate();
+	}
 
-	}
-	handleWindowResize(){
-		this.HEIGHT = window.innerHeight;
-		this.WIDTH = window.innerWidth;
-		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
-		this.camera.aspect = this.WIDTH / this.HEIGHT;
-		this.camera.updateProjectionMatrix();
-	}
-	componentWillUnmount(){
-		this.renderer = null;
-		this.looped = false;
-		// window.cancelAnimationFrame(requestId);
-	}
 	animate() {
-		if(!this.looped) return;
-		requestAnimationFrame( this.animate.bind(this));
-		var time = Date.now() / 6000;
+		super.animate();
+		const time = Date.now() / 6000;
 		// this.camera.position.x = 80 * Math.cos( time );
 		// this.camera.position.z = 80 * Math.sin( time );
 		this.camera.lookAt( this.scene.position );
-		for ( var i = 0, l = this.group.children.length; i < l; i ++ ) {
-			var mesh = this.group.children[ i ];
+		for ( let i = 0, l = this.group.children.length; i < l; i ++ ) {
+			const mesh = this.group.children[ i ];
 			mesh.position.x = Math.sin( time * 4 ) * i * i * 0.005;
 			mesh.position.z = Math.cos( time * 6 ) * i * i * 0.005;
 		}
-		this.renderer.render( this.scene, this.camera );
-	}
-
-
-	render() {
-		return (
-			<div>
-				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
-				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}}/>
-			</div>)
 	}
 }

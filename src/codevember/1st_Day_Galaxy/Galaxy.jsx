@@ -2,7 +2,7 @@
  * Created by Ellyson on 5/11/2018.
  */
 
-import React from 'react';
+import TemplateFor3D from '../../template3D/temp';
 import * as THREE from 'three';
 import {frag_titan, vert_titan, frag_derbis, vertex_derbis, frag_saturn, vertex_saturn} from "./shaders";
 
@@ -17,7 +17,6 @@ const rt = require(`./images/skyBox/rt.png`);
 const ft = require(`./images/skyBox/ft.png`);
 const bk = require(`./images/skyBox/bk.png`);
 
-const OrbitControls = require('three-orbit-controls')(THREE);
 const textureLoader = new THREE.TextureLoader();
 
 let clock = new THREE.Clock(),
@@ -26,35 +25,18 @@ time = 0,
 speed = 0.002,
 n = 500000;
 
-export default class Galaxy extends React.Component {
+export default class Galaxy extends TemplateFor3D {
 	constructor(){
 		super();
-		this.state = {
-			checked: false
-		};
-		this.time = 0;
 	}
 
-	initScene(){
-		this.scene = new THREE.Scene();
-	}
-
-	initRenderer(){
-		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.renderer.setSize( window.innerWidth, window.innerHeight);
-		this.refs.anchor.appendChild(this.renderer.domElement);
-
-	}
 	initCamera(){
-		this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight , 0.1, 2000 );
+		super.initCamera();
 		this.camera.position.set(-285, 15, -115);
 	}
 
 	initControls(){
-		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-		// this.controls.enableZoom = false;
-		// this.controls.enableRotate = false;
+		super.initControls();
 		this.controls.enablePan = false;
 		this.controls.update();
 	}
@@ -166,52 +148,27 @@ export default class Galaxy extends React.Component {
 	}
 
 	componentDidMount() {
-
-		this.initRenderer();
-		this.initScene();
-		this.initCamera();
+		super.componentDidMount();
 		this.Saturn();
 		this.initControls();
-
-		this.looped = true;
-		this.animate();
-
+		this.animate()
 	}
-	componentWillUnmount(){
-		this.renderer = null;
-		this.looped = false;
-		// window.cancelAnimationFrame(requestId);
-	}
+
 	animate() {
-		if(!this.looped) return;
-		requestAnimationFrame( this.animate.bind(this));
+		super.animate();
+		if(this.saturn){
+			this.saturn.rotation.y -= speed ;
 
-		this.saturn.rotation.y -= speed ;
+			time += 0.00001;
 
-		time += 0.00001;
+			this.saturn.material.uniforms.time.value += 0.3 * speed;
+			this.titano.material.uniforms.time.value += 0.8 * speed;
+			this.internalRing.material.uniforms.time.value += 0.55 * speed;
+			this.externalRing.material.uniforms.time.value += 0.55 * speed;
 
-		this.saturn.material.uniforms.time.value += 0.3 * speed;
-		this.titano.material.uniforms.time.value += 0.8 * speed;
-		this.internalRing.material.uniforms.time.value += 0.55 * speed;
-		this.externalRing.material.uniforms.time.value += 0.55 * speed;
-
-		this.internalRing.material.uniforms.shadowType.value = shadowType;
-		this.externalRing.material.uniforms.shadowType.value = shadowType;
-
+			this.internalRing.material.uniforms.shadowType.value = shadowType;
+			this.externalRing.material.uniforms.shadowType.value = shadowType;
+		}
 		this.time++;
-		this.renderer.render( this.scene, this.camera );
-	}
-
-
-	render() {
-		return (
-			<div>
-				<header style={{position: "fixed", left: "15px", top: "15px"}} className="">
-				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}} />
-			</div>)
 	}
 }

@@ -9,7 +9,7 @@ import Planet from "./works/planet/Planet.jsx";
 import Grass from "./works/grass/grass.jsx";
 import Sky from "./works/sky/Sky.jsx";
 import Galaxy from "./codevember/1st_Day_Galaxy/Galaxy.jsx";
-import PointLight from "./works/Points light/Galaxy.jsx";
+import PointLight from "./works/Points light/PointLights.jsx";
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 import Shader1 from "./shaders/1st_Shader/1st_Shader.jsx";
 import Shader2 from "./shaders/2st_Shader/2st_Shader.jsx";

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import * as THREE from 'three';
+import TemplateFor3D from '../../template3D/temp';
 import {Button} from 'react-bootstrap';
 
 const trek1 = require("./music4.mp3");
@@ -12,23 +13,16 @@ const trek3 = require("./music2.mp3");
 const trek4 = require("./music3.mp3");
 const background = require("./intothree.png");
 
-// const OrbitControls = require('three-orbit-controls')(THREE);
-
-export default class ThirdWork extends React.Component {
+export default class ThirdWork extends TemplateFor3D {
 	constructor(){
 		super();
 		this.state = {
 			checked: false,
-			treks: [trek1,trek2,trek3,trek4]
+			treks: [trek1, trek2, trek3, trek4]
 		};
-		this.stop = true;
-		this.time = 0;
 	}
 
-	initScene(){
-		this.scene = new THREE.Scene();
-		this.camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 1, 1000);
-		this.scene.add(this.camera);
+	initObjects(){
 		this.light = new THREE.DirectionalLight(new THREE.Color(0xffffff));
 		this.light.position.set(170, 150, 100);
 		this.scene.add(this.light);
@@ -66,6 +60,7 @@ export default class ThirdWork extends React.Component {
 		this.analyser.connect(audioCtx.destination);
 
 	}
+
 	initCubes(){
 		let color = new THREE.Color();
 		let x = 0, z = 0;
@@ -102,54 +97,29 @@ export default class ThirdWork extends React.Component {
 		}
 	}
 
-	initRender(){
-		this.renderer = new THREE.WebGLRenderer({antialias: true,alpha: true});
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		// this.renderer.sortObjects = false;
-		this.renderer.shadowMap.enabled = true;
-		// this.renderer.setClearColor(0xcbc3b8);
-		this.refs.visualisation.appendChild(this.renderer.domElement);
-	}
 
 	componentDidMount() {
-
+		super.componentDidMount();
 		// this.renderer.domElement.addEventListener('mousemove', this.handleMouseMove.bind(this), false);
-		this.stop = true;
-
-		this.initRender();
-		this.initScene();
-
-
+		this.looped = true;
+		this.initObjects();
 		this.animate();
 		this.audio.play();
-		window.addEventListener('resize', this.handleWindowResize.bind(this));
-
 		// document.getElementById("webgl-container").appendChild(this.renderer.domElement);
 
 		// window.addEventListener("resize", this.resize.bind(this));
 
 	}
 
-	handleWindowResize(){
-		this.HEIGHT = window.innerHeight;
-		this.WIDTH = window.innerWidth;
-		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
-		this.camera.aspect = this.WIDTH / this.HEIGHT;
-		this.camera.updateProjectionMatrix();
-	}
-
 	componentWillUnmount(){
-
 		this.audio.pause();
 		this.renderer = null;
 		this.scene = null;
 		this.stop = false;
-
 	}
 
 	animate(){
-		if(!this.stop) return;
+		super.animate();
 		 this.scene.children.forEach((mesh, i) => {
 			let data = this.dataArray;
 
@@ -163,8 +133,6 @@ export default class ThirdWork extends React.Component {
 				mesh.material.color.g = mesh.userData.r * mesh.scale.y*.13 +0.4	;
 			}
 		});
-		this.renderer.render(this.scene,this.camera);
-		requestAnimationFrame(this.animate.bind(this));
 	}
 
 	render() {
@@ -189,7 +157,7 @@ export default class ThirdWork extends React.Component {
 					}}>Matt Darey Pres. Urban - See the Sun</Button>
 
 				</header>
-				<div ref="visualisation" style={{
+				<div ref="anchor" style={{
 					width: "100%",
 					height: "100%",
 					overflow: "hidden"}} />

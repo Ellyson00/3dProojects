@@ -4,6 +4,8 @@
 
 import React from 'react';
 import * as THREE from 'three';
+import TemplateFor3D from '../../template3D/temp';
+import {normalize} from "../../Utils/mathUtils";
 
 const Colors = {
 	red: 0xf25346
@@ -427,23 +429,17 @@ class AirPlane {
 }
 
 
-export default class SecondWork extends React.Component {
+export default class SecondWork extends TemplateFor3D {
 	constructor(){
 		super();
-		this.state = {
-			checked: false
-		};
-		this.stop = true;
-		this.time = 0;
+		this.looped = true;
 	}
 
 	createSea() {
 
 		this.sea = new Sea();
-
 		//push it a little bit at the botom of th scene
 		this.sea.mesh.position.y = -600;
-
 		//add the mesh of the sea to the scene
 		this.scene.add(this.sea.mesh);
 	}
@@ -457,18 +453,9 @@ export default class SecondWork extends React.Component {
 	}
 
 	createScene() {
-
-		this.HEIGHT = window.innerHeight;
-		this.WIDTH = window.innerWidth;
-		this.scene = new THREE.Scene(); //our scene
+		super.initScene();
+		super.initCamera();		//creating the camera
 		this.scene.fog = new THREE.Fog("#d1be9a", 500, 850); //fog
-
-		//creating the camera
-		this.aspectRatio = this.WIDTH / this.HEIGHT;
-		this.fieldOfView = 60;
-		this.nearPlane = 1;
-		this.farPlane = 10000;
-		this.camera = new THREE.PerspectiveCamera(this.fieldOfView, this.aspectRatio, this.nearPlane, this.farPlane);
 
 		//seting the position of camera;
 		this.camera.position.x = 0;
@@ -476,28 +463,13 @@ export default class SecondWork extends React.Component {
 		this.camera.position.y = 100;
 
 		//creating the renderer;
-		this.renderer = new THREE.WebGLRenderer({
-
+		super.initRenderer({
 			// Allow transparency to show the gradient background
 			// we defined in the CSS
 			alpha: true, // Activate the anti-aliasing; this is less performant,
 			// but, as our project is low-poly based, it should be fine :)
 			antialias: true
-		});
-
-		//Define the size of renderer
-		this.renderer.setSize(this.WIDTH, this.HEIGHT);
-
-		//Enable shadow rendering
-		this.renderer.shadowMap.enabled = true;
-
-		//Adding the DOM element of the render
-		// this.container = document.getElementById("world");
-		this.refs.plane.appendChild(this.renderer.domElement);
-
-		// Listen to the screen: if the user resizes it
-		// we have to update the camera and the renderer size
-
+		})
 	}
 
 	createLights() {
@@ -553,39 +525,22 @@ export default class SecondWork extends React.Component {
 		this.createPlane();//plane
 		this.createSea(); //sea
 		this.createSky();//sky
+		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
+		this.looped = true;
 
 		//add the listener
 		this.renderer.domElement.addEventListener('mousemove', this.handleMouseMove.bind(this), false);
-		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
-		this.stop = true;
-		this.loop();//update the object's
+		this.animate();//update the object's
 
-	}
-	handleWindowResize(){
-		this.HEIGHT = window.innerHeight;
-		this.WIDTH = window.innerWidth;
-		this.renderer && this.renderer.setSize(this.WIDTH, this.HEIGHT);
-		this.camera.aspect = this.WIDTH / this.HEIGHT;
-		this.camera.updateProjectionMatrix();
-	}
-
-	componentWillUnmount(){
-		this.renderer = null;
-		this.stop = false;
-		// window.cancelAnimationFrame(requestId);
 	}
 
 	handleMouseMove(event){
 		//here we converting mouse pos val recived
 		//to a normalized value varying between -1 and 1;
 		//this is the formula for the horizontall axis;
-
 		const tx= -1 + (event.clientX / this.WIDTH) * 2;
-
 		//for the vertical (becouse the 2d y goes the opposite direction of the 3d y)
-
 		const ty= 1 - (event.clientY/this.HEIGHT) * 2;
-
 		this.mousePos = {x: tx, y: ty};
 	}
 
@@ -607,21 +562,15 @@ export default class SecondWork extends React.Component {
 		this.airplane.mesh.position.x=targetX;
 	}
 
-	loop(){
+	animate(){
 //  updatePlane();
 // Rotate the propeller, the sea and the sky
-//
-		if(!this.stop) return;
+		super.animate();
 		this.sea.mesh.rotation.z += .01;
 		this.sky.mesh.rotation.z += .01;
-
 		this.mousePos && this.mousePos.x && this.updatePlane();
 		this.airplane.pilot.updateHairs();
 		this.sea.moveWaves();
-		this.renderer.render(this.scene, this.camera);
-
-		requestAnimationFrame(this.loop.bind(this));
-
 	}
 
 
@@ -635,16 +584,7 @@ export default class SecondWork extends React.Component {
 					height: "100%",
 					overflow: "hidden",
 					background: "linear-gradient(rgba(149, 152, 154, 0.65), #e3d08f)"
-				}} ref="plane" />
+				}} ref="anchor" />
 			</div>)
 	}
-}
-
-function normalize(v, vmin, vmax, tmin, tmax){
-
-	const nv = Math.max(Math.min(v, vmax));
-	const dv = vmax - vmin;
-	const pc = (nv - vmin) / dv;
-	const dt = tmax - tmin;
-	return tmin + (pc * dt); //tv
 }
