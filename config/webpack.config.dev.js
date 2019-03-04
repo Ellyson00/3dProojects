@@ -3,6 +3,7 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
+const rawLoader = require.resolve('raw-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -132,7 +133,7 @@ module.exports = {
 					// A missing `test` is equivalent to a match.
 					{
 						test: /\.(shader|vert|frag|glsl|fnt)$/,
-						loader: 'raw-loader'
+						loader: rawLoader
 					},{
 						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
 						loader: require.resolve('url-loader'),
