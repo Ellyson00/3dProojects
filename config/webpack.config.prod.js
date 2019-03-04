@@ -135,7 +135,10 @@ module.exports = {
         oneOf: [
           // "url" loader works just like "file" loader but it also embeds
           // assets smaller than specified size as data URLs to avoid requests.
-          {
+			  {
+				  test: /\.(shader|vert|frag|glsl|fnt)$/,
+				  loader: require.resolve('raw-loader')
+			  },{
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve('url-loader'),
             options: {
