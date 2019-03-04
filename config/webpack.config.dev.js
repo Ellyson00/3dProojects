@@ -131,7 +131,7 @@ module.exports = {
 					// smaller than specified limit in bytes as data URLs to avoid requests.
 					// A missing `test` is equivalent to a match.
 					{
-						test: /\.(shader|vert|frag|fnt)$/,
+						test: /\.(shader|vert|frag|glsl|fnt)$/,
 						loader: require.resolve('raw-loader')
 					},{
 						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],

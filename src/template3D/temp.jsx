@@ -14,6 +14,7 @@ export default class TemplateFor3D extends React.Component {
 			checked: false
 		};
 		this.time = 0;
+		this.looped = true;
 		this.mouse = new THREE.Vector2(0,0);
 		this.resolution = new THREE.Vector2(window.innerWidth,window.innerHeight);
 		this.HEIGHT = window.innerHeight;

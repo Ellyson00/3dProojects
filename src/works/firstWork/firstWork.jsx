@@ -10,34 +10,8 @@ import TemplateFor3D from '../../template3D/temp';
 import Mouse from "../../plagin/mouse.js";
 import Particle from "../../plagin/particles.js";
 import Perlin from "../../plagin/perlin.js";
-
-
-const vertexShader = `
-varying vec2 vUv;
-varying vec3 vecPos;
-varying vec3 v_position;
-
-void main() {
-    vUv = uv;
-    vecPos = (modelViewMatrix * vec4(position, 1.0)).xyz;
-    v_position = position.xyz;
-    gl_Position = projectionMatrix * vec4(vecPos, 1.0);
-}`;
-
-
-const fragmentShader = `
-uniform sampler2D textureSampler;
-  varying vec3 v_position;
-  varying vec2 vUv;
-  void main(void) {
-
-  vec4 image = texture2D(textureSampler,vUv);
-  vec3 normal = normalize(cross(dFdx(v_position),dFdy(v_position)));
-  vec3 light = vec3(0.,0.,1.);
-
-  vec3 prod = clamp(cross(normal,light), 0.,1.0);
-    gl_FragColor = image*(1. -prod.r);
-  }`;
+import vertexShader from "./shaders/vertexShader.vert";
+import fragmentShader from "./shaders/fragmentShader.frag";
 
 let dots = [];
 let myDots = [];
@@ -96,8 +70,8 @@ export default class FirstWork extends TemplateFor3D {
 				uniforms: {
 					textureSampler:{type:"t",value:null}
 				},
-				vertexShader: vertexShader.toString(),
-				fragmentShader: fragmentShader.toString(),
+				vertexShader: vertexShader,
+				fragmentShader: fragmentShader,
 				side:THREE.DoubleSide,
 			} );
 

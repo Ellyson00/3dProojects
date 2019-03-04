@@ -4,7 +4,12 @@
 
 import TemplateFor3D from '../../template3D/temp';
 import * as THREE from 'three';
-import {frag_titan, vert_titan, frag_derbis, vertex_derbis, frag_saturn, vertex_saturn} from "./shaders";
+import frag_titan from "./Shaders/titan.frag";
+import vert_titan from "./Shaders/titan.vert";
+import frag_derbis from "./Shaders/ring.frag";
+import vertex_derbis from "./Shaders/ring.vert";
+import frag_saturn from "./Shaders/saturn.frag";
+import vertex_saturn from "./Shaders/saturn.vert";
 
 const saturn = require("./images/saturn.jpg");
 const titano = require("./images/titano2.jpg");
@@ -156,7 +161,7 @@ export default class Galaxy extends TemplateFor3D {
 
 	animate() {
 		super.animate();
-		if(this.saturn){
+		if(this.looped && this.saturn){
 			this.saturn.rotation.y -= speed ;
 
 			time += 0.00001;
@@ -165,7 +170,7 @@ export default class Galaxy extends TemplateFor3D {
 			this.titano.material.uniforms.time.value += 0.8 * speed;
 			this.internalRing.material.uniforms.time.value += 0.55 * speed;
 			this.externalRing.material.uniforms.time.value += 0.55 * speed;
-
+			this.titano.geometry.rotateY(0.01);
 			this.internalRing.material.uniforms.shadowType.value = shadowType;
 			this.externalRing.material.uniforms.shadowType.value = shadowType;
 		}

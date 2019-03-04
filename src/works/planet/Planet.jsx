@@ -5,6 +5,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../template3D/temp';
+import vertexShader from "./shaders/vertexShader.vert";
+import fragmentShader from "./shaders/fragmentShader.frag";
 
 const xpos = require(`./skyBox/nebula-xpos.png`);
 const xneg = require(`./skyBox/nebula-xneg.png`);
@@ -13,22 +15,6 @@ const yneg = require(`./skyBox/nebula-yneg.png`);
 const zpos = require(`./skyBox/nebula-zpos.png`);
 const zneg = require(`./skyBox/nebula-zneg.png`);
 const planet = require(`./planet.png`);
-
-const vertexShader =
-		`varying vec3 vNormal;
-		void main()
-		{
-			vNormal = normalize( normalMatrix * normal );
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-		}`;
-
-const fragmentShader =
-	`varying vec3 vNormal;
-void main()
-{
-	float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 );
-	gl_FragColor = vec4( 1.0, .0, 0.0, 1.0 ) * intensity;
-}`;
 
 export default class Planet extends TemplateFor3D {
 	constructor(){
@@ -60,7 +46,7 @@ export default class Planet extends TemplateFor3D {
 		const customMaterial = new THREE.ShaderMaterial(
 			{
 				uniforms: {  },
-				vertexShader:   vertexShader,
+				vertexShader: vertexShader,
 				fragmentShader: fragmentShader,
 				side: THREE.BackSide,
 				blending: THREE.AdditiveBlending,

@@ -3,7 +3,8 @@
  */
 
 import * as THREE from 'three';
-import {vertexShader, fragmentShader} from './shaders';
+import fragmentShader from './shader.frag';
+import vertexShader from './shader.vert';
 import TemplateFor3D from '../../template3D/temp';
 
 export default class Shader3 extends TemplateFor3D {

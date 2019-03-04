@@ -4,7 +4,8 @@
 
 import TemplateFor3D from '../../template3D/temp';
 import * as THREE from 'three';
-import {vertexShader, fragmentShader} from './shaders';
+import fragmentShader from './shader.frag';
+import vertexShader from './shader.vert';
 
 export default class Shader4 extends TemplateFor3D {
 	constructor(){
