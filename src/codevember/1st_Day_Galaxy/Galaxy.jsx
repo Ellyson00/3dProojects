@@ -50,16 +50,16 @@ export default class Galaxy extends TemplateFor3D {
 
 		const saturnMaterial = new THREE.ShaderMaterial({
 			uniforms: {
-				texture: { type: 't', value: textureLoader.load(saturn)},
+				texture: {type: 't', value: textureLoader.load(saturn)},
 				time: {value: 1.0}
 			},
 			vertexShader: vertex_saturn,
 			fragmentShader: frag_saturn,
 		});
 
-		this.saturn = new THREE.Mesh( new THREE.SphereBufferGeometry( 100, 64, 64 ), saturnMaterial);
+		this.saturn = new THREE.Mesh( new THREE.SphereBufferGeometry(100, 64, 64), saturnMaterial);
 
-		this.scene.add( this.saturn );
+		this.scene.add(this.saturn);
 
 	}
 
@@ -67,15 +67,15 @@ export default class Galaxy extends TemplateFor3D {
 
 		const titanoMaterial = new THREE.ShaderMaterial({
 			uniforms: {
-				texture: { type: 't', value: textureLoader.load(titano) },
-				textureNormal: { type: 't', value: textureLoader.load(titano2) },
+				texture: {type: 't', value: textureLoader.load(titano)},
+				textureNormal: {type: 't', value: textureLoader.load(titano2)},
 				time: {value: 1.0}
 			},
 			vertexShader: vert_titan,
 			fragmentShader: frag_titan,
 		});
-		this.titano = new THREE.Mesh( new THREE.SphereBufferGeometry( 20, 64, 64 ), titanoMaterial);
-		this.scene.add( this.titano );
+		this.titano = new THREE.Mesh(new THREE.SphereBufferGeometry(20, 64, 64), titanoMaterial);
+		this.scene.add(this.titano);
 
 	}
 
