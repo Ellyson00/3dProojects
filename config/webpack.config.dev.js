@@ -132,7 +132,7 @@ module.exports = {
 					// A missing `test` is equivalent to a match.
 					{
 						test: /\.(shader|vert|frag|glsl|fnt)$/,
-						loader: require.resolve('raw-loader')
+						loader: 'raw-loader'
 					},{
 						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
 						loader: require.resolve('url-loader'),
