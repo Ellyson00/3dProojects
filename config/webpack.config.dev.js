@@ -3,7 +3,6 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
-const rawLoader = require.resolve('raw-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -133,7 +132,7 @@ module.exports = {
 					// A missing `test` is equivalent to a match.
 					{
 						test: /\.(shader|vert|frag|glsl|fnt)$/,
-						loader: rawLoader
+						loader: require.resolve('raw-loader')
 					},{
 						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
 						loader: require.resolve('url-loader'),
@@ -146,7 +145,7 @@ module.exports = {
 					{
 						test: /\.(js|jsx|mjs)$/,
 						include: paths.appSrc,
-						loader: require.resolve('babel-loader'),
+						loader: require.resolve('url-loader'),
 						options: {
 
 							// This is a feature of `babel-loader` for webpack (not Babel itself).
