@@ -8,9 +8,6 @@ import vertexShader from './shader.vert';
 import TemplateFor3D from '../../template3D/temp';
 
 export default class Shader3 extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initControls(){
 		super.initControls();

@@ -2,7 +2,6 @@
  * Created by Ellyson on 5/14/2018.
  */
 
-import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../template3D/temp';
 const OBJLoader = require('three-obj-loader');

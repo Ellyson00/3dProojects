@@ -9,9 +9,6 @@ import TemplateFor3D from '../../template3D/temp';
 const threeSky = require('three-sky');
 
 export default class Sky extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initScene(){
 		super.initScene();

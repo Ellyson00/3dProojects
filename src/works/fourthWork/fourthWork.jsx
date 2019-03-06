@@ -26,9 +26,6 @@ const delaunay = new Delaunator.from(dots);
 let triangles = delaunay.triangles;
 
 export default class FourthWork extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initControls(){
 		super.initControls();

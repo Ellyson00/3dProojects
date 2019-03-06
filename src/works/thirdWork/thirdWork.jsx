@@ -47,7 +47,7 @@ export default class ThirdWork extends TemplateFor3D {
 
 		this.audio = new Audio();
 		this.audio.src = this.state.treks[0];
-		let audioCtx = new window['AudioContext'] || window['webkitAudioContext']();
+		let audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
 		let audioSrc = audioCtx.createMediaElementSource(this.audio);
 		this.analyser = audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;

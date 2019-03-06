@@ -2,7 +2,6 @@
  * Created by Ellyson on 5/11/2018.
  */
 
-import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../template3D/temp';
 import vertexShader from "./shaders/vertexShader.vert";
@@ -17,9 +16,6 @@ const zneg = require(`./skyBox/nebula-zneg.png`);
 const planet = require(`./planet.png`);
 
 export default class Planet extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initScene(){
 		super.initScene();

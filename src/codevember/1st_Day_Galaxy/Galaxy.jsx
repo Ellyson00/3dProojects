@@ -24,16 +24,11 @@ const bk = require(`./images/skyBox/bk.png`);
 
 const textureLoader = new THREE.TextureLoader();
 
-let clock = new THREE.Clock(),
-shadowType = 1,
-time = 0,
+let shadowType = 1,
 speed = 0.002,
 n = 500000;
 
 export default class Galaxy extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initCamera(){
 		super.initCamera();
@@ -163,8 +158,6 @@ export default class Galaxy extends TemplateFor3D {
 		super.animate();
 		if(this.looped && this.saturn){
 			this.saturn.rotation.y -= speed ;
-
-			time += 0.00001;
 
 			this.saturn.material.uniforms.time.value += 0.3 * speed;
 			this.titano.material.uniforms.time.value += 0.8 * speed;

@@ -11,9 +11,6 @@ const spark = require("./spark1.png");
 const particles = 100000;
 
 export default class PointLights extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initControls(){
 		super.initControls();

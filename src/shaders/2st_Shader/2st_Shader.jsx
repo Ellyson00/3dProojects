@@ -8,9 +8,6 @@ import fragmentShader from './shader.frag';
 import vertexShader from './shader.vert';
 
 export default class Shader2 extends TemplateFor3D {
-	constructor(){
-		super();
-	}
 
 	initControls(){
 		super.initControls();
