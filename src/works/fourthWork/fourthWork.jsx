@@ -88,6 +88,7 @@ export default class FourthWork extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		super.animate();
 	}
 }

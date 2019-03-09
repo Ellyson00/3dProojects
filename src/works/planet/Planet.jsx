@@ -95,6 +95,7 @@ export default class Planet extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		super.animate();
 		this.planet.rotation.y += 0.001
 	}

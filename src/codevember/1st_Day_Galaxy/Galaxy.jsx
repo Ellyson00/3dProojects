@@ -25,8 +25,8 @@ const bk = require(`./images/skyBox/bk.png`);
 const textureLoader = new THREE.TextureLoader();
 
 let shadowType = 1,
-speed = 0.002,
-n = 500000;
+	speed = 0.002,
+	n = 500000;
 
 export default class Galaxy extends TemplateFor3D {
 
@@ -155,18 +155,17 @@ export default class Galaxy extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		super.animate();
-		if(this.looped && this.saturn){
-			this.saturn.rotation.y -= speed ;
+		this.saturn.rotation.y -= speed ;
+		this.saturn.material.uniforms.time.value += 0.3 * speed;
 
-			this.saturn.material.uniforms.time.value += 0.3 * speed;
-			this.titano.material.uniforms.time.value += 0.8 * speed;
-			this.internalRing.material.uniforms.time.value += 0.55 * speed;
-			this.externalRing.material.uniforms.time.value += 0.55 * speed;
-			this.titano.geometry.rotateY(0.01);
-			this.internalRing.material.uniforms.shadowType.value = shadowType;
-			this.externalRing.material.uniforms.shadowType.value = shadowType;
-		}
-		this.time++;
+		this.titano.material.uniforms.time.value += 0.8 * speed;
+		this.titano.geometry.rotateY(0.01);
+
+		this.internalRing.material.uniforms.time.value += 0.55 * speed;
+		this.externalRing.material.uniforms.time.value += 0.55 * speed;
+		this.internalRing.material.uniforms.shadowType.value = shadowType;
+		this.externalRing.material.uniforms.shadowType.value = shadowType;
 	}
 }

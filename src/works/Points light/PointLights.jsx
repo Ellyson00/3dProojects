@@ -56,6 +56,7 @@ export default class PointLights extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		const time = Date.now() * 0.005;
 		// this.particleSystem.position.z -=1;
 		let sizes = this.geometry.attributes.size.array;

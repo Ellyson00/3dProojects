@@ -565,6 +565,7 @@ export default class SecondWork extends TemplateFor3D {
 	animate(){
 //  updatePlane();
 // Rotate the propeller, the sea and the sky
+		if(!this.looped) return;
 		super.animate();
 		this.sea.mesh.rotation.z += .01;
 		this.sky.mesh.rotation.z += .01;
@@ -577,14 +578,8 @@ export default class SecondWork extends TemplateFor3D {
 	render() {
 		return (
 			<div>
-				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
-				</header>
-				<div style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden",
-					background: "linear-gradient(rgba(149, 152, 154, 0.65), #e3d08f)"
-				}} ref="anchor" />
+				<header/>
+				<div className="canvasDiv airplane" ref="anchor" />
 			</div>)
 	}
 }

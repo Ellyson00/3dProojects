@@ -36,9 +36,10 @@ export default class ThirdWork extends TemplateFor3D {
 	}
 
 	initControls(){
-		// this.controls = new OrbitControls( this.camera );
-		this.camera.position.set(156.26, 61.33, 148.04);
-		this.camera.rotation.set(-0.48, 0.701, 0.324);
+		// super.initControls();
+		this.camera.position.set(43.22, 36.56, 94.165);
+		this.camera.rotation.set(-0.67, -0.006, -0.005);
+
 		// this.controls.update();
 
 	}
@@ -113,6 +114,7 @@ export default class ThirdWork extends TemplateFor3D {
 	}
 
 	animate(){
+		if(!this.looped) return;
 		super.animate();
 		this.analyser && this.analyser.getByteFrequencyData(this.dataArray);// frequency
 		this.analyser && this.analyser.getByteTimeDomainData(this.timeByteData);// waveform
@@ -130,29 +132,25 @@ export default class ThirdWork extends TemplateFor3D {
 	render() {
 		return (
 			<div>
-				<header style={{position:"fixed",left:"15px",top:"15px",width: "135px"}} className="">
-					<Button style={{marginBottom:"5px"}} onClick={()=>{
+				<header className="playList">
+					<Button onClick={()=>{
 						this.audio.src = this.state.treks[0];
 						this.audio.play();
 					}}>Daft Punk - too Long</Button>
-					<Button style={{marginBottom:"5px"}} onClick={()=>{
+					<Button onClick={()=>{
 						this.audio.src = this.state.treks[1];
 						this.audio.play();
 					}}>Pendulum - Still Grey</Button>
-					<Button style={{marginBottom:"5px"}} onClick={()=>{
+					<Button onClick={()=>{
 						this.audio.src = this.state.treks[2];
 						this.audio.play();
 					}}>Arrow Benjamin - Love and Hate</Button>
-					<Button style={{marginBottom:"5px"}} onClick={()=>{
+					<Button onClick={()=>{
 						this.audio.src = this.state.treks[3];
 						this.audio.play();
 					}}>Matt Darey Pres. Urban - See the Sun</Button>
-
 				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}} />
+				<div ref="anchor" className="canvasDiv"/>
 			</div>)
 	}
 }

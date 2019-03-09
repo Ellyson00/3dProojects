@@ -57,7 +57,6 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	animate() {
-		if(!this.looped) return;
 		requestAnimationFrame( this.animate.bind(this));
 		this.time++;
 		this.renderer.render( this.scene, this.camera );
@@ -71,15 +70,19 @@ export default class TemplateFor3D extends React.Component {
 		this.camera.updateProjectionMatrix();
 	}
 
+	attachMouseMoveEvent(){
+		this.renderer.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
+	}
+
+	onMouseMove(e){
+		this.mouse = new THREE.Vector2(e.offsetX / window.innerWidth, e.offsetY / window.innerHeight);
+	}
+
 	render() {
 		return (
 			<div>
-				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
-				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}} />
+				<header/>
+				<div ref="anchor" className="canvasDiv"/>
 			</div>)
 	}
 }

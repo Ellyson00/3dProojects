@@ -156,7 +156,7 @@ class firstWork extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<header style={{position:"fixed"}} className="">
+				<header className="">
 					LoL
 				</header>
 				{this.renderer.domElement ? this.renderer.domElement : null};

@@ -133,6 +133,7 @@ export default class FirstWork extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		super.animate();
 		if (this.geometry) {
 			myDots.forEach((d, i) => {
@@ -149,15 +150,12 @@ export default class FirstWork extends TemplateFor3D {
 	render() {
 		return (
 			<div>
-				<header style={{position:"fixed",left:"15px",top:"15px"}} className="">
+				<header>
 					<Button  onClick={()=>{
 						this.setState({checked: !this.state.checked})
 					}}>{!this.state.checked ? "MouseMod" : "Perlin Noise"}</Button>
 				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}} />
+				<div ref="anchor" className="canvasDiv airplane"/>
 			</div>)
 	}
 }

@@ -1,0 +1,108 @@
+*{
+  padding: 0;
+  margin: 0;
+  line-height:0;
+}
+
+.App {
+  text-align: center;
+  overflow: hidden;
+
+  .selectButton{
+    position: absolute;
+    margin-top: 32px;
+
+    &>button{
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      background: rgba(224, 224, 224, 0.4);
+    }
+  }
+}
+
+.dropdown-menu{
+  right:0;
+}
+
+.canvasDiv{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  &.airplane{
+    background: linear-gradient(rgba(149, 152, 154, 0.65), #e3d08f);
+  }
+}
+
+header{
+  position: fixed;
+  left: 15px;
+  top: 15px;
+  width: 135px;
+
+  &.playList{
+    margin-left: 75px;
+    button{
+      margin-bottom: 5px;
+
+    }
+  }
+
+  &#sky{
+    background: rgba(0, 0, 0, 0.33);
+    padding: 21px;
+    color: white;
+  }
+}
+
+
+.asidePanel{
+  background: #00000000;
+  button, a{
+    width: 100%;
+  }
+  a{
+    background: rgba(255, 255, 255, 0.48);
+    &:hover{
+      background: rgba(11, 255, 151, 0.55);;
+    }
+  }
+  .slide-pane__content{
+    padding: 0;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+}
+
+.dropdown{
+  opacity: 0.2;
+  transition: 1s;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  /*background-color: #222;*/
+  height: 150px;
+  padding: 20px;
+  color: black;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

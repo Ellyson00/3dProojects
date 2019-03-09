@@ -80,7 +80,8 @@ export default class Sky extends TemplateFor3D {
 	}
 
 	animate() {
-		this.looped && this.updateSun();
+		if(!this.looped) return;
+		this.updateSun();
 		super.animate();
 	}
 
@@ -100,14 +101,8 @@ export default class Sky extends TemplateFor3D {
 	render() {
 		return (
 			<div>
-				<header id="sky" style={{position:"fixed",left:"15px",top:"15px",background: "rgba(0, 0, 0, 0.33)",
-					padding: "21px",
-					color: "white"}} className="">
-				</header>
-				<div ref="anchor" style={{
-					width: "100%",
-					height: "100%",
-					overflow: "hidden"}} />
+				<header id="sky"/>
+				<div ref="anchor" className="canvasDiv" />
 			</div>)
 	}
 }

@@ -129,6 +129,7 @@ export default class FourthWork extends TemplateFor3D {
 	}
 
 	animate() {
+		if(!this.looped) return;
 		super.animate();
 		const time = Date.now() / 6000;
 		// this.camera.position.x = 80 * Math.cos( time );
