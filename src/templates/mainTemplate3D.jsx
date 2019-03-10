@@ -8,7 +8,7 @@ import * as THREE from 'three';
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 export default class TemplateFor3D extends React.Component {
-	constructor(){
+	constructor() {
 		super();
 		this.state = {
 			checked: false
@@ -21,7 +21,7 @@ export default class TemplateFor3D extends React.Component {
 		this.WIDTH = window.innerWidth;
 	}
 
-	initScene(){
+	initScene() {
 		this.scene = new THREE.Scene();
 	}
 
@@ -31,10 +31,10 @@ export default class TemplateFor3D extends React.Component {
 		this.renderer.setSize( window.innerWidth, window.innerHeight);
 		this.renderer.shadowMap.enabled = true;
 		this.refs.anchor.appendChild(this.renderer.domElement);
-
 	}
+
 	initCamera() {
-		this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight , 0.1, 2000 );
+		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
 	}
 
 	initControls() {
@@ -42,15 +42,13 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	componentDidMount() {
-
 		this.initRenderer();
 		this.initScene();
 		this.initCamera();
 		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
-
 		this.looped = true;
-
 	}
+
 	componentWillUnmount() {
 		this.renderer = null;
 		this.looped = false;
@@ -70,19 +68,18 @@ export default class TemplateFor3D extends React.Component {
 		this.camera.updateProjectionMatrix();
 	}
 
-	attachMouseMoveEvent(){
+	attachMouseMoveEvent() {
 		this.renderer.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
 	}
 
-	onMouseMove(e){
+	onMouseMove(e) {
 		this.mouse = new THREE.Vector2(e.offsetX / window.innerWidth, e.offsetY / window.innerHeight);
 	}
 
 	render() {
-		return (
-			<div>
-				<header/>
-				<div ref="anchor" className="canvasDiv"/>
-			</div>)
+		return <div>
+			<header/>
+			<div ref="anchor" className="canvasDiv"/>
+		</div>
 	}
 }

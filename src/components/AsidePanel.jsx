@@ -7,7 +7,6 @@ import {Button, Collapse, Col, Row} from 'react-bootstrap';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
 export default class AsidePanel extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,6 +20,7 @@ export default class AsidePanel extends React.Component {
 	render() {
 		const {worksPanel, shadersPanel, codevemberPanel} = this.state;
 		const {closePanel, isPanelOpen} = this.props;
+
 		return <SlidingPane from='left'
 								  className='asidePanel'
 								  overlayClassName='inside'
@@ -35,10 +35,10 @@ export default class AsidePanel extends React.Component {
 							  aria-expanded={shadersPanel}>Shaders</Button>
 					<Collapse in={shadersPanel}>
 						<div>
-							<Button href={"/Shader/Shader1"}>Shader1</Button>
-							<Button href={"/Shader/Shader2"}>Shader2</Button>
-							<Button href={"/Shader/Shader3"}>Shader3</Button>
-							<Button href={"/Shader/Shader4"}>Shader4</Button>
+							<Button href={"/Shaders/Shader1"}>Shader1</Button>
+							<Button href={"/Shaders/Shader2"}>Shader2</Button>
+							<Button href={"/Shaders/Shader3"}>Shader3</Button>
+							<Button href={"/Shaders/Shader4"}>Shader4</Button>
 						</div>
 					</Collapse>
 				</Row>
@@ -62,16 +62,15 @@ export default class AsidePanel extends React.Component {
 							<Button href={"/SomeWorks/Planet"}>Planet</Button>
 							<Button href={"/SomeWorks/Sky"}>Sky</Button>
 							<Button href={"/SomeWorks/Grass"}>Grass</Button>
-							<Button href={"/SomeWorks/Star"}>Star</Button>
-							<Button href={"/SomeWorks/TringlePlane"}>TringlePlane</Button>
+							<Button href={"/SomeWorks/Lights"}>Lights</Button>
+							<Button href={"/SomeWorks/TriangleWallpaper"}>TriangleWallpaper</Button>
 							<Button href={"/SomeWorks/AirPlane"}>AirPlane</Button>
-							<Button href={"/SomeWorks/MusicVisualisation"}>MusicVisualisation</Button>
+							<Button href={"/SomeWorks/MusicVisualization"}>MusicVisualization</Button>
 							<Button href={"/SomeWorks/PointLight"}>PointLight</Button>
 						</div>
 					</Collapse>
 				</Row>
 			</Col>
-
 		</SlidingPane>
 	}
 }

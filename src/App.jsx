@@ -4,19 +4,19 @@ import {BrowserRouter, Route} from "react-router-dom";
 import AsidePanel from "./components/AsidePanel.jsx"
 import './styles/App.less';
 
-import {SomeWorks} from "./works/Works.jsx";
-import {Codevember} from "./codevember/Codevember.jsx";
-import {Shaders} from "./shaders/Shaders.jsx";
+import {SomeWorks} from "./3D/works/Works.jsx";
+import {Codevember} from "./3D/codevember/Codevember.jsx";
+import {Shaders} from "./3D/shaders/Shaders.jsx";
 
 class App extends React.Component {
-	constructor(){
+	constructor() {
 		super();
 		this.state = {
 			isPanelOpen: false,
 		}
 	}
 
-	closePanel(){
+	closePanel() {
 		this.setState({isPanelOpen: false});
 	}
 
@@ -31,7 +31,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<div>
 						<Route path="/Codevember" component={Codevember} />
-						<Route path="/Shader" component={Shaders} />
+						<Route path="/Shaders" component={Shaders} />
 						<Route path="/SomeWorks" component={SomeWorks} />
 						<Route exact strict path="/" component={Codevember} />
 					</div>
