@@ -3,7 +3,7 @@
  */
 
 import * as THREE from 'three';
-import TemplateFor3D from '../../template3D/temp';
+import TemplateFor3D from '../../templates/mainTemplate3D';
 const OBJLoader = require('three-obj-loader');
 const MTLLoader = require('three-mtl-loader');
 const grass = require('./grass.jpg');

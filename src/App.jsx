@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 import {BrowserRouter, Route} from "react-router-dom";
-import AsidePanel from "./Components/AsidePanel.jsx"
+import AsidePanel from "./components/AsidePanel.jsx"
 import './styles/App.less';
 
 import {SomeWorks} from "./works/Works.jsx";

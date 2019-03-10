@@ -2,7 +2,7 @@
  * Created by Ellyson on 5/11/2018.
  */
 
-import TemplateFor3D from '../../template3D/temp';
+import TemplateFor3D from '../../templates/mainTemplate3D';
 import * as THREE from 'three';
 import frag_titan from "./Shaders/titan.frag";
 import vert_titan from "./Shaders/titan.vert";

@@ -2,10 +2,10 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Planet from "./planet/Planet";
 import Sky from "./sky/Sky";
 import Grass from "./grass/grass";
-import FourthWork from "./fourthWork/fourthWork";
-import FirstWork from "./firstWork/firstWork";
-import SecondWork from "./secondWork/secondWork";
-import ThirdWork from "./thirdWork/thirdWork";
+import FourthWork from "./Lights/Lights";
+import FirstWork from "./TriangleWallpaper/TriangleWallpaper";
+import SecondWork from "./airPlane/AirPlane";
+import ThirdWork from "./musicVisualization/MusicVisualization";
 import PointLight from "./Points light/PointLights";
 import React from "react";
 

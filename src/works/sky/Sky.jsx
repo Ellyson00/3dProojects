@@ -4,7 +4,7 @@
 
 import React from 'react';
 import * as THREE from 'three';
-import TemplateFor3D from '../../template3D/temp';
+import TemplateFor3D from '../../templates/mainTemplate3D';
 
 const threeSky = require('three-sky');
 

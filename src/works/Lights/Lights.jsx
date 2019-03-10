@@ -3,7 +3,7 @@
  */
 import * as THREE from 'three';
 import Delaunator from 'delaunator';
-import TemplateFor3D from '../../template3D/temp';
+import TemplateFor3D from '../../templates/mainTemplate3D';
 
 let dots = [];
 // dots.push([0, 0]);
@@ -49,29 +49,26 @@ export default class FourthWork extends TemplateFor3D {
 		this.mesh.position.set(0, 0, 0);
 		this.pointLight = new THREE.PointLight(0xffffff, 1, 24);
 		this.mesh.add(this.pointLight);
-		console.log(this.mesh);
 		this.scene.add(this.mesh);
-
+		const ambient = new THREE.AmbientLight(0xffffff, 0.1);
+		this.mesh.add(ambient);
 
 		const width = 10;
 		const height = 2	;
 		const intensity = 5;
-		const rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
-		rectLight.position.set( 0, 4.5, .5 );
-		rectLight.rotation.set( 3.14/2, 0, 0 );
-		// rectLight.rotation.x = Math.Pi/3;
-		// rectLight.lookAt( 0, 0, 0 );
-		this.scene.add( rectLight );
-		const ambient = new THREE.AmbientLight( 0xffffff, 0.1 );
-
-		this.scene.add( ambient );
-		const rectLightHelper = new THREE.RectAreaLightHelper( rectLight );
-		this.scene.add( rectLightHelper );
-
+		const rectLight = new THREE.RectAreaLight(0xffffff, intensity,  width, height);
+		rectLight.position.set(0, 4.35, .5);
+		rectLight.rotation.set(3.14/2, 0, 0);
+		rectLight.rotation.x = Math.PI/3;
+		rectLight.lookAt(0, 0, 0);
+		const rectLightHelper = new THREE.RectAreaLightHelper(rectLight);
+		this.scene.add(rectLight);
+		rectLight.add(rectLightHelper);
 	}
+
 	initGround(){
 		this.planeGeometry = new THREE.PlaneGeometry(10, 10);
-		this.planeMaterial = new THREE.MeshPhysicalMaterial({ metalness: 0.2, roughness: 0.2 ,side: THREE.DoubleSide});
+		this.planeMaterial = new THREE.MeshPhysicalMaterial({metalness: 0.2, roughness: 0.2, side: THREE.DoubleSide});
 		this.planeMesh = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
 		this.scene.add(this.planeMesh);
 		this.planeMesh.position.set(0, -.5, -.5);
@@ -84,7 +81,6 @@ export default class FourthWork extends TemplateFor3D {
 		this.initGround();
 		this.initControls();
 		this.animate();
-
 	}
 
 	animate() {

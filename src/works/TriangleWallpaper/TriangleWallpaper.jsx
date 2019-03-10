@@ -6,7 +6,7 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import Delaunator from 'delaunator';
 import * as THREE from 'three';
-import TemplateFor3D from '../../template3D/temp';
+import TemplateFor3D from '../../templates/mainTemplate3D';
 import Mouse from "../../plagin/mouse.js";
 import Particle from "../../plagin/particles.js";
 import Perlin from "../../plagin/perlin.js";
@@ -16,10 +16,10 @@ import fragmentShader from "./shaders/fragmentShader.frag";
 let dots = [];
 let myDots = [];
 
-dots.push([0, 0]);//left-top corner
-dots.push([1366,0]);//right-top corner
-dots.push([1366,768]);//right-bottom corner
-dots.push([0, 768]);//left-bottom corner
+dots.push([0, 0]); //left-top corner
+dots.push([1366,0]); //right-top corner
+dots.push([1366,768]); //right-bottom corner
+dots.push([0, 768]); //left-bottom corner
 
 for(let i = 0; i < 3050; i++){ // simple dots
 	dots.push([Math.random() * 1366, Math.random() * 768])
@@ -31,7 +31,7 @@ dots.forEach((d) => { // dots with physics
 
 const delaunay = new Delaunator.from(dots);
 const triangles = delaunay.triangles;
-const image = require('../img/moon.jpg');
+const image = require('../img/image.jpg');
 
 export default class FirstWork extends TemplateFor3D {
 	constructor(){
@@ -68,16 +68,16 @@ export default class FirstWork extends TemplateFor3D {
 					derivatives: "#extension GL_OES_standard_derivatives : enable"
 				},
 				uniforms: {
-					textureSampler:{type:"t",value:null}
+					textureSampler:{type: "t", value: null}
 				},
 				vertexShader: vertexShader,
 				fragmentShader: fragmentShader,
-				side:THREE.DoubleSide,
+				side: THREE.DoubleSide,
 			} );
 
 			material.uniforms.textureSampler.value = texture;
 
-			dots.forEach((d)=>{
+			dots.forEach((d) => {
 				this.geometry.vertices.push(new THREE.Vector3(d[0],d[1],0));
 			});
 
@@ -88,8 +88,8 @@ export default class FirstWork extends TemplateFor3D {
 			//--------------------------- for adapting image texture ------------------
 			const max = this.geometry.boundingBox.max,
 				 min = this.geometry.boundingBox.min;
-			const offset = new THREE.Vector2(0 - min.x, 0 - min.y);
-			const range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+			const offset = new THREE.Vector2(0 - max.x, 0 - max.y);
+			const range = new THREE.Vector2(min.x - max.x, min.y - max.y);
 			const faces = this.geometry.faces;
 
 			this.geometry.faceVertexUvs[0] = [];
@@ -101,16 +101,15 @@ export default class FirstWork extends TemplateFor3D {
 					v3 = this.geometry.vertices[faces[i].c];
 
 				this.geometry.faceVertexUvs[0].push([
-					new THREE.Vector2((v1.x + offset.x)/range.x ,(v1.y + offset.y)/range.y),
-					new THREE.Vector2((v2.x + offset.x)/range.x ,(v2.y + offset.y)/range.y),
-					new THREE.Vector2((v3.x + offset.x)/range.x ,(v3.y + offset.y)/range.y)
+					new THREE.Vector2((v1.x + offset.x) / range.x , (v1.y + offset.y) / range.y),
+					new THREE.Vector2((v2.x + offset.x) / range.x , (v2.y + offset.y) / range.y),
+					new THREE.Vector2((v3.x + offset.x) / range.x , (v3.y + offset.y) / range.y)
 				]);
 			}
 			this.geometry.uvsNeedUpdate = true;
 			//--------------------------- end  ------------------------
-			this.planeMesh = new THREE.Mesh( this.geometry, material );
-
-			this.scene.add( this.planeMesh );
+			this.planeMesh = new THREE.Mesh(this.geometry, material);
+			this.scene.add(this.planeMesh);
 		});
 	}
 	handleWindowResize(){
@@ -127,7 +126,7 @@ export default class FirstWork extends TemplateFor3D {
 		this.initControls();
 		this.initPlateMesh();
 		this.pos = new Mouse(this.renderer.domElement);
-		window.addEventListener( 'mousemove', this.onDocumentMouseDown.bind(this), false);
+		window.addEventListener('mousemove', this.onDocumentMouseDown.bind(this), false);
 		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
 		this.animate();
 	}
@@ -148,14 +147,13 @@ export default class FirstWork extends TemplateFor3D {
 
 
 	render() {
-		return (
-			<div>
-				<header>
-					<Button  onClick={()=>{
-						this.setState({checked: !this.state.checked})
-					}}>{!this.state.checked ? "MouseMod" : "Perlin Noise"}</Button>
-				</header>
-				<div ref="anchor" className="canvasDiv airplane"/>
-			</div>)
+		return <div>
+			<header>
+				<Button onClick={() => this.setState({checked: !this.state.checked})}>
+					{!this.state.checked ? "MouseMod" : "Perlin Noise"}
+				</Button>
+			</header>
+			<div ref="anchor" className="canvasDiv"/>
+		</div>
 	}
 }

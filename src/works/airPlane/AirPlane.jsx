@@ -4,8 +4,8 @@
 
 import React from 'react';
 import * as THREE from 'three';
-import TemplateFor3D from '../../template3D/temp';
-import {normalize} from "../../Utils/mathUtils";
+import TemplateFor3D from '../../templates/mainTemplate3D';
+import {normalize} from "../../utils/mathUtils";
 
 const Colors = {
 	red: 0xf25346
