@@ -7,14 +7,14 @@ import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {Button} from 'react-bootstrap';
 
-const trek1 = require("./music4.mp3");
-const trek2 = require("./music.mp3");
-const trek3 = require("./music2.mp3");
-const trek4 = require("./music3.mp3");
-const background = require("./intothree.png");
+const trek1 = require("../../../sounds/music/music4.mp3");
+const trek2 = require("../../../sounds/music/music.mp3");
+const trek3 = require("../../../sounds/music/music2.mp3");
+const trek4 = require("../../../sounds/music/music3.mp3");
+const background = require("../../../img/intothree.png");
 
-export default class ThirdWork extends TemplateFor3D {
-	constructor(){
+export default class MusicVisualization extends TemplateFor3D {
+	constructor() {
 		super();
 		this.state = {
 			checked: false,
@@ -36,8 +36,8 @@ export default class ThirdWork extends TemplateFor3D {
 
 	initControls() {
 		// super.initControls();
-		this.camera.position.set(43.22, 36.56, 94.165);
-		this.camera.rotation.set(-0.67, -0.006, -0.005);
+
+		// this.camera.rotation.set(-0.67, 0, 0);
 	}
 
 	initAudioObject() {
@@ -58,11 +58,11 @@ export default class ThirdWork extends TemplateFor3D {
 	}
 
 	initCubes() {
+		const cubeCount = 464;
 		let color = new THREE.Color();
 		let x = 0, z = 0;
 		// let deg = Math.PI/this.analyser.frequencyBinCount;
-		for(let i = 0;i < 464; i++){
-
+		for (let i = 0; i < cubeCount; i++) {
 			let geometry = new THREE.CubeGeometry(2, 2, 2);
 			let material = new THREE.MeshLambertMaterial({color});
 			let mesh = new THREE.Mesh(geometry, material);
@@ -71,18 +71,14 @@ export default class ThirdWork extends TemplateFor3D {
 			mesh.material.color.b = 1 ;
 			mesh.material.color.r = 0;
 			mesh.userData = color;
-
 			/*if (this.state.circle) {
 				mesh.position.set(100 * Math.sin(2 * deg * i), 0, 100 * Math.cos(2 * deg * i));
 				mesh.rotation.y = 2 * deg * i;
 				mesh.rotation.z = Math.PI / 2;
 			} else  */mesh.position.set(x, .5, z);
-
 			this.scene.add(mesh);
-
 			x += 3;
-
-			if(x >= 86){
+			if (x >= 86) {
 				z += 5;
 				x = 0
 			}
@@ -92,6 +88,9 @@ export default class ThirdWork extends TemplateFor3D {
 	async componentDidMount() {
 		super.componentDidMount();
 		await this.initObjects();
+		const sizes = new THREE.Box3().expandByObject(this.scene);
+		this.camera.position.set(sizes.max.x / 2, sizes.max.z / 3, sizes.max.z * 1.3);
+		this.camera.lookAt(new THREE.Vector3(sizes.max.x / 2, 0, sizes.max.z / 2));
 		this.animate();
 		setTimeout(this.playTrack(0), 0) //autoplay-policy-changes
 	}

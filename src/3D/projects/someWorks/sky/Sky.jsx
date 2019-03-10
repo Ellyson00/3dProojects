@@ -9,7 +9,7 @@ import TemplateFor3D from '../../../templates/mainTemplate3D';
 const threeSky = require('three-sky');
 
 export default class Sky extends TemplateFor3D {
-	initLights(){
+	initLights() {
 		this.light = new THREE.DirectionalLight(0xffffff, 0.8);
 		this.scene.add(this.light);
 		this.ambiantLight = new THREE.AmbientLight(0xffffff, 0.1);
@@ -86,7 +86,7 @@ export default class Sky extends TemplateFor3D {
 		const theta = Math.PI * (this.effectController.inclination - 0.5);
 		const phi = 2 * Math.PI * (this.effectController.azimuth - 0.5);
 		document.getElementById("sky").innerHTML = "sun posiition:\n " + this.light.position.y;
-		if(this.distance * Math.sin(phi) * Math.sin(theta + this.time/1000 ) < -20) {
+		if (this.distance * Math.sin(phi) * Math.sin(theta + this.time/1000 ) < -20) {
 			this.time += 10;
 		}
 		this.light.position.x = this.distance * Math.cos(phi);

@@ -4,9 +4,9 @@ import {BrowserRouter, Route} from "react-router-dom";
 import AsidePanel from "./components/AsidePanel.jsx"
 import './styles/App.less';
 
-import {SomeWorks} from "./3D/works/Works.jsx";
-import {Codevember} from "./3D/codevember/Codevember.jsx";
-import {Shaders} from "./3D/shaders/Shaders.jsx";
+import {SomeWorks} from "./3D/projects/someWorks/Works.jsx";
+import {Codevember} from "./3D/projects/codevember/Codevember.jsx";
+import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
 
 class App extends React.Component {
 	constructor() {

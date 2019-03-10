@@ -11,16 +11,16 @@ import vertex_derbis from "./Shaders/ring.vert";
 import frag_saturn from "./Shaders/saturn.frag";
 import vertex_saturn from "./Shaders/saturn.vert";
 
-const saturn = require("./images/saturn.jpg");
-const titano = require("./images/titano2.jpg");
-const titano2 = require("./images/moon.jpg");
+const saturn = require("../../../img/Galaxy/saturn.jpg");
+const titano = require("../../../img/Galaxy/titano2.jpg");
+const titano2 = require("../../../img/Galaxy/moon.jpg");
 
-const dn = require(`./images/skyBox/dn.png`);
-const up = require(`./images/skyBox/up.png`);
-const lf = require(`./images/skyBox/lf.png`);
-const rt = require(`./images/skyBox/rt.png`);
-const ft = require(`./images/skyBox/ft.png`);
-const bk = require(`./images/skyBox/bk.png`);
+const dn = require(`../../../img/skyBox/galaxy/dn.png`);
+const up = require(`../../../img/skyBox/galaxy/up.png`);
+const lf = require(`../../../img/skyBox/galaxy/lf.png`);
+const rt = require(`../../../img/skyBox/galaxy/rt.png`);
+const ft = require(`../../../img/skyBox/galaxy/ft.png`);
+const bk = require(`../../../img/skyBox/galaxy/bk.png`);
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -29,7 +29,7 @@ let shadowType = 1,
 	n = 500000;
 
 export default class Galaxy extends TemplateFor3D {
-	initCamera() {
+	initCamera() {	
 		super.initCamera();
 		this.camera.position.set(-285, 15, -115);
 	}
@@ -69,7 +69,7 @@ export default class Galaxy extends TemplateFor3D {
 
 	initRings() {
 		let internalRingGeometry = new THREE.BufferGeometry();
-		const externalRingMaterial= new THREE.ShaderMaterial({
+		const externalRingMaterial = new THREE.ShaderMaterial({
 			uniforms: {
 				time: {value: 10.0},
 				stretch: {value: new THREE.Vector3(290, 40, 180)},
@@ -125,7 +125,7 @@ export default class Galaxy extends TemplateFor3D {
 		const textureCube = THREE.ImageUtils.loadTextureCube( imageURLs );
 		const shader = THREE.ShaderLib["cube"];
 		shader.uniforms["tCube"].value = textureCube;
-		const skyMaterial = new THREE.ShaderMaterial( {
+		const skyMaterial = new THREE.ShaderMaterial({
 			fragmentShader: shader.fragmentShader,
 			vertexShader: shader.vertexShader,
 			uniforms: shader.uniforms,

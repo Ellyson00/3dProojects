@@ -32,16 +32,20 @@
   &.airplane{
     background: linear-gradient(rgba(149, 152, 154, 0.65), #e3d08f);
   }
+
+
 }
 
 header{
   position: fixed;
-  left: 15px;
+  right: 15px;
   top: 15px;
   width: 135px;
 
   &.playList{
-    margin-left: 75px;
+    display: flex;
+    flex-direction: column;
+    width: 281px;
     button{
       margin-bottom: 5px;
 
@@ -52,6 +56,7 @@ header{
     background: rgba(0, 0, 0, 0.33);
     padding: 21px;
     color: white;
+    width: 300px;
   }
 }
 

@@ -6,12 +6,12 @@ import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 const OBJLoader = require('three-obj-loader');
 const MTLLoader = require('three-mtl-loader');
-const grass = require('./../../img/grass.jpg');
-const rockObj = require('./../../obj/Rock1.obj');
-const rockMtl = require('./../../obj/Rock1.mtl');
+const grass = require('../../../img/map/grass.jpg');
+const rockObj = require('../../../obj/Rock/Rock1.obj');
+const rockMtl = require('../../../obj/Rock/Rock1.mtl');
 OBJLoader(THREE);
 
-export default class FourthWork extends TemplateFor3D {
+export default class Grass extends TemplateFor3D {
 	constructor() {
 		super();
 		this.THREE = THREE;

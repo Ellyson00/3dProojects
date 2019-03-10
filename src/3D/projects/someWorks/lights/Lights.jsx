@@ -25,7 +25,7 @@ dots.push([0, 1]);
 const delaunay = new Delaunator.from(dots);
 let triangles = delaunay.triangles;
 
-export default class FourthWork extends TemplateFor3D {
+export default class Lights extends TemplateFor3D {
 	initControls() {
 		super.initControls();
 		this.camera.position.z = 10;

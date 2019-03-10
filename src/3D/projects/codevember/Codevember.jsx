@@ -1,6 +1,6 @@
 import {BrowserRouter, Route} from "react-router-dom";
 import Galaxy from "./1st_Day_Galaxy/Galaxy";
-import Planet from "../works/planet/Planet";
+import Planet from "../someWorks/planet/Planet";
 import React from "react";
 
 export function Codevember({ match }){

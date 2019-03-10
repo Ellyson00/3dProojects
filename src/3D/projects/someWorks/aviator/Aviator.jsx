@@ -5,7 +5,7 @@
 import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
-import {normalize} from "../../utils/mathUtils";
+import {normalize} from "../../../utils/mathUtils";
 
 const Colors = {
 	red: 0xf25346
@@ -17,7 +17,7 @@ const Colors = {
 };
 
 class Sea {
-	constructor(){
+	constructor() {
 		const geom = new THREE.CylinderGeometry(600, 600, 800, 40, 10);
 		geom.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2)); //rotate the geom
 		geom.mergeVertices(); //important: by mergin vertices we ensure the continuty of the waves
@@ -359,7 +359,7 @@ class AirPlane {
 }
 
 
-export default class SecondWork extends TemplateFor3D {
+export default class Aviator extends TemplateFor3D {
 	createSea() {
 		this.sea = new Sea();
 		this.sea.mesh.position.y = -600;	//push it a little bit at the botom of th scene

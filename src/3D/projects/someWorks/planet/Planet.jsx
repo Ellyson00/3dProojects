@@ -7,18 +7,17 @@ import TemplateFor3D from '../../../templates/mainTemplate3D';
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
 
-const xpos = require(`./skyBox/nebula-xpos.png`);
-const xneg = require(`./skyBox/nebula-xneg.png`);
-const ypos = require(`./skyBox/nebula-ypos.png`);
-const yneg = require(`./skyBox/nebula-yneg.png`);
-const zpos = require(`./skyBox/nebula-zpos.png`);
-const zneg = require(`./skyBox/nebula-zneg.png`);
-const planet = require(`./planet.png`);
+const xpos = require(`../../../img/skyBox/planet/nebula-xpos.png`);
+const xneg = require(`../../../img/skyBox/planet/nebula-xneg.png`);
+const ypos = require(`../../../img/skyBox/planet/nebula-ypos.png`);
+const yneg = require(`../../../img/skyBox/planet/nebula-yneg.png`);
+const zpos = require(`../../../img/skyBox/planet/nebula-zpos.png`);
+const zneg = require(`../../../img/skyBox/planet/nebula-zneg.png`);
+const planet = require(`../../../img/map/planet.png`);
 
 export default class Planet extends TemplateFor3D {
 	initScene() {
 		super.initScene();
-		this.atmosphereScene = new THREE.Scene();
 		this.scene.background = new THREE.Color(0x000000);
 	}
 

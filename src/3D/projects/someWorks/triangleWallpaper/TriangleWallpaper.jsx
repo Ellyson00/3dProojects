@@ -7,9 +7,9 @@ import {Button} from 'react-bootstrap';
 import Delaunator from 'delaunator';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
-import Mouse from "../../plagin/mouse.js";
-import Particle from "../../plagin/particles.js";
-import Perlin from "../../plagin/perlin.js";
+import Mouse from "../../../plugins/mouse.js";
+import Particle from "../../../plugins/particles.js";
+import Perlin from "../../../plugins/perlin.js";
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
 
@@ -31,9 +31,9 @@ dots.forEach((d) => { // dots with physics
 
 const delaunay = new Delaunator.from(dots);
 const triangles = delaunay.triangles;
-const image = require('../../img/image.jpg');
+const image = require('../../../img/image.jpg');
 
-export default class FirstWork extends TemplateFor3D {
+export default class TriangleWallpaper extends TemplateFor3D {
 	constructor() {
 		super();
 		this.raycaster = new THREE.Raycaster();

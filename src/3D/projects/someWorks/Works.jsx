@@ -4,11 +4,11 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Planet from "./planet/Planet";
 import Sky from "./sky/Sky";
 import Grass from "./grass/grass";
-import Lights from "./Lights/Lights";
-import TriangleWallpaper from "./TriangleWallpaper/TriangleWallpaper";
-import AirPlane from "./airPlane/AirPlane";
+import Lights from "./lights/Lights";
+import TriangleWallpaper from "./triangleWallpaper/TriangleWallpaper";
+import Aviator from "./aviator/Aviator";
 import MusicVisualization from "./musicVisualization/MusicVisualization";
-import PointLight from "./Points light/PointLights";
+import PointLights from "./pointLights/PointLights";
 
 export function SomeWorks({match}) {
 	return <div className="App">
@@ -20,9 +20,9 @@ export function SomeWorks({match}) {
 				<Route path={`${match.path}/Grass`} component={Grass} />
 				<Route path={`${match.path}/Lights`} component={Lights} />
 				<Route path={`${match.path}/TriangleWallpaper`} component={TriangleWallpaper} />
-				<Route path={`${match.path}/AirPlane`} component={AirPlane} />
+				<Route path={`${match.path}/Aviator`} component={Aviator} />
 				<Route path={`${match.path}/MusicVisualization`} component={MusicVisualization} />
-				<Route path={`${match.path}/PointLight`} component={PointLight} />
+				<Route path={`${match.path}/PointLights`} component={PointLights} />
 			</div>
 		</BrowserRouter>
 	</div>;

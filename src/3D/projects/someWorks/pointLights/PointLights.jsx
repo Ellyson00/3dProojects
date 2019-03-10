@@ -6,12 +6,12 @@ import TemplateFor3D from '../../../templates/mainTemplate3D';
 import * as THREE from 'three';
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
-const spark = require("./spark1.png");
+const spark = require("./../../../img/spark1.png");
 
 const particles = 100000;
 
 export default class PointLights extends TemplateFor3D {
-	initControls(){
+	initControls() {
 		super.initControls();
 		this.camera.position.set(0, 0, 770);
 	}
