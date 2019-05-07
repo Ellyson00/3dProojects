@@ -85,8 +85,8 @@ export default class TriangleWallpaper extends TemplateFor3D {
 			//--------------------------- for adapting image texture ------------------
 			const max = this.geometry.boundingBox.max,
 				 min = this.geometry.boundingBox.min;
-			const offset = new THREE.Vector2(0 - max.x, 0 - max.y);
-			const range = new THREE.Vector2(min.x - max.x, min.y - max.y);
+			const offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+			const range = new THREE.Vector2(max.x - min.x, max.y - min.y);
 			const faces = this.geometry.faces;
 
 			this.geometry.faceVertexUvs[0] = [];
