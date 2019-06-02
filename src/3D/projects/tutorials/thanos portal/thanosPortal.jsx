@@ -5,36 +5,9 @@
 import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
+import fragmentShader from './portal.frag';
+import vertexShader from './portal.vert';
 const smoke = require(`../../../img/smoke.png`);
-
-const vertex = `
-	varying vec2 vUv;	
-	varying vec3 vPos;
-	attribute vec3 cubePos;
-	attribute vec4 cubeRot;
-	
-		vec3 applyQuaternionToVector( vec4 q, vec3 v ){
-			return v + 2.0 * cross( q.xyz, cross( q.xyz, v ) + q.w * v );
-		}
-
-	void main() {
-	vUv = uv;
-	vec3 vPosition = applyQuaternionToVector( cubeRot, position );
-	vec4 mvPosition = vec4( cubePos + vPosition, 1.0 );
-	vPos = (modelMatrix * vec4(cubePos + position, 1.0 )).xyz;
-	gl_Position = projectionMatrix * modelViewMatrix * mvPosition;
-}`;
-
-const frag =`
-uniform sampler2D texture;
-uniform vec3 ambientLightColor;
-varying vec2 vUv;
-varying vec3 vPos;
-void main() {
-	 vec4 t = texture2D(texture, vUv * vec2(1, 1));
-     vec3 c = t.rgb;
-     gl_FragColor = vec4(c*ambientLightColor,t.w);
-}`;
 
 export default class thanosPortal extends TemplateFor3D {
 
@@ -58,9 +31,15 @@ export default class thanosPortal extends TemplateFor3D {
 	}
 
 	initPointLight(){
+		THREE.PointLight.prototype.addSphere = function () {
+			this.sphere = new THREE.Mesh(new THREE.SphereGeometry(50, 16, 16), new THREE.MeshBasicMaterial({ color: this.color }))
+			this.add(this.sphere);
+		}
 		this.portalLight = new THREE.PointLight(0x062d89, 30, 600, 1.7);
+		this.portalLight.addSphere();
 		this.portalLight.position.set(0,0,250);
 		this.scene.add(this.portalLight);
+
 	}
 
 	initPortal() {
@@ -123,10 +102,11 @@ export default class thanosPortal extends TemplateFor3D {
 			this.uniforms = THREE.UniformsUtils.merge([
 				THREE.UniformsLib['lights'],
 			]);
+			console.log(this.uniforms)
 			const shaderMaterial = new THREE.ShaderMaterial( {
 				uniforms: {...this.uniforms, texture: {type: "t", value: texture }},
-				vertexShader:   vertex,
-				fragmentShader: frag,
+				vertexShader: vertexShader,
+				fragmentShader: fragmentShader,
 				transparent:  true,
 				side: THREE.DoubleSide,
 				lights: true
@@ -149,6 +129,7 @@ export default class thanosPortal extends TemplateFor3D {
 		// });
 		if(Math.random() > 0.9) {
 			this.portalLight.power = 350 + Math.random() * 500;
+			this.portalLight.position.z = Math.random() * 500;
 		}
 		// this.portalParticles.forEach(p => {
 		// 	p.rotation.z -= delta *1.5;
@@ -156,11 +137,13 @@ export default class thanosPortal extends TemplateFor3D {
 		if( this.instancedPortalGeo){
 			const orientation = this.instancedPortalGeo.attributes.cubeRot;
 			this.tmpQ.set( this.moveQ.x * delta, this.moveQ.y * delta, this.moveQ.z * delta, 1 ).normalize();
-			for ( var i = 0, il = orientation.count; i < il; i ++ ) {
+			for ( let i = 0, il = orientation.count; i < il; i ++ ) {
 				this.currentQ.fromArray( orientation.array, ( i * 4 ) );
 				this.currentQ.multiply( this.tmpQ );
 				orientation.setXYZW( i, this.currentQ.x, this.currentQ.y, this.currentQ.z, this.currentQ.w );
 			}
+			const point = this.uniforms.pointLights.value[0];
+			point && console.log(point.position,point.color,point.decay )
 			orientation.needsUpdate = true;
 		}
 
