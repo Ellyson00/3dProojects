@@ -81,7 +81,7 @@ class Cloud {
 class Sky {
 	constructor() {
 		this.mesh = new THREE.Object3D();
-		this.nClouds = 20; //chose a number of clouds to be scattered in the sky
+		this.nClouds = 20; //chose a number of clouds to be scattered in the thanos portal
 		const stepAngle = Math.PI * 2 / this.nClouds;//To distribute the clouds consistently, we need to place the according to a uniform anle
 		for (let i = 0; i < this.nClouds; i++) {	//create the clouds
 			const c = new Cloud();
@@ -396,7 +396,7 @@ export default class Aviator extends TemplateFor3D {
 
 	createLights() {
 		// A hemisphere light is a gradient colored light;
-		// the first parameter - sky color, the second parameter - ground color,
+		// the first parameter - thanos portal color, the second parameter - ground color,
 		// the third parameter - intensity of the light
 		this.hemisphereLight = new THREE.HemisphereLight("#c6a855", "#6081be", .9);
 		// A directional light shines from a specific direction.
@@ -439,7 +439,7 @@ export default class Aviator extends TemplateFor3D {
 		this.createLights(); //add lights
 		this.createPlane();//plane
 		this.createSea(); //sea
-		this.createSky();//sky
+		this.createSky();//thanos portal
 		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
 		this.looped = true;
 
@@ -478,7 +478,7 @@ export default class Aviator extends TemplateFor3D {
 
 	animate() {
 		//  updatePlane();
-		// Rotate the propeller, the sea and the sky
+		// Rotate the propeller, the sea and the thanos portal
 		if (!this.looped) return;
 		super.animate();
 		this.sea.mesh.rotation.z += .01;

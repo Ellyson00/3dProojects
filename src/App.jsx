@@ -5,6 +5,7 @@ import AsidePanel from "./components/AsidePanel.jsx"
 import './styles/App.less';
 
 import {SomeWorks} from "./3D/projects/someWorks/Works.jsx";
+import {TutorialWorks} from "./3D/projects/tutorials/tutorialWorks.jsx";
 import {Codevember} from "./3D/projects/codevember/Codevember.jsx";
 import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
 
@@ -33,6 +34,7 @@ class App extends React.Component {
 						<Route path="/Codevember" component={Codevember} />
 						<Route path="/Shaders" component={Shaders} />
 						<Route path="/SomeWorks" component={SomeWorks} />
+						<Route path="/TutorialWorks" component={TutorialWorks} />
 						<Route exact strict path="/" component={Codevember} />
 					</div>
 				</BrowserRouter>

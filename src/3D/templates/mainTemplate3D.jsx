@@ -15,6 +15,7 @@ export default class TemplateFor3D extends React.Component {
 		};
 		this.time = 0;
 		this.looped = true;
+		this.clock = new THREE.Clock();
 		this.mouse = new THREE.Vector2(0,0);
 		this.resolution = new THREE.Vector2(window.innerWidth,window.innerHeight);
 		this.HEIGHT = window.innerHeight;
@@ -34,7 +35,13 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	initCamera() {
-		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+	}
+
+	initLight() {
+		this.light = new THREE.DirectionalLight(0xffffff, .5);
+		this.ambientLight = new THREE.AmbientLight(0xffffff, .5);
+		this.scene.add(this.light, this.ambientLight);
 	}
 
 	initControls() {

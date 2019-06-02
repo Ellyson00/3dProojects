@@ -13,12 +13,13 @@ export default class AsidePanel extends React.Component {
 			isPaneOpen: false,
 			codevemberPanel: false,
 			worksPanel: false,
-			shadersPanel: false
+			shadersPanel: false,
+			tutorialWorks: false
 		}
 	}
 
 	render() {
-		const {worksPanel, shadersPanel, codevemberPanel} = this.state;
+		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks} = this.state;
 		const {closePanel, isPanelOpen} = this.props;
 
 		return <SlidingPane from='left'
@@ -50,6 +51,16 @@ export default class AsidePanel extends React.Component {
 						<div>
 							<Button href={"/Codevember/Galaxy"}>Galaxy</Button>
 							<Button href={"/Codevember/Planet"}>Planet</Button>
+						</div>
+					</Collapse>
+				</Row>
+				<Row>
+					<Button onClick={() => this.setState({tutorialWorks: !tutorialWorks})}
+							  aria-controls="example-collapse-text"
+							  aria-expanded={tutorialWorks}>Tutorial Works</Button>
+					<Collapse in={tutorialWorks}>
+						<div>
+							<Button href={"/TutorialWorks/thanosPortal"}>Thanos Portal</Button>
 						</div>
 					</Collapse>
 				</Row>
