@@ -8,6 +8,7 @@ import {SomeWorks} from "./3D/projects/someWorks/Works.jsx";
 import {TutorialWorks} from "./3D/projects/tutorials/tutorialWorks.jsx";
 import {Codevember} from "./3D/projects/codevember/Codevember.jsx";
 import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
+import {mainFunc} from "./3D/projects/baseFunc/mainFunc.jsx";
 
 class App extends React.Component {
 	constructor() {
@@ -35,6 +36,7 @@ class App extends React.Component {
 						<Route path="/Shaders" component={Shaders} />
 						<Route path="/SomeWorks" component={SomeWorks} />
 						<Route path="/remakeTutorialWorks" component={TutorialWorks} />
+						<Route path="/mainFunc" component={mainFunc} />
 						<Route exact strict path="/" component={Codevember} />
 					</div>
 				</BrowserRouter>

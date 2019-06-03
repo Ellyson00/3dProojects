@@ -14,12 +14,13 @@ export default class AsidePanel extends React.Component {
 			codevemberPanel: false,
 			worksPanel: false,
 			shadersPanel: false,
+			mainFuncPanel: false,
 			tutorialWorks: false
 		}
 	}
 
 	render() {
-		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks} = this.state;
+		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks, mainFuncPanel} = this.state;
 		const {closePanel, isPanelOpen} = this.props;
 
 		return <SlidingPane from='left'
@@ -30,6 +31,20 @@ export default class AsidePanel extends React.Component {
 								  width='200px'
 								  onRequestClose={() => closePanel()}>
 			<Col>
+				<Row>
+					<Button onClick={() => this.setState({mainFuncPanel: !mainFuncPanel})}
+							  aria-controls="example-collapse-text"
+							  aria-expanded={shadersPanel}>Main func</Button>
+					<Collapse in={mainFuncPanel}>
+						<div>
+							<Button href={"/mainFunc/PositionRotationScale"}>Position Rotation Scale</Button>
+							<Button href={"/mainFunc/Quaternion"}>Quaternion</Button>
+							<Button href={"/mainFunc/Matrix"}>Matrix</Button>
+							{/*<Button href={"/Shaders/Shader3"}>Shader3</Button>*/}
+							{/*<Button href={"/Shaders/Shader4"}>Shader4</Button>*/}
+						</div>
+					</Collapse>
+				</Row>
 				<Row>
 					<Button onClick={() => this.setState({shadersPanel: !shadersPanel})}
 							  aria-controls="example-collapse-text"
