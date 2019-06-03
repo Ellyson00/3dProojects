@@ -57,10 +57,10 @@ export default class AsidePanel extends React.Component {
 				<Row>
 					<Button onClick={() => this.setState({tutorialWorks: !tutorialWorks})}
 							  aria-controls="example-collapse-text"
-							  aria-expanded={tutorialWorks}>Tutorial Works</Button>
+							  aria-expanded={tutorialWorks}>Remake Tutorial Works</Button>
 					<Collapse in={tutorialWorks}>
 						<div>
-							<Button href={"/TutorialWorks/thanosPortal"}>Thanos Portal</Button>
+							<Button href={"/remakeTutorialWorks/thanosPortal"}>Thanos Portal</Button>
 						</div>
 					</Collapse>
 				</Row>

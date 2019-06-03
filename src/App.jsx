@@ -34,7 +34,7 @@ class App extends React.Component {
 						<Route path="/Codevember" component={Codevember} />
 						<Route path="/Shaders" component={Shaders} />
 						<Route path="/SomeWorks" component={SomeWorks} />
-						<Route path="/TutorialWorks" component={TutorialWorks} />
+						<Route path="/remakeTutorialWorks" component={TutorialWorks} />
 						<Route exact strict path="/" component={Codevember} />
 					</div>
 				</BrowserRouter>
