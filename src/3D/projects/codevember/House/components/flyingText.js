@@ -75,10 +75,11 @@ export function create3dPage(w = 200, h= 200, position= 200, rotation = Math.PI,
 function createPlane(w, h, position, rotation) {
 	const material = new THREE.MeshBasicMaterial({
 		color: 0x000000,
-		// opacity: 0.0,
+		trasperent: true,
+		opacity: 0.0,
 		side: THREE.DoubleSide,
 		blending: THREE.NoBlending,
-		shading: THREE.FlatShading
+		// shading: THREE.FlatShading
 	});
 	const geometry = new THREE.PlaneGeometry(w, h);
 	const mesh = new THREE.Mesh(geometry, material);

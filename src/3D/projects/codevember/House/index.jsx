@@ -55,6 +55,7 @@ export default class House extends TemplateFor3D {
 		this.renderer.domElement.style.zIndex = 1;
 		this.renderer.domElement.style.top = 0;
 		this.renderer.domElement.style.left = 0;
+		this.renderer.domElement.style.pointerEvents = "none";
 		// this.renderer.alpha = true;
 		this.cssRenderer.domElement.style.position = 'absolute';
 		this.cssRenderer.domElement.style.zIndex = 0;
