@@ -22,7 +22,7 @@ dots.push([0.25, 0.5]);
 dots.push([0, 1]);
 
 
-const delaunay = new Delaunator.from(dots);
+const delaunay = Delaunator.from(dots);
 let triangles = delaunay.triangles;
 
 export default class Lights extends TemplateFor3D {
@@ -38,7 +38,7 @@ export default class Lights extends TemplateFor3D {
 		});
 
 		for (let i = 0; i < triangles.length; i = i + 3) {
-			if(i === 3 || i ===12 || i === 30 || i === 39 || i === 42 || i === 45) continue;
+			if(i === 3 || i === 15 || i === 30 || i === 33 || i === 42 || i === 45) continue;
 			this.geometry.faces.push(new THREE.Face3(triangles[i], triangles[i + 1], triangles[i + 2]));
 		}
 

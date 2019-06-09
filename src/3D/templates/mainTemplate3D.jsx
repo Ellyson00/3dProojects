@@ -16,7 +16,7 @@ export default class TemplateFor3D extends React.Component {
 		this.time = 0;
 		this.looped = true;
 		this.clock = new THREE.Clock();
-		this.mouse = new THREE.Vector2(0,0);
+		this.mouse = new THREE.Vector2();
 		this.resolution = new THREE.Vector2(window.innerWidth,window.innerHeight);
 		this.HEIGHT = window.innerHeight;
 		this.WIDTH = window.innerWidth;
@@ -31,25 +31,26 @@ export default class TemplateFor3D extends React.Component {
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setSize( window.innerWidth, window.innerHeight);
 		this.renderer.shadowMap.enabled = true;
+		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 		this.refs.anchor.appendChild(this.renderer.domElement);
 	}
 
 	initCamera() {
-		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
 	}
 
 	initLight() {
-		this.light = new THREE.DirectionalLight(0xffffff, .5);
-		this.ambientLight = new THREE.AmbientLight(0xffffff, .5);
+		this.light = new THREE.DirectionalLight(0xffffff, 1.);
+		this.ambientLight = new THREE.AmbientLight(0xffffff, .2);
 		this.scene.add(this.light, this.ambientLight);
 	}
 
-	initControls() {
-		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+	initControls(dom = this.renderer.domElement) {
+		this.controls = new OrbitControls(this.camera, dom);
 	}
 
-	componentDidMount() {
-		this.initRenderer();
+	componentDidMount(param) {
+		this.initRenderer(param);
 		this.initScene();
 		this.initCamera();
 		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
@@ -79,8 +80,32 @@ export default class TemplateFor3D extends React.Component {
 		this.renderer.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
 	}
 
+	attachKeydownEvent() {
+		console.log("activatesd")
+		window.addEventListener("keydown", this.onKeydown.bind(this));
+	}
+
+	attachMouseClickEvent() {
+		this.renderer.domElement.addEventListener("click", this.onClick.bind(this));
+	}
+
+
+
 	onMouseMove(e) {
-		this.mouse = new THREE.Vector2(e.offsetX / window.innerWidth, e.offsetY / window.innerHeight);
+		this.getMousePosition(e);
+	}
+
+	onClick(e) {
+		this.getMousePosition(e);
+	}
+
+	getMousePosition(e){
+		this.mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+		this.mouse.y = -( e.clientY / window.innerHeight ) * 2 + 1;
+	}
+
+	initRaycaster(){
+		this.raycaster = new THREE.Raycaster();
 	}
 
 	render() {

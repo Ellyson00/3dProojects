@@ -13,7 +13,6 @@ export function mainFunc({ match }){
 				<Route path={`${match.path}/PositionRotationScale`} component={PositionRotationScale} />
 				<Route path={`${match.path}/Quaternion`} component={Quaternion} />
 				<Route path={`${match.path}/Matrix`} component={Matrix} />
-				{/*<Route path={`${match.path}/Shader4`} component={Shader4} />*/}
 			</div>
 		</BrowserRouter>
 	</div>;
