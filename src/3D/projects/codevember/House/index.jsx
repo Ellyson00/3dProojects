@@ -8,7 +8,7 @@ import {Button, ProgressBar} from "react-bootstrap";
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {interectiveMeshes} from './components/interactiveMeshes';
 import {loadHouse} from './components/House';
-import {create3dPage} from './components/flyingText';
+import flyingText from './components/flyingText';
 import {FLOOR_POSITION, FLOOR_SIZE} from './components/constants';
 import {COLORS} from './components/constants';
 import {CSS3DRenderer, CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
@@ -61,7 +61,6 @@ export default class House extends TemplateFor3D {
 		this.cssRenderer.domElement.style.zIndex = 0;
 		this.cssRenderer.domElement.style.top = 0;
 		this.refs.anchor.appendChild(this.cssRenderer.domElement);
-		// document.body.appendChild(this.cssRenderer.domElement);
 		this.cssRenderer.domElement.appendChild(this.renderer.domElement);
 	}
 
@@ -74,13 +73,12 @@ export default class House extends TemplateFor3D {
 
 	async loadOrDeleteHouse() {
 		if(!this.state.loaded){
-			// this.textLink = await flyingText();
 			await this.scene.add(...this.interectiveMeshes);
 			this.controls.enabled = true;
 			await this.setState({loaded: true});
 			await loadHouse(this);
 		} else {
-			this.scene.remove(this.house, ...this.interectiveMeshes, this.textLink);
+			this.scene.remove(this.house, ...this.interectiveMeshes);
 			this.resetCamera();
 			this.currentColor.color.set(1,1,1);
 			this.currentColor.index = 0;
@@ -110,6 +108,17 @@ export default class House extends TemplateFor3D {
 			this.currentColor.index = this.currentColor.index > 1 ? 0 : (this.currentColor.index + 1);
 			this.changeLight(colors[this.currentColor.index]);
 		}
+		if(this.aimedObjectName === "blue" && this.state.loaded){
+			if(this.flyingText.show) {
+				this.scene.remove(this.flyingText.plane);
+				this.cssScene.remove(this.flyingText.cssObject);
+				this.flyingText.show = false;
+			} else {
+				this.scene.add(this.flyingText.plane);
+				this.cssScene.add(this.flyingText.cssObject);
+				this.flyingText.show = true;
+			}
+		}
 	}
 
 	attachMouseMoveEvent() {
@@ -117,7 +126,7 @@ export default class House extends TemplateFor3D {
 	}
 
 	attachMouseClickEvent() {
-		this.cssRenderer.domElement.addEventListener("click", this.onClick.bind(this));
+		this.cssRenderer.domElement.addEventListener("mousedown", this.onClick.bind(this));
 	}
 
 	onMouseMove(e){
@@ -193,21 +202,19 @@ export default class House extends TemplateFor3D {
 		this.attachKeydownEvent();
 		await this.initLight();
 		await this.initDoorLight();
+		this.flyingText = await new flyingText(400, 300,
+			new THREE.Vector3(200, 0, 600),
+			new THREE.Vector3(0, Math.PI / 2, 0));
 		await this.initRaycaster();
 		await this.light.position.set(7 ,20,50);
 		await this.initControls();
-		const mesh = create3dPage(
-			400, 300,
-			new THREE.Vector3(200, 0, 400),
-			new THREE.Vector3(0, Math.PI / 2, 0), this);
-
-		console.log("here", mesh);
 		await this.animate();
 	}
 
 	animate() {
 		if (!this.looped) return;
 		this.controls.update();
+		this.flyingText && this.flyingText.animate(this.time);
 		TWEEN.update();
 		super.animate();
 		this.cssRenderer.render(this.cssScene, this.camera);
