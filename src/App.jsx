@@ -7,7 +7,7 @@ import './styles/App.less';
 import {SomeWorks} from "./3D/projects/someWorks/Works.jsx";
 import {TutorialWorks} from "./3D/projects/tutorials/tutorialWorks.jsx";
 import {Codevember} from "./3D/projects/codevember/Codevember.jsx";
-import House from "./3D/projects/codevember/House/index";
+import House from "./3D/projects/testWorks/House/index";
 import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
 import {mainFunc} from "./3D/projects/baseFunc/mainFunc.jsx";
 

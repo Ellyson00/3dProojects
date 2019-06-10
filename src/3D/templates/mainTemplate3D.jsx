@@ -81,7 +81,6 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	attachKeydownEvent() {
-		console.log("activatesd")
 		window.addEventListener("keydown", this.onKeydown.bind(this));
 	}
 

@@ -45,6 +45,7 @@ header{
   right: 15px;
   top: 15px;
   width: 135px;
+  z-index: 3;
 
   &.playList{
     display: flex;
@@ -114,4 +115,79 @@ header{
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+
+.linkPop{
+  width: 50px;
+  height: 30px;
+  background: white;
+  border: 3px double grey;
+  div{
+    font-size: 4.5px;
+    line-height: 13px;
+  }
+  button{
+    font-size: 4px;
+    width: 30px;
+    height: 8px;
+  }
+}
+
+
+
+.sceenPop{
+  background: white;
+  border: 3px double grey;
+  div{
+    font-size: 4px;
+    line-height: 9px;
+  }
+  button{
+    height: 7px;
+    line-height: 3px;
+    font-size: 4px;
+  }
+}
+
+.buttons{
+  button{
+    width: 100px;
+    margin: 3px;
+  }
+}
+
+.buttonInCenter, .buttonInCenter button {
+  width: 300px;
+  height: 150px;
+  position: absolute;
+  font-size: 30px;
+  button{
+    border: 5px double grey;
+  }
+}
+
+.buttonInCenter{
+  width: auto;
+}
+
+.progress{
+  transition: 2s;
+  position: absolute;
+  width: 100%;
+}
+
+.mainRenderer{
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cssRenderer{
+  z-index: 0;
+}
+
+.cssRenderer, .mainRenderer{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
