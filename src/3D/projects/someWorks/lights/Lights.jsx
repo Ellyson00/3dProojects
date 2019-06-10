@@ -2,7 +2,7 @@
  * Created by Ellyson on 5/11/2018.
  */
 import * as THREE from 'three';
-import Delaunator from 'delaunator';
+// import Delaunator from 'delaunator';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 
 let dots = [];
@@ -22,8 +22,9 @@ dots.push([0.25, 0.5]);
 dots.push([0, 1]);
 
 
-const delaunay = Delaunator.from(dots);
-let triangles = delaunay.triangles;
+// const delaunay = new Delaunator.from(dots);
+// let triangles = delaunay.triangles;
+let triangles = [];
 
 export default class Lights extends TemplateFor3D {
 	initControls() {
