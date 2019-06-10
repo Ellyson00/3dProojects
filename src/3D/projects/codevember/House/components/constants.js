@@ -13,6 +13,8 @@ export const COLORS = {
 	white
 };
 
+export const colorsArray = [COLORS.white, COLORS.purple, COLORS.blue];
+
 export const FLOOR_POSITION = {
 	base: 0,
 	middle: 507.5,

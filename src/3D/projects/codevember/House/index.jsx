@@ -8,16 +8,15 @@ import {Button, ProgressBar} from "react-bootstrap";
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {interectiveMeshes} from './components/interactiveMeshes';
 import {loadHouse} from './components/House';
+import {onMouseMove, onKeydown, onClick} from './components/events';
 import flyingText from './components/flyingText';
-import {FLOOR_POSITION, FLOOR_SIZE} from './components/constants';
-import {COLORS} from './components/constants';
-import {CSS3DRenderer, CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
+import Light from './components/light';
+import CssRenderer from './components/CSS3DRenderer';
+import {COLORS, colorsArray} from './components/constants';
 
 const TWEEN = require('@tweenjs/tween.js');
 const Zlib = require("three/examples/js/libs/inflate.min");
 window.Zlib = Zlib.Zlib;
-
-const colors = [COLORS.white, COLORS.purple, COLORS.blue];
 
 export default class House extends TemplateFor3D {
 	constructor(){
@@ -28,6 +27,8 @@ export default class House extends TemplateFor3D {
 		this.floors = {};
 		this.additinalFloor = 0;
 		this.additinalFloorArray = [];
+
+		this.doorLight = new Light(this.currentColor);
 		this.cssScene = new THREE.Scene();
 		this.state = {
 			progress: 0,
@@ -40,33 +41,15 @@ export default class House extends TemplateFor3D {
 	}
 
 	initControls() {
-		super.initControls(this.cssRenderer.domElement);
+		super.initControls(this.cssRenderer.renderer.domElement);
 		this.controls.enableKeys  = false;
 		this.resetCamera();
 		this.controls.update();
 	}
 
-	initCSS3DRender(){
-		this.cssRenderer = new CSS3DRenderer();
-		this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
-		// this.cssRenderer.domElement.style.position = 'absolute';
-		// this.renderer.domElement.style.zIndex = 0;
-		this.renderer.domElement.style.position = 'absolute';
-		this.renderer.domElement.style.zIndex = 1;
-		this.renderer.domElement.style.top = 0;
-		this.renderer.domElement.style.left = 0;
-		this.renderer.domElement.style.pointerEvents = "none";
-		// this.renderer.alpha = true;
-		this.cssRenderer.domElement.style.position = 'absolute';
-		this.cssRenderer.domElement.style.zIndex = 0;
-		this.cssRenderer.domElement.style.top = 0;
-		this.refs.anchor.appendChild(this.cssRenderer.domElement);
-		this.cssRenderer.domElement.appendChild(this.renderer.domElement);
-	}
-
 	resetCamera(){
 		this.controls.enabled = false;
-		this.camera.position.set(2192, 500, 1200);
+		this.camera.position.set(219.2, 50.0, 120.0);
 		this.camera.rotation.set(-.0, 1.04, 0);
 		this.camera.lookAt(0,0,0)
 	}
@@ -80,10 +63,13 @@ export default class House extends TemplateFor3D {
 		} else {
 			this.scene.remove(this.house, ...this.interectiveMeshes);
 			this.resetCamera();
-			this.currentColor.color.set(1,1,1);
-			this.currentColor.index = 0;
 			this.interectiveMeshes[2].position.y = 0;
 			await this.setState({loaded: false, progress: 0});
+			this.flyingText.show = false;
+			this.scene.remove(this.flyingText.plane);
+			this.cssScene.remove(this.flyingText.cssObject);
+			this.scene.remove(this.flyingText2.plane);
+			this.cssScene.remove(this.flyingText2.cssObject);
 		}
 	}
 
@@ -92,101 +78,35 @@ export default class House extends TemplateFor3D {
 	}
 
 	initDoorLight() {
-		this.spotLight = new THREE.SpotLight( this.currentColor.color, 4, 800, 0.5 , 0.4, 0.2);
-		this.pointLight = new THREE.PointLight( this.currentColor.color, 4, 300, 0.2);
-		this.spotLight.position.set(11, 250, -220);
-		this.pointLight.position.set(90, 120, -220);
-		this.spotLight.target.position.set(325, 0, -220);
-		this.spotLight.castShadow = this.pointLight.castShadow = true;
-		this.spotLight.color = this.pointLight.color = this.currentColor.color;
-		this.spotLight.target.updateMatrixWorld();
-		this.scene.add(this.spotLight,this.pointLight)
+		this.scene.add(this.doorLight.spotLight, this.doorLight.pointLight);
+		this.light.position.set(700 ,2000,500);
 	}
 
 	onClick(){
-		if(this.aimedObjectName === "green" && this.state.loaded){
-			this.currentColor.index = this.currentColor.index > 1 ? 0 : (this.currentColor.index + 1);
-			this.changeLight(colors[this.currentColor.index]);
-		}
-		if(this.aimedObjectName === "blue" && this.state.loaded){
-			if(this.flyingText.show) {
-				this.scene.remove(this.flyingText.plane);
-				this.cssScene.remove(this.flyingText.cssObject);
-				this.flyingText.show = false;
-			} else {
-				this.scene.add(this.flyingText.plane);
-				this.cssScene.add(this.flyingText.cssObject);
-				this.flyingText.show = true;
-			}
-		}
+		onClick(this);
+	}
+
+	handleWindowResize(){
+		super.handleWindowResize();
+		this.cssRenderer && this.cssRenderer.renderer.setSize(this.WIDTH, this.HEIGHT);
 	}
 
 	attachMouseMoveEvent() {
-		this.cssRenderer.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
+		this.cssRenderer.renderer.domElement.addEventListener("mousemove", this.onMouseMove.bind(this));
 	}
 
 	attachMouseClickEvent() {
-		this.cssRenderer.domElement.addEventListener("mousedown", this.onClick.bind(this));
+		this.cssRenderer.renderer.domElement.addEventListener("mousedown", this.onClick.bind(this));
 	}
 
 	onMouseMove(e){
 		super.onMouseMove(e);
-		if(this.raycaster && this.interectiveMeshes.length){
-			this.raycaster.setFromCamera( this.mouse, this.camera );
-			const intersects = this.raycaster.intersectObjects(this.interectiveMeshes);
-			if(intersects[0] && this.state.loaded){
-				this.renderer.domElement.style.cursor = "pointer";
-				this.aimedObjectName = intersects[0].object.name;
-			} else {
-				this.renderer.domElement.style.cursor = "auto";
-				this.aimedObjectName = ""
-			}
-		}
+		onMouseMove(e, this)
 	}
 
 	async onKeydown(e) {
 		e.preventDefault();
-		if(Object.keys(this.floors).length){
-			switch (e.keyCode){
-				case 38: {
-					this.additinalFloor++;
-					this.floors["House_Middle"].mesh.position.y = FLOOR_POSITION.middle + FLOOR_SIZE.middle * (this.additinalFloor);
-					this.floors["House_Top"].mesh.position.y = FLOOR_SIZE.top + FLOOR_SIZE.middle * (this.additinalFloor + 1);
-					this.interectiveMeshes[2].position.y = FLOOR_SIZE.middle * (this.additinalFloor);
-					if (this.additinalFloor === 0){
-						this.floors["House_Top"].mesh.position.y = FLOOR_POSITION.top;
-						this.interectiveMeshes[2].position.y = FLOOR_POSITION.base;
-						this.floors["House_Middle"].mesh.visible = true;
-					} else {
-						const clonedFloor = this.floors["House_Middle"].mesh.clone();
-						this.additinalFloorArray[this.additinalFloor - 1] = clonedFloor;
-						clonedFloor.position.y = FLOOR_POSITION.middle + FLOOR_SIZE.middle * (this.additinalFloor -1);
-						this.house.add(clonedFloor);
-					}
-					break
-				}
-				case 40:{
-					this.additinalFloor--;
-					if(this.additinalFloor === -1) {
-						this.floors["House_Middle"].mesh.visible = false;
-						this.floors["House_Top"].mesh.position.y = FLOOR_SIZE.top;
-					} else if (this.additinalFloor > -1) {
-						this.floors["House_Top"].mesh.position.y = FLOOR_SIZE.top + FLOOR_SIZE.middle * (this.additinalFloor + 1);
-
-					} else {
-						this.additinalFloor = -1;
-						break;
-					}
-					this.interectiveMeshes[2].position.y = FLOOR_SIZE.middle * (this.additinalFloor);
-					const clonedFloor = this.additinalFloorArray[this.additinalFloor + 1] ;
-					await this.house.remove(clonedFloor);
-					this.floors["House_Middle"].mesh.position.y = FLOOR_POSITION.middle + FLOOR_SIZE.middle * (this.additinalFloor);
-					await this.additinalFloorArray.splice(this.additinalFloor + 1, 1);
-					break
-				}
-			}
-
-		}
+		await onKeydown(e, this)
 	}
 
 	changeLight(color) {
@@ -194,19 +114,17 @@ export default class House extends TemplateFor3D {
 	}
 
 	async componentDidMount() {
-		await super.componentDidMount({alpha: true,antialias: true});
-		await this.initCSS3DRender();
+		await super.componentDidMount({alpha: true,antialias: true, preserveDrawingBuffer: true });
+		this.cssRenderer = new CssRenderer(this.renderer, this.refs.anchor);
 		super.initRaycaster();
 		this.attachMouseMoveEvent();
 		this.attachMouseClickEvent();
 		this.attachKeydownEvent();
+		this.flyingText = new flyingText(50.0, 30.0, new THREE.Vector3(20.0, 0, 60.0), 	new THREE.Vector3(0, Math.PI / 2, 0), "link", this);
+		this.flyingText2 = new flyingText(80.0, 25.0, new THREE.Vector3(20.0, 150, 0.0), 	new THREE.Vector3(0, Math.PI / 2, 0), "screen", this);
 		await this.initLight();
 		await this.initDoorLight();
-		this.flyingText = await new flyingText(400, 300,
-			new THREE.Vector3(200, 0, 600),
-			new THREE.Vector3(0, Math.PI / 2, 0));
 		await this.initRaycaster();
-		await this.light.position.set(7 ,20,50);
 		await this.initControls();
 		await this.animate();
 	}
@@ -215,9 +133,10 @@ export default class House extends TemplateFor3D {
 		if (!this.looped) return;
 		this.controls.update();
 		this.flyingText && this.flyingText.animate(this.time);
+		this.flyingText2 && this.flyingText2.animate(this.time);
 		TWEEN.update();
 		super.animate();
-		this.cssRenderer.render(this.cssScene, this.camera);
+		this.cssRenderer.renderer.render(this.cssScene, this.camera);
 	}
 
 	render() {
