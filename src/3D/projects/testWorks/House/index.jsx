@@ -64,6 +64,8 @@ export default class House extends TemplateFor3D {
 		} else {
 			this.scene.remove(this.house, ...this.interectiveMeshes, this.saveScreen.plane, this.linkObject.plane);
 			this.cssScene.remove(this.linkObject.cssObject, this.saveScreen.cssObject);
+			this.linkObject.cssObject.remove(this.linkObject.cssObject.userData.child);
+			this.saveScreen.cssObject.remove(this.saveScreen.cssObject.userData.child);
 			this.currentColor.index = 0;
 			this.interectiveMeshes[2].position.y = 0;
 			this.setState({loaded: false, progress: 0});
