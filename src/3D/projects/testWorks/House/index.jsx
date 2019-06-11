@@ -73,6 +73,7 @@ export default class House extends TemplateFor3D {
 			this.changeLight(colorsArray[this.currentColor.index]);
 			this.resetCamera();
 			this.scene.background = null;
+			this.additinalFloor = 0;
 		}
 	}
 
