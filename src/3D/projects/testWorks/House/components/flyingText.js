@@ -19,49 +19,59 @@ export default class flyingText {
 		this.cssObject = flyingText.createCssObject(
 			w, h,
 			position,
-			rotation, dom);
+			rotation, dom, type);
 		this.show = false;
 	}
 
 	getDom(w, h, type){
-		if(type === "link"){
-			const mainDiv = document.createElement('div');
-			const div = document.createElement('div');
-			const link = document.createElement('a');
-			const button = document.createElement('button');
-			mainDiv.className = "linkPop";
-			div.innerText = "Tsukat";
-			button.innerText = "Open page";
-			link.href = "http://www.tsukat.com";
-			mainDiv.appendChild(div);
-			mainDiv.appendChild(link);
-			link.appendChild(button);
-			return mainDiv;
 
-		} else if (type === "screen") {
-
-			const div = document.createElement('div');
-			const mainDiv = document.createElement('div');
-			const link = document.createElement('a');
-			const button = document.createElement('button');
-			div.innerText = "DomElement blended with WebGL";
-			mainDiv.className = "sceenPop";
-			mainDiv.style.width = `${w}px`;
-			mainDiv.style.height =`${h}px`;
-			link.addEventListener("click", this.getScreenShot.bind(this));
-			button.innerText = "Save screen";
-			mainDiv.appendChild(div);
-			mainDiv.appendChild(link);
-			link.appendChild(button);
-			return mainDiv;
-
+		switch (type) {
+			case "link":{
+				const mainDiv = document.createElement('div');
+				const div = document.createElement('div');
+				const link = document.createElement('a');
+				const button = document.createElement('button');
+				mainDiv.className = "linkPop";
+				div.innerText = "Tsukat";
+				button.innerText = "Open page";
+				link.href = "http://www.tsukat.com";
+				mainDiv.appendChild(div);
+				mainDiv.appendChild(link);
+				link.appendChild(button);
+				return mainDiv;
+			}
+			case "screen":{
+				const div = document.createElement('div');
+				const mainDiv = document.createElement('div');
+				const link = document.createElement('a');
+				const button = document.createElement('button');
+				div.innerText = "DomElement blended with WebGL";
+				mainDiv.className = "screenPop";
+				mainDiv.style.width = `${w}px`;
+				mainDiv.style.height =`${h}px`;
+				link.addEventListener("click", this.getScreenShot.bind(this));
+				button.innerText = "Save screen";
+				mainDiv.appendChild(div);
+				mainDiv.appendChild(link);
+				link.appendChild(button);
+				return mainDiv;
+			}
+			default:
+				break;
 		}
 	}
 
-	static createCssObject(w, h, position, rotation, attachDom) {
+	static createCssObject(w, h, position, rotation, attachDom, type) {
 		const cssObject = new CSS3DObject(attachDom);
 		cssObject.position.copy(position);
 		cssObject.quaternion.copy(new THREE.Quaternion().setFromEuler(rotation));
+
+		const mainDiv = document.createElement('div');
+		mainDiv.className = type === "screen" ? "screenPop" : "linkPop";
+		const cssObject2 = new CSS3DObject(mainDiv);
+		cssObject2.position.z -= .2;
+		cssObject.add(cssObject2);
+		cssObject.userData.child = cssObject2;
 		return cssObject;
 	}
 
@@ -74,20 +84,10 @@ export default class flyingText {
 			blending: THREE.NoBlending,
 		});
 
-		const materialBackSide = new THREE.MeshBasicMaterial({ //clone broke it
-			color: 0xffffff,
-			opacity: 0.0,
-			side: THREE.BackSide,
-			blending: THREE.NoBlending,
-		});
-
-		const geometry = new THREE.PlaneGeometry(w, h);
+		const geometry = new THREE.PlaneBufferGeometry(w, h);
 		const mesh = new THREE.Mesh(geometry, material);
 		mesh.position.copy(position);
 		mesh.quaternion.copy(new THREE.Quaternion().setFromEuler(rotation));
-		const backSide = new THREE.Mesh(geometry, materialBackSide);
-		backSide.position.z -= .2;
-		mesh.add(backSide);
 		return mesh;
 	}
 

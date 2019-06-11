@@ -101,11 +101,13 @@ export function onClick(e) {
 function removeFromScene(scene, cssScene, object){
 	scene.remove(object.plane);
 	cssScene.remove(object.cssObject);
+	object.cssObject.remove(...object.cssObject.children);
 	object.show = false;
 }
 
 function addToScene(scene, cssScene, object){
 	scene.add(object.plane);
 	cssScene.add(object.cssObject);
+	object.cssObject.add(object.cssObject.userData.child);
 	object.show = true;
 }

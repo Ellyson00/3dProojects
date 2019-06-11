@@ -7,7 +7,7 @@ import {Button, ProgressBar} from "react-bootstrap";
 
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {getInterectiveMeshes} from './components/interactiveMeshes';
-import {loadHouse} from './components/House';
+import {loadHouse, addSkyBox} from './components/House';
 import {onMouseMove, onKeydown, onClick, addFloor, deleteFloor} from './components/events';
 import flyingText from './components/flyingText';
 import Light from './components/light';
@@ -32,7 +32,8 @@ export default class House extends TemplateFor3D {
 			progress: 0,
 			loaded: false,
 			width: window.innerWidth,
-			height: window.innerHeight
+			height: window.innerHeight,
+			showSkyBox: false
 		};
 	}
 
@@ -133,6 +134,11 @@ export default class House extends TemplateFor3D {
 		this.animate();
 	}
 
+	addSkyBox(){
+		addSkyBox(this.scene, !this.state.showSkyBox);
+		this.setState({showSkyBox: !this.state.showSkyBox})
+	}
+
 	animate() {
 		if (!this.looped) return;
 		this.controls.update();
@@ -162,6 +168,9 @@ export default class House extends TemplateFor3D {
 						</div>
 						<div>
 							<Button onClick={()=>deleteFloor.call(this)}>Delete floor</Button>
+						</div>
+						<div>
+							<Button onClick={()=>this.addSkyBox()}>skyBox</Button>
 						</div>
 					</div>}
 				</div>

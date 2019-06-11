@@ -63,9 +63,9 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	animate() {
-		requestAnimationFrame( this.animate.bind(this));
+		requestAnimationFrame(this.animate.bind(this));
 		this.time++;
-		this.renderer.render( this.scene, this.camera );
+		this.renderer.render(this.scene, this.camera);
 	}
 
 	handleWindowResize() {
@@ -99,8 +99,8 @@ export default class TemplateFor3D extends React.Component {
 	}
 
 	getMousePosition(e){
-		this.mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
-		this.mouse.y = -( e.clientY / window.innerHeight ) * 2 + 1;
+		this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+		this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 	}
 
 	initRaycaster(){

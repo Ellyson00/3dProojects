@@ -19,7 +19,6 @@ window.Zlib = Zlib.Zlib;// for FBX Loader
 
 export async function loadHouse() {
 	const FBXParser = new FBXLoader();
-	// this.scene.background = new THREE.CubeTextureLoader().load([xpos,xneg,ypos,yneg,zpos,zneg]);
 	await FBXParser.load(house, (model) => {
 		this.house = model;
 		this.scene.add(model);
@@ -47,12 +46,6 @@ function addGrass(){
 	return new THREE.Mesh(geometry, material)
 }
 
-function addSkyBox(){
-	const texture = new THREE.TextureLoader().load(grass);
-	texture.wrapS = THREE.RepeatWrapping;
-	texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set(2, 2);
-	const geometry = new THREE.BoxBufferGeometry(1200, 50, 1200).translate(0, -420, -50);
-	const material = new THREE.MeshLambertMaterial({map: texture});
-	return new THREE.Mesh(geometry, material)
+export function addSkyBox(scene, show){
+	scene.background = show ?  new THREE.CubeTextureLoader().load([xpos,xneg,ypos,yneg,zpos,zneg]) : null;
 }
