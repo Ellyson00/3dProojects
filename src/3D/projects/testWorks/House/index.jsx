@@ -50,9 +50,9 @@ export default class House extends TemplateFor3D {
 
 	resetCamera(){
 		this.controls.enabled = false;
+		this.controls.target.set(0,0,0);
 		this.camera.position.set(219.2, 50.0, 120.0);
 		this.camera.rotation.set(-.0, 1.04, 0);
-		this.camera.lookAt(0, 0, 0)
 	}
 
 	async loadOrDeleteHouse() {
