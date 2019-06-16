@@ -76,6 +76,7 @@ export default class AsidePanel extends React.Component {
 					<Collapse in={tutorialWorks}>
 						<div>
 							<Button href={"/remakeTutorialWorks/thanosPortal"}>Thanos Portal</Button>
+							<Button href={"/remakeTutorialWorks/rain"}>Rain</Button>
 						</div>
 					</Collapse>
 				</Row>
