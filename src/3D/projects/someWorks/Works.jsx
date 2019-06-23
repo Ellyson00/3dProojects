@@ -4,7 +4,6 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Planet from "./planet/Planet";
 import Sky from "./sky/Sky";
 import Grass from "./grass/grass";
-import Lights from "./lights/Lights";
 import TriangleWallpaper from "./triangleWallpaper/TriangleWallpaper";
 import Aviator from "./aviator/Aviator";
 import MusicVisualization from "./musicVisualization/MusicVisualization";
@@ -18,7 +17,6 @@ export function SomeWorks({match}) {
 				<Route path={`${match.path}/Planet`} component={Planet} />
 				<Route path={`${match.path}/Sky`} component={Sky} />
 				<Route path={`${match.path}/Grass`} component={Grass} />
-				<Route path={`${match.path}/Lights`} component={Lights} />
 				<Route path={`${match.path}/TriangleWallpaper`} component={TriangleWallpaper} />
 				<Route path={`${match.path}/Aviator`} component={Aviator} />
 				<Route path={`${match.path}/MusicVisualization`} component={MusicVisualization} />

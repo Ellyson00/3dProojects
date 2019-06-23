@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Button} from 'react-bootstrap';
-// import Delaunator from 'delaunator';
+import Delaunator from 'delaunator';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import Mouse from "../../../plugins/mouse.js";
@@ -29,9 +29,8 @@ dots.forEach((d) => { // dots with physics
 	myDots.push(new Particle(d[0], d[1], 0))
 });
 
-// const delaunay = new Delaunator.from(dots);
-// const delaunay = new Delaunator.from(dots);
-const triangles = [];
+const delaunay = Delaunator.from(dots);
+const triangles = delaunay.triangles;
 const image = require('../../../img/image.jpg');
 
 export default class TriangleWallpaper extends TemplateFor3D {
@@ -118,13 +117,13 @@ export default class TriangleWallpaper extends TemplateFor3D {
 
 
 	componentDidMount() {
-		// super.componentDidMount();
-		// this.initControls();
-		// this.initPlateMesh();
-		// this.pos = new Mouse(this.renderer.domElement);
-		// window.addEventListener('mousemove', this.onDocumentMouseDown.bind(this), false);
-		// window.addEventListener('resize', this.handleWindowResize.bind(this), false);
-		// this.animate();
+		super.componentDidMount();
+		this.initControls();
+		this.initPlateMesh();
+		this.pos = new Mouse(this.renderer.domElement);
+		window.addEventListener('mousemove', this.onDocumentMouseDown.bind(this), false);
+		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
+		this.animate();
 	}
 
 	animate() {

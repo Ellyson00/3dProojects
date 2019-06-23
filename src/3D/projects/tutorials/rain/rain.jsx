@@ -22,7 +22,7 @@ export default class Rain extends TemplateFor3D {
 	}
 
 	initControls() {
-		super.initControls();
+		// super.initControls();
 		this.camera.position.z = 1;
 		this.camera.rotation.x = 1.16;
 		this.camera.rotation.y = -0.12;

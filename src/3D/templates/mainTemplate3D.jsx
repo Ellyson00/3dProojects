@@ -29,6 +29,7 @@ export default class TemplateFor3D extends React.Component {
 	initRenderer(param) {
 		this.renderer = new THREE.WebGLRenderer(param);
 		this.renderer.setPixelRatio(window.devicePixelRatio);
+		this.renderer.setClearColor(0x000000);
 		this.renderer.setSize( window.innerWidth, window.innerHeight);
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
