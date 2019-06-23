@@ -12,7 +12,6 @@ import Perlin from "../../../plugins/perlin.js";
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
 
-const Delaunator = require('delaunator').default;
 let dots = [];
 let myDots = [];
 
@@ -29,7 +28,8 @@ dots.forEach((d) => { // dots with physics
 	myDots.push(new Particle(d[0], d[1], 0))
 });
 
-const delaunay = Delaunator.from(dots);
+const Delaunator = require('delaunator').default;
+const delaunay = new Delaunator.from(dots);
 const triangles = delaunay.triangles;
 const image = require('../../../img/image.jpg');
 
