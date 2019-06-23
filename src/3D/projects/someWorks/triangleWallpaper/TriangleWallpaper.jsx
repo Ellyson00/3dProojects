@@ -29,7 +29,7 @@ dots.forEach((d) => { // dots with physics
 });
 
 const Delaunator = require('delaunator').default;
-const delaunay = new Delaunator.from(dots);
+const delaunay = Delaunator.from(dots);
 const triangles = delaunay.triangles;
 const image = require('../../../img/image.jpg');
 
