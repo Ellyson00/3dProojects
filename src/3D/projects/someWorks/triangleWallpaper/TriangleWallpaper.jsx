@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Delaunator from 'delaunator';
 import {Button} from 'react-bootstrap';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
@@ -28,7 +29,6 @@ dots.forEach((d) => { // dots with physics
 	myDots.push(new Particle(d[0], d[1], 0))
 });
 
-const Delaunator = require('delaunator').default;
 const delaunay = Delaunator.from(dots);
 const triangles = delaunay.triangles;
 const image = require('../../../img/image.jpg');
