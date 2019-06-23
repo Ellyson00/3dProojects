@@ -13,30 +13,33 @@ import Perlin from "../../../plugins/perlin.js";
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
 
-let dots = [];
-let myDots = [];
-
-dots.push([0, 0]); //left-top corner
-dots.push([1366,0]); //right-top corner
-dots.push([1366,768]); //right-bottom corner
-dots.push([0, 768]); //left-bottom corner
-
-for (let i = 0; i < 3050; i++) { // simple dots
-	dots.push([Math.random() * 1366, Math.random() * 768])
-}
-
-dots.forEach((d) => { // dots with physics
-	myDots.push(new Particle(d[0], d[1], 0))
-});
-
-const delaunay = new Delaunator(dots);
-const triangles = delaunay.triangles;
 const image = require('../../../img/image.jpg');
 
 export default class TriangleWallpaper extends TemplateFor3D {
 	constructor() {
 		super();
 		this.raycaster = new THREE.Raycaster();
+		this.triangles = this.Triangles()
+	}
+
+	Triangles(){
+		this.dots = [];
+		this.myDots = [];
+
+		this.dots.push([0, 0]); //left-top corner
+		this.dots.push([1366,0]); //right-top corner
+		this.dots.push([1366,768]); //right-bottom corner
+		this.dots.push([0, 768]); //left-bottom corner
+
+		for (let i = 0; i < 3050; i++) { // simple dots
+			this.dots.push([Math.random() * 1366, Math.random() * 768])
+		}
+
+		this.dots.forEach((d) => { // dots with physics
+			this.myDots.push(new Particle(d[0], d[1], 0))
+		});
+		const delaunay = new Delaunator(this.dots);
+		return delaunay.triangles;
 	}
 
 	onDocumentMouseDown(event) {
@@ -74,12 +77,12 @@ export default class TriangleWallpaper extends TemplateFor3D {
 				side: THREE.DoubleSide,
 			});
 
-			dots.forEach((d) => {
+			this.dots.forEach((d) => {
 				this.geometry.vertices.push(new THREE.Vector3(d[0], d[1], 0));
 			});
 
-			for (let i = 0; i < triangles.length; i = i + 3) {
-				this.geometry.faces.push(new THREE.Face3(triangles[i], triangles[i + 1], triangles[i + 2]));
+			for (let i = 0; i < this.triangles.length; i = i + 3) {
+				this.geometry.faces.push(new THREE.Face3(this.triangles[i], this.triangles[i + 1], this.triangles[i + 2]));
 			}
 			this.geometry.computeBoundingBox();
 			//--------------------------- for adapting image texture ------------------
@@ -130,7 +133,7 @@ export default class TriangleWallpaper extends TemplateFor3D {
 		if (!this.looped) return;
 		super.animate();
 		if (this.geometry) {
-			myDots.forEach((d, i) => {
+			this.myDots.forEach((d, i) => {
 				if (this.state.checked) {
 					if (this.intersects && this.intersects.length > 0) d.think(this.intersects[0].point);
 					this.geometry.vertices[i].z = d.z;
