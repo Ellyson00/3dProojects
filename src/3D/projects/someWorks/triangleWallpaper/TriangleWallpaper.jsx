@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {Button} from 'react-bootstrap';
-import Delaunator from 'delaunator';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import Mouse from "../../../plugins/mouse.js";
@@ -13,6 +12,7 @@ import Perlin from "../../../plugins/perlin.js";
 import vertexShader from "./shaders/vertexShader.vert";
 import fragmentShader from "./shaders/fragmentShader.frag";
 
+const Delaunator = require('delaunator').default;
 let dots = [];
 let myDots = [];
 
