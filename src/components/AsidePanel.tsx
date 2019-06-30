@@ -6,7 +6,7 @@ import SlidingPane from 'react-sliding-pane';
 import {Button, Collapse, Col, Row} from 'react-bootstrap';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
-export default class AsidePanel extends React.Component {
+export default class AsidePanel extends React.Component<any,any> {
 	constructor(props) {
 		super(props);
 		this.state = {

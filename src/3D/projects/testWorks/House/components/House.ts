@@ -23,7 +23,7 @@ export async function loadHouse() {
 		this.house = model;
 		this.scene.add(model);
 		model.scale.set(0.1, 0.1, 0.1);
-		model.children.forEach((children) => {
+		model.children.forEach((children: any) => {
 			this.floors[children.name] = {mesh: children, size: new THREE.Box3().setFromObject(children).getSize(new THREE.Vector3())};
 			children.receiveShadow = true;
 			children.castShadow = true;

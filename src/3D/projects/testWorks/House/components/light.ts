@@ -1,6 +1,10 @@
 import * as THREE from "three";
 
 export default class Light {
+
+	spotLight: THREE.SpotLight;
+	pointLight: THREE.PointLight;
+
 	constructor(currentColor) {
 		this.spotLight = new THREE.SpotLight(currentColor.color, 4, 100, 0.5, 0.4, 0.2);
 		this.pointLight = new THREE.PointLight(currentColor.color, 4, 30, 0.2);

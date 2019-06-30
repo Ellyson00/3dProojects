@@ -11,9 +11,20 @@ const drop = require(`../../../img/drop.png`);
 export default class Rain extends TemplateFor3D {
 
 	static rainCount = 15000;
+	cloudParticles: Array<THREE.Mesh>;
+	flash: THREE.PointLight;
+	ambient: THREE.AmbientLight;
+	directionalLight: THREE.DirectionalLight;
+	portalLight: THREE.PointLight;
+	rainMaterial: any;
+	cloudGeo: THREE.PlaneBufferGeometry;
+	cloudMaterial: THREE.MeshLambertMaterial;
+	rainGeo: THREE.Geometry;
+	rainDrop: any;
+	rain: THREE.Points;
 
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.cloudParticles = [];
 
 		this.flash = new THREE.PointLight(0x062d89, 30, 500 ,1.7);
@@ -85,7 +96,7 @@ export default class Rain extends TemplateFor3D {
 				map: texture,
 				depthTest: false,
 				blending: THREE.AdditiveBlending,
-				opacity:1,
+				opacity: 1,
 				transparent: true
 			});
 			this.rain = new THREE.Points(this.rainGeo, this.rainMaterial);
@@ -99,6 +110,7 @@ export default class Rain extends TemplateFor3D {
 			this.cloudMaterial = new THREE.MeshLambertMaterial({
 				map: texture,
 				transparent: true,
+				opacity: 0.6
 			});
 			for(let p = 0; p < 35; p++) {
 				let cloud = new THREE.Mesh(this.cloudGeo, this.cloudMaterial);
@@ -110,7 +122,7 @@ export default class Rain extends TemplateFor3D {
 				cloud.rotation.x = 1.16;
 				cloud.rotation.y = -0.12;
 				cloud.rotation.z = Math.random()*360;
-				cloud.material.opacity = 0.6;
+				// cloud.material.opacity = 0.6;
 				this.cloudParticles.push(cloud);
 				this.scene.add(cloud);
 			}
@@ -124,7 +136,7 @@ export default class Rain extends TemplateFor3D {
 			p.rotation.z -=0.001;
 		});
 		if(this.rainGeo && this.rain){
-			this.rainGeo && this.rainGeo.vertices.forEach(p => {
+			this.rainGeo && this.rainGeo.vertices.forEach((p: any) => {
 				p.velocity -= Math.random() * 0.05;
 				p.y += p.velocity;
 				if(p.originalZ < 10 && p.originalZ >-50)
@@ -167,7 +179,7 @@ export default class Rain extends TemplateFor3D {
 		return <div>
 				<header id="sky" style={{width: "auto"}}>
 				</header>
-				<div ref="anchor" className="canvasDiv">
+				<div ref={(ref) => this.canvas = ref} className="canvasDiv">
 				</div>
 		</div>
 	}

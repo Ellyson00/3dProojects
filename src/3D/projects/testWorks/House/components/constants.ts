@@ -3,9 +3,9 @@
  */
 import * as THREE from 'three';
 
-const purple = new THREE.Color(1, 0, 1);
-const blue = new THREE.Color(0, 0, 1);
-const white = new THREE.Color(1, 1, 1);
+const purple: THREE.Color = new THREE.Color(1, 0, 1);
+const blue: THREE.Color = new THREE.Color(0, 0, 1);
+const white: THREE.Color = new THREE.Color(1, 1, 1);
 
 export const COLORS = {
 	purple,
@@ -13,7 +13,7 @@ export const COLORS = {
 	white
 };
 
-export const colorsArray = [COLORS.white, COLORS.purple, COLORS.blue];
+export const colorsArray: Array<THREE.Color> = [COLORS.white, COLORS.purple, COLORS.blue];
 
 export const FLOOR_POSITION = {
 	base: 0,

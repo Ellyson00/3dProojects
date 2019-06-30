@@ -29,6 +29,12 @@ let shadowType = 1,
 	n = 500000;
 
 export default class Galaxy extends TemplateFor3D {
+
+	saturn: any;
+	titano: any;
+	internalRing: any;
+	externalRing: any;
+
 	initCamera() {	
 		super.initCamera();
 		this.camera.position.set(-285, 15, -115);
@@ -116,11 +122,11 @@ export default class Galaxy extends TemplateFor3D {
 		this.initSaturn();
 		this.initTitano();
 		this.initRings();
-		this.initSkyBox();
-	}
+			this.initSkyBox();
+		}
 
 	initSkyBox() {
-		const skyGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+		const skyGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
 		const imageURLs = [lf,rt, dn,up,bk,ft];
 		const textureCube = THREE.ImageUtils.loadTextureCube( imageURLs );
 		const shader = THREE.ShaderLib["cube"];
@@ -143,9 +149,12 @@ export default class Galaxy extends TemplateFor3D {
 		this.animate()
 	}
 
-	animate() {
+	animate(): void {
 		if (!this.looped) return;
-		super.animate();
+		requestAnimationFrame(()=> this.animate());
+		// console.log("rendered")
+		this.time++;
+		this.renderer.render(this.scene, this.camera);
 		this.saturn.rotation.y -= speed;
 		this.saturn.material.uniforms.time.value += 0.3 * speed;
 		this.titano.material.uniforms.time.value += 0.8 * speed;

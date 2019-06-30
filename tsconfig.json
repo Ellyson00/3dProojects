@@ -1,5 +1,38 @@
 {
   "compilerOptions": {
-    "sourceMap": true
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "react",
+//    "noEmit": true,
+//    "types": ["reflect-metadata"],
+//    "strict": false,
+    "esModuleInterop": true
+//    "sourceMap": true,
+//    "experimentalDecorators": true,
+//    "emitDecoratorMetadata": true,
+//    "lib": ["es6","es5", "dom"],
+//    "allowJs": true,
+//    "allowSyntheticDefaultImports": true,
+//    "moduleResolution": "node",
+//    "downlevelIteration": true,
+//    "baseUrl": "./",
+//    "typeRoots": [
+//      "node_modules/@types",
+//      "./src/typings"
+//    ]
   }
+//  "filesGlob": [
+//    "./src/typings/types.d.ts",
+//    "!./node_modules/**/*"
+//  ],
+//  "compileOnSave": false,
+//  "exclude": [
+//    "node_modules"
+//  ]
+//  "awesomeTypescriptLoaderOptions": {
+//    "errorsAsWarnings": true,
+//    //"transpileOnly": true,
+//    "useCache": true
+//    //"useTranspileModule": true
+//  }
 }

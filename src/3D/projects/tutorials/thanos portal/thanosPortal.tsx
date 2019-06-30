@@ -11,6 +11,14 @@ const smoke = require(`../../../img/smoke.png`);
 
 export default class thanosPortal extends TemplateFor3D {
 
+	moveQ: THREE.Quaternion;
+	tmpQ: THREE.Quaternion;
+	currentQ: THREE.Quaternion;
+	portalLight: THREE.PointLight;
+	instancedPortalGeo: THREE.InstancedBufferGeometry;
+	uniforms: any;
+	shaderMaterial: any;
+
 	initControls() {
 		// super.initControls();
 		this.camera.position.set(0, 0, 1300);
@@ -88,10 +96,10 @@ export default class thanosPortal extends TemplateFor3D {
 			// }
 		}
 		if(this.instancedPortalGeo){
-			const orientation = this.instancedPortalGeo.attributes.portalParticlesRot;
+			const orientation: any = this.instancedPortalGeo.attributes.portalParticlesRot;
 			this.tmpQ.set(this.moveQ.x * delta, this.moveQ.y * delta, this.moveQ.z * delta, 1).normalize();
 			for (let i = 0, il = orientation.count; i < il; i ++) {
-				this.currentQ.fromArray(orientation.array, (i * 4));
+				(this.currentQ as any).fromArray(orientation.array, (i * 4));
 				this.currentQ.multiply(this.tmpQ);
 				orientation.setXYZW(i, this.currentQ.x, this.currentQ.y, this.currentQ.z, this.currentQ.w);
 			}
@@ -109,7 +117,7 @@ export default class thanosPortal extends TemplateFor3D {
 						<div style={{height: "20px"}}>InstancedBufferGeometry with ShaderMaterial</div>
 					</div>
 				</header>
-				<div ref="anchor" className="canvasDiv">
+				<div ref={(ref) => this.canvas = ref} className="canvasDiv">
 				</div>
 		</div>
 	}

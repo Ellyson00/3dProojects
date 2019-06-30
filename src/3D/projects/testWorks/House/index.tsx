@@ -9,7 +9,7 @@ import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {getInterectiveMeshes} from './components/interactiveMeshes';
 import {loadHouse, addSkyBox} from './components/House';
 import {onMouseMove, onKeydown, onClick, addFloor, deleteFloor} from './components/events';
-import flyingText from './components/flyingText';
+import FlyingText from './components/flyingText';
 import Light from './components/light';
 import CssRenderer from './components/CSS3DRenderer';
 import {COLORS, colorsArray} from './components/constants';
@@ -18,8 +18,21 @@ const OrbitControls = require('./components/controls')(THREE);
 const TWEEN = require('@tweenjs/tween.js');
 
 export default class House extends TemplateFor3D {
-	constructor(){
-		super();
+	interectiveMeshes: Array<THREE.Mesh>;
+	aimedObjectName: any;
+	currentColor: any;
+	floors: Object;
+	additinalFloor: number;
+	additinalFloorArray: Array<any>;
+	doorLight: Light;
+	cssScene: THREE.Scene;
+	house: THREE.Group;
+	saveScreen: any;
+	linkObject: any;
+	cssRenderer: CssRenderer;
+
+	constructor(props){
+		super(props);
 		this.interectiveMeshes = getInterectiveMeshes();
 		this.aimedObjectName = "";
 		this.currentColor = {index: 0, color: COLORS.white.clone()};
@@ -118,12 +131,12 @@ export default class House extends TemplateFor3D {
 	}
 
 	loadModals(){
-		this.linkObject = new flyingText(50.0, 30.0, new THREE.Vector3(20.0, 0, 60.0), new THREE.Euler(0, Math.PI / 2, 0), "link", this);
-		this.saveScreen = new flyingText(80.0, 25.0, new THREE.Vector3(20.0, 150, 0.0), new THREE.Euler(0, Math.PI / 2, 0), "screen", this);
+		this.linkObject = new FlyingText(50.0, 30.0, new THREE.Vector3(20.0, 0, 60.0), new THREE.Euler(0, Math.PI / 2, 0), "link", this);
+		this.saveScreen = new FlyingText(80.0, 25.0, new THREE.Vector3(20.0, 150, 0.0), new THREE.Euler(0, Math.PI / 2, 0), "screen", this);
 	}
 
 	async componentDidMount() {
-		super.componentDidMount({alpha: true,antialias: true, preserveDrawingBuffer: true});
+		super.componentDidMount();
 		this.cssRenderer = new CssRenderer(this.renderer, this.refs.anchor);
 		super.initRaycaster();
 		this.attachMouseMoveEvent();

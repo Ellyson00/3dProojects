@@ -2,14 +2,29 @@
  * Created by Ellyson on 5/11/2018.
  */
 
-import React from 'react';
+import * as React from 'react';
 import * as THREE from 'three';
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls"
 
-const OrbitControls = require('three-orbit-controls')(THREE);
+export default class TemplateFor3D extends React.Component<any, any>{
+	time: number;
+	looped: boolean;
+	clock: THREE.Clock;
+	mouse: THREE.Vector2;
+	HEIGHT: number;
+	WIDTH: number;
+	resolution: THREE.Vector2;
+	renderer: THREE.WebGLRenderer;
+	camera: THREE.PerspectiveCamera;
+	scene: THREE.Scene;
+	light: THREE.DirectionalLight;
+	ambientLight: THREE.AmbientLight;
+	controls: OrbitControls;
+	raycaster: THREE.Raycaster;
+	canvas: any;
 
-export default class TemplateFor3D extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			checked: false
 		};
@@ -26,14 +41,14 @@ export default class TemplateFor3D extends React.Component {
 		this.scene = new THREE.Scene();
 	}
 
-	initRenderer(param) {
-		this.renderer = new THREE.WebGLRenderer(param);
+	initRenderer() {
+		this.renderer = new THREE.WebGLRenderer({alpha: true,antialias: true, preserveDrawingBuffer: true});
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setClearColor(0x000000);
 		this.renderer.setSize( window.innerWidth, window.innerHeight);
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-		this.refs.anchor.appendChild(this.renderer.domElement);
+		this.canvas.appendChild(this.renderer.domElement);
 	}
 
 	initCamera() {
@@ -50,8 +65,8 @@ export default class TemplateFor3D extends React.Component {
 		this.controls = new OrbitControls(this.camera, dom);
 	}
 
-	componentDidMount(param) {
-		this.initRenderer(param);
+	componentDidMount() {
+		this.initRenderer();
 		this.initScene();
 		this.initCamera();
 		window.addEventListener('resize', this.handleWindowResize.bind(this), false);
@@ -89,7 +104,8 @@ export default class TemplateFor3D extends React.Component {
 		this.renderer.domElement.addEventListener("click", this.onClick.bind(this));
 	}
 
-
+	onKeydown(e) {
+	}
 
 	onMouseMove(e) {
 		this.getMousePosition(e);
@@ -99,19 +115,19 @@ export default class TemplateFor3D extends React.Component {
 		this.getMousePosition(e);
 	}
 
-	getMousePosition(e){
+	getMousePosition(e) {
 		this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 		this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 	}
 
-	initRaycaster(){
+	initRaycaster() {
 		this.raycaster = new THREE.Raycaster();
 	}
 
-	render() {
+	render(): any {
 		return <div>
 			<header/>
-			<div ref="anchor" className="canvasDiv"/>
+			<div ref={(ref) => this.canvas = ref} className="canvasDiv"/>
 		</div>
 	}
 }

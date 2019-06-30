@@ -1,7 +1,10 @@
 import {CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer";
 
 export default class CssRenderer {
-	constructor(renderer, dom){
+
+	renderer: CSS3DRenderer;
+
+	constructor(renderer: THREE.WebGLRenderer, dom: any){
 		this.initCSS3DRender(renderer, dom)
 	}
 
