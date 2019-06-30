@@ -6,7 +6,7 @@
 //    "noEmit": true,
 //    "types": ["reflect-metadata"],
 //    "strict": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
 //    "sourceMap": true,
 //    "experimentalDecorators": true,
 //    "emitDecoratorMetadata": true,
@@ -15,20 +15,20 @@
 //    "allowSyntheticDefaultImports": true,
 //    "moduleResolution": "node",
 //    "downlevelIteration": true,
-//    "baseUrl": "./",
-//    "typeRoots": [
-//      "node_modules/@types",
-//      "./src/typings"
-//    ]
-  }
-//  "filesGlob": [
-//    "./src/typings/types.d.ts",
-//    "!./node_modules/**/*"
-//  ],
+    "baseUrl": "./",
+    "typeRoots": [
+      "node_modules/@types",
+      "./src/typings"
+    ]
+  },
+  "filesGlob": [
+    "./src/typings/types.d.ts",
+    "!./node_modules/**/*"
+  ],
 //  "compileOnSave": false,
-//  "exclude": [
-//    "node_modules"
-//  ]
+  "exclude": [
+    "node_modules"
+  ]
 //  "awesomeTypescriptLoaderOptions": {
 //    "errorsAsWarnings": true,
 //    //"transpileOnly": true,
