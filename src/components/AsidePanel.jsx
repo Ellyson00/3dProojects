@@ -92,6 +92,7 @@ export default class AsidePanel extends React.Component {
 							<Button href={"/SomeWorks/Aviator"}>Aviator</Button>
 							<Button href={"/SomeWorks/MusicVisualization"}>MusicVisualization</Button>
 							<Button href={"/SomeWorks/PointLights"}>PointLights</Button>
+							<Button href={"/SomeWorks/Portal"}>Portal</Button>
 						</div>
 					</Collapse>
 				</Row>
