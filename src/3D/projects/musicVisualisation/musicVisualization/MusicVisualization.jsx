@@ -52,7 +52,7 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.analyser.fftSize = this.analyser.frequencyBinCount;
 		this.analyser.minDecibels = -90;
 		this.analyser.maxDecibels = -10;
-		this.analyser.smoothingTimeConstant = .96;
+		this.analyser.smoothingTimeConstant = 0.92;
 		this.dataArray = new Uint8Array(bufferLength);
 		this.timeByteData = new Uint8Array(bufferLength);
 		audioSrc.connect(this.analyser);
