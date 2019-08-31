@@ -6,6 +6,8 @@ import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
 import {Button} from 'react-bootstrap';
+import fragmentShader from './shaders/shader.frag';
+import vertexShader from './shaders/shader.vert';
 
 const trek1 = require("../../../sounds/music/music4.mp3");
 const trek2 = require("../../../sounds/music/music.mp3");
@@ -14,6 +16,8 @@ const trek4 = require("../../../sounds/music/music3.mp3");
 const background = require("../../../img/intothree.png");
 
 export default class MusicVisualization extends TemplateFor3D {
+
+	static CUBE_COUNT = 464;
 	constructor() {
 		super();
 		this.state = {
@@ -23,9 +27,6 @@ export default class MusicVisualization extends TemplateFor3D {
 	}
 
 	async initObjects() {
-		this.light = new THREE.DirectionalLight(new THREE.Color(0xffffff));
-		this.light.position.set(170, 150, 100);
-		this.scene.add(this.light);
 		this.scene.background = await new THREE.TextureLoader().load(background);
 
 		this.initControls();
@@ -36,8 +37,8 @@ export default class MusicVisualization extends TemplateFor3D {
 
 	initControls() {
 		// super.initControls();
-
-		// this.camera.rotation.set(-0.67, 0, 0);
+		//
+		// this.camera.position.set(0, 4, 1);
 	}
 
 	initAudioObject() {
@@ -58,41 +59,50 @@ export default class MusicVisualization extends TemplateFor3D {
 	}
 
 	initCubes() {
-		const cubeCount = 464;
-		let color = new THREE.Color();
+
 		let x = 0, z = 0;
-		// let deg = Math.PI/this.analyser.frequencyBinCount;
-		for (let i = 0; i < cubeCount; i++) {
-			let geometry = new THREE.CubeGeometry(2, 2, 2);
-			let material = new THREE.MeshLambertMaterial({color});
-			let mesh = new THREE.Mesh(geometry, material);
-			mesh.scale.y = .5;
-			mesh.material.color.g *= .5 ;
-			mesh.material.color.b = 1 ;
-			mesh.material.color.r = 0;
-			mesh.userData = color;
-			/*if (this.state.circle) {
-				mesh.position.set(100 * Math.sin(2 * deg * i), 0, 100 * Math.cos(2 * deg * i));
-				mesh.rotation.y = 2 * deg * i;
-				mesh.rotation.z = Math.PI / 2;
-			} else  */mesh.position.set(x, .5, z);
-			this.scene.add(mesh);
+
+		const instancedBoxGeo = new THREE.InstancedBufferGeometry().copy(new THREE.BoxBufferGeometry(2, 1, 2));
+		instancedBoxGeo.maxInstancedCount = 0;
+
+		const position = new Float32Array(MusicVisualization.CUBE_COUNT * 3);
+		const index = new Float32Array(MusicVisualization.CUBE_COUNT);
+
+		for (let i = 0; i < MusicVisualization.CUBE_COUNT * 3; i += 3) {
+			position[i] = x;
+			position[i + 1] = .5;
+			position[i + 2] = z;
+			index[i] = i;
+			index[i + 1] = i + 1;
+			index[i + 2] = i + 2;
 			x += 3;
 			if (x >= 86) {
 				z += 5;
 				x = 0
 			}
+			instancedBoxGeo.maxInstancedCount++;
 		}
+
+		instancedBoxGeo.addAttribute("boxPosition", new THREE.InstancedBufferAttribute(position, 3));
+		instancedBoxGeo.addAttribute("boxIndex", new THREE.InstancedBufferAttribute(index, 1));
+
+		const shaderMaterial = new THREE.ShaderMaterial( {
+			uniforms: {freqData: new THREE.Uniform(this.dataArray)},
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
+		});
+
+		const waveFormMesh = new THREE.Mesh(instancedBoxGeo, shaderMaterial);
+		this.scene.add(waveFormMesh);
 	}
 
 	async componentDidMount() {
-		super.componentDidMount();
+		await super.componentDidMount();
 		await this.initObjects();
-		const sizes = new THREE.Box3().expandByObject(this.scene);
-		this.camera.position.set(sizes.max.x / 2, sizes.max.z / 3, sizes.max.z * 1.3);
-		this.camera.lookAt(new THREE.Vector3(sizes.max.x / 2, 0, sizes.max.z / 2));
-		this.animate();
-		setTimeout(this.playTrack(0), 0) //autoplay-policy-changes
+		await this.camera.position.set(86 / 2, 88 / 3, 84 * 1.2);
+		await this.camera.lookAt(new THREE.Vector3(86/ 2, 0, 88/2));
+		await this.animate();
+		await this.playTrack(0);
 	}
 
 	componentWillUnmount() {
@@ -106,20 +116,11 @@ export default class MusicVisualization extends TemplateFor3D {
 		super.animate();
 		this.analyser && this.analyser.getByteFrequencyData(this.dataArray);// frequency
 		this.analyser && this.analyser.getByteTimeDomainData(this.timeByteData);// waveform
-		this.scene.children.forEach((mesh, i) => {
-			let data = this.dataArray;
-			if(mesh instanceof THREE.Mesh && mesh.geometry.type !== "PlaneGeometry"){
-				let zscale = 1 + data[i] * 0.1;
-				mesh.scale.y = zscale / 2 ;
-				mesh.position.y = zscale / 2;
-				mesh.material.color.g = mesh.userData.r * mesh.scale.y *.13 + 0.4	;
-			}
-		});
 	}
 
-	playTrack(trackNumber) {
-		this.audio.src = this.state.treks[trackNumber];
-		this.audio.play();
+	async playTrack(trackNumber) {
+		this.audio.src = await this.state.treks[trackNumber];
+		await this.audio.play();
 	}
 
 	render() {

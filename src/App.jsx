@@ -10,6 +10,7 @@ import {Codevember} from "./3D/projects/codevember/Codevember.jsx";
 import {testWork} from "./3D/projects/testWorks/testWork.jsx";
 import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
 import {mainFunc} from "./3D/projects/baseFunc/mainFunc.jsx";
+import {musicVisualization} from "./3D/projects/musicVisualisation/musicVisual.jsx";
 
 class App extends React.Component {
 	constructor() {
@@ -37,6 +38,7 @@ class App extends React.Component {
 					<div>
 						<Route path="/Codevember" component={Codevember} />
 						<Route path="/Shaders" component={Shaders} />
+						<Route path="/musicVisualization" component={musicVisualization} />
 						<Route path="/SomeWorks" component={SomeWorks} />
 						<Route path="/remakeTutorialWorks" component={TutorialWorks} />
 						<Route path="/mainFunc" component={mainFunc} />

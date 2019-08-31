@@ -16,12 +16,13 @@ export default class AsidePanel extends React.Component {
 			shadersPanel: false,
 			mainFuncPanel: false,
 			tutorialWorks: false,
+			musicVisualisationPanel: false,
 			testWork: false
 		}
 	}
 
 	render() {
-		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks, mainFuncPanel, testWork} = this.state;
+		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks, mainFuncPanel, testWork, musicVisualisationPanel} = this.state;
 		const {closePanel, isPanelOpen} = this.props;
 
 		return <SlidingPane from='left'
@@ -58,6 +59,16 @@ export default class AsidePanel extends React.Component {
 					</Collapse>
 				</Row>
 				<Row>
+					<Button onClick={() => this.setState({musicVisualisationPanel: !musicVisualisationPanel})}
+							  aria-controls="example-collapse-text"
+							  aria-expanded={shadersPanel}>Music Visualisation</Button>
+					<Collapse in={musicVisualisationPanel}>
+						<div>
+							<Button href={"/musicVisualization/MusicVisualization"}>MusicVisualization</Button>
+						</div>
+					</Collapse>
+				</Row>
+				<Row>
 					<Button onClick={() => this.setState({codevemberPanel: !codevemberPanel})}
 							  aria-controls="example-collapse-text"
 							  aria-expanded={codevemberPanel}>Codevember</Button>
@@ -90,7 +101,6 @@ export default class AsidePanel extends React.Component {
 							<Button href={"/SomeWorks/Grass"}>Grass</Button>
 							<Button href={"/SomeWorks/TriangleWallpaper"}>TriangleWallpaper</Button>
 							<Button href={"/SomeWorks/Aviator"}>Aviator</Button>
-							<Button href={"/SomeWorks/MusicVisualization"}>MusicVisualization</Button>
 							<Button href={"/SomeWorks/PointLights"}>PointLights</Button>
 							<Button href={"/SomeWorks/Portal"}>Portal</Button>
 						</div>
