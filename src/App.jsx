@@ -28,7 +28,7 @@ class App extends React.Component {
 		const {isPanelOpen} = this.state;
 		return (
 			<div className="App">
-				{window.location.pathname !== "/" && <div>
+				{window.location.pathname === "/menu" && <div>
 					<div className="selectButton">
 						<Button onClick={() => this.setState({isPanelOpen: true})}>Select</Button>
 					</div>
