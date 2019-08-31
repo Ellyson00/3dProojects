@@ -9,12 +9,10 @@ import {Button} from 'react-bootstrap';
 import fragmentShader from './shaders/shader.frag';
 import vertexShader from './shaders/shader.vert';
 
-const trek1 = require("../../../sounds/music/music4.mp3");
+const trek4 = require("../../../sounds/music/music4.mp3");
 const trek2 = require("../../../sounds/music/music.mp3");
-const trek3 = require("../../../sounds/music/music2.mp3");
-const trek4 = require("../../../sounds/music/music3.mp3");
-const trek5 = require("../../../sounds/music/04_Heaven.flac");
-const trek6 = require("../../../sounds/music/Darren Korb feat. Ashley Barrett - We All Become [Transistor OST].mp3");
+const trek1 = require("../../../sounds/music/04_Heaven.flac");
+const trek3 = require("../../../sounds/music/Snow Patrol - What If This Storm Ends.mp3");
 
 export default class MusicVisualization extends TemplateFor3D {
 
@@ -23,7 +21,7 @@ export default class MusicVisualization extends TemplateFor3D {
 		super();
 		this.state = {
 			checked: false,
-			treks: [trek1, trek2, trek3, trek4, trek5, trek6]
+			treks: [trek1, trek2, trek3, trek4]
 		};
 	}
 
@@ -127,12 +125,10 @@ export default class MusicVisualization extends TemplateFor3D {
 	render() {
 		return <div>
 			<header className="playList">
-				<Button onClick={() => this.playTrack(0)}>Daft Punk - too Long</Button>
+				<Button onClick={() => this.playTrack(0)}>Depeche Mode - Heaven</Button>
 				<Button onClick={() => this.playTrack(1)}>Pendulum - Still Grey</Button>
-				<Button onClick={() => this.playTrack(2)}>Arrow Benjamin - Love and Hate</Button>
-				<Button onClick={() => this.playTrack(3)}>Matt Darey Pres. Urban - See the Sun</Button>
-				<Button onClick={() => this.playTrack(4)}>Depeche Mode - Heaven</Button>
-				<Button onClick={() => this.playTrack(5)}>Darren Korb feat. Ashley Barrett - We All Become</Button>
+				<Button onClick={() => this.playTrack(2)}>Snow Patrol - What If This Storm Ends</Button>
+				<Button onClick={() => this.playTrack(3)}>Daft Punk - too Long</Button>
 			</header>
 			<div ref="anchor" className="canvasDiv"/>
 		</div>
