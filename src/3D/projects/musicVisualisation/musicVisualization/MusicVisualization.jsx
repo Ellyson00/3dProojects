@@ -27,7 +27,7 @@ export default class MusicVisualization extends TemplateFor3D {
 	}
 
 	async initObjects() {
-		this.scene.background = await new THREE.TextureLoader().load(background);
+		this.scene.background = await new THREE.Color(0x121212);
 
 		this.initControls();
 		this.initAudioObject();
