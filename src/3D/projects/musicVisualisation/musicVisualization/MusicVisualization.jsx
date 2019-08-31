@@ -13,7 +13,8 @@ const trek1 = require("../../../sounds/music/music4.mp3");
 const trek2 = require("../../../sounds/music/music.mp3");
 const trek3 = require("../../../sounds/music/music2.mp3");
 const trek4 = require("../../../sounds/music/music3.mp3");
-const background = require("../../../img/intothree.png");
+const trek5 = require("../../../sounds/music/04_Heaven.flac");
+const trek6 = require("../../../sounds/music/Darren Korb feat. Ashley Barrett - We All Become [Transistor OST].mp3");
 
 export default class MusicVisualization extends TemplateFor3D {
 
@@ -22,7 +23,7 @@ export default class MusicVisualization extends TemplateFor3D {
 		super();
 		this.state = {
 			checked: false,
-			treks: [trek1, trek2, trek3, trek4]
+			treks: [trek1, trek2, trek3, trek4, trek5, trek6]
 		};
 	}
 
@@ -130,6 +131,8 @@ export default class MusicVisualization extends TemplateFor3D {
 				<Button onClick={() => this.playTrack(1)}>Pendulum - Still Grey</Button>
 				<Button onClick={() => this.playTrack(2)}>Arrow Benjamin - Love and Hate</Button>
 				<Button onClick={() => this.playTrack(3)}>Matt Darey Pres. Urban - See the Sun</Button>
+				<Button onClick={() => this.playTrack(4)}>Depeche Mode - Heaven</Button>
+				<Button onClick={() => this.playTrack(5)}>Darren Korb feat. Ashley Barrett - We All Become</Button>
 			</header>
 			<div ref="anchor" className="canvasDiv"/>
 		</div>
