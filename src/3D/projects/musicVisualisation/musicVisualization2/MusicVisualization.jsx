@@ -23,6 +23,7 @@ export default class MusicVisualization extends TemplateFor3D {
 			checked: false,
 			treks: [trek1, trek2, trek3, trek4]
 		};
+		this.initObjects();
 	}
 
 	async initObjects() {
@@ -43,9 +44,9 @@ export default class MusicVisualization extends TemplateFor3D {
 	initAudioObject() {
 		this.audio = new Audio();
 		this.audio.src = this.state.treks[0];
-		let audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-		let audioSrc = audioCtx.createMediaElementSource(this.audio);
-		this.analyser = audioCtx.createAnalyser();
+		this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+		let audioSrc = this.audioCtx.createMediaElementSource(this.audio);
+		this.analyser = this.audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;
 		this.analyser.fftSize = this.analyser.frequencyBinCount;
 		this.analyser.minDecibels = -90;
@@ -54,7 +55,7 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.dataArray = new Uint8Array(bufferLength);
 		this.timeByteData = new Uint8Array(bufferLength);
 		audioSrc.connect(this.analyser);
-		this.analyser.connect(audioCtx.destination);
+		this.analyser.connect(this.audioCtx.destination);
 	}
 
 	initCubes() {
@@ -97,11 +98,14 @@ export default class MusicVisualization extends TemplateFor3D {
 
 	async componentDidMount() {
 		await super.componentDidMount();
-		await this.initObjects();
+
 		await this.camera.position.set(86 / 2, 88 / 3, 84 * 1.2);
 		await this.camera.lookAt(new THREE.Vector3(86/ 2, 0, 88/2));
 		await this.animate();
-		await this.playTrack(0);
+		await this.audioCtx.resume().then(async() => {
+			await this.playTrack(0);
+		});
+
 	}
 
 	componentWillUnmount() {

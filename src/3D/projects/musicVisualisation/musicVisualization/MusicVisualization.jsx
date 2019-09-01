@@ -40,12 +40,16 @@ export default class MusicVisualization extends TemplateFor3D {
 		// this.camera.position.set(0, 4, 1);
 	}
 
-	initAudioObject() {
-		this.audio = new Audio();
-		this.audio.src = this.state.treks[0];
-		let audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-		let audioSrc = audioCtx.createMediaElementSource(this.audio);
-		this.analyser = audioCtx.createAnalyser();
+	initAudioObject(trek) {
+		if (this.audio && this.audioCtx && this.audioSrc) {
+			delete this.audio;
+			delete this.audioCtx;
+			delete this.audioSrc;
+		}
+		this.audio = new Audio(this.state.treks[trek]);
+		this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+		this.audioSrc = this.audioCtx.createMediaElementSource(this.audio);
+		this.analyser = this.audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;
 		this.analyser.fftSize = this.analyser.frequencyBinCount;
 		this.analyser.minDecibels = -90;
@@ -53,8 +57,11 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.analyser.smoothingTimeConstant = 0.92;
 		this.dataArray = new Uint8Array(bufferLength);
 		this.timeByteData = new Uint8Array(bufferLength);
-		audioSrc.connect(this.analyser);
-		this.analyser.connect(audioCtx.destination);
+		this.audioSrc.connect(this.analyser);
+		this.analyser.connect(this.audioCtx.destination);
+		if (this.waveFormMesh) {
+			this.waveFormMesh.material.uniforms.freqData = new THREE.Uniform(this.dataArray);
+		}
 	}
 
 	initCubes() {
@@ -91,8 +98,8 @@ export default class MusicVisualization extends TemplateFor3D {
 			fragmentShader: fragmentShader,
 		});
 
-		const waveFormMesh = new THREE.Mesh(instancedBoxGeo, shaderMaterial);
-		this.scene.add(waveFormMesh);
+		this.waveFormMesh = new THREE.Mesh(instancedBoxGeo, shaderMaterial);
+		this.scene.add(this.waveFormMesh);
 	}
 
 	async componentDidMount() {
@@ -101,7 +108,7 @@ export default class MusicVisualization extends TemplateFor3D {
 		await this.camera.position.set(86 / 2, 88 / 3, 84 * 1.2);
 		await this.camera.lookAt(new THREE.Vector3(86/ 2, 0, 88/2));
 		await this.animate();
-		await this.playTrack(0);
+		await setTimeout(() => this.playTrack(0), 1000) //autoplay-policy-changes
 	}
 
 	componentWillUnmount() {
@@ -118,8 +125,15 @@ export default class MusicVisualization extends TemplateFor3D {
 	}
 
 	async playTrack(trackNumber) {
-		this.audio.src = await this.state.treks[trackNumber];
-		await this.audio.play();
+		this.audio && await this.audio.pause();
+		await this.initAudioObject(trackNumber);
+		const promise = this.audio.play();
+		if (promise !== undefined) {
+			promise.catch( () => {
+				this.renderer.domElement.click();
+				setTimeout(() => this.playTrack(trackNumber), 1500)
+			});
+		}
 	}
 
 	render() {
