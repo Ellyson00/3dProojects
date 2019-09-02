@@ -59,9 +59,6 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.timeByteData = new Uint8Array(bufferLength);
 		this.audioSrc.connect(this.analyser);
 		this.analyser.connect(this.audioCtx.destination);
-		if (this.waveFormMesh) {
-			this.waveFormMesh.material.uniforms.freqData = new THREE.Uniform(this.dataArray);
-		}
 	}
 
 	initCubes() {
@@ -91,9 +88,9 @@ export default class MusicVisualization extends TemplateFor3D {
 
 		instancedBoxGeo.addAttribute("boxPosition", new THREE.InstancedBufferAttribute(position, 3));
 		instancedBoxGeo.addAttribute("boxIndex", new THREE.InstancedBufferAttribute(index, 1));
+		instancedBoxGeo.addAttribute("frequencyData", new THREE.InstancedBufferAttribute(this.dataArray, 1));
 
 		const shaderMaterial = new THREE.ShaderMaterial( {
-			uniforms: {freqData: new THREE.Uniform(this.dataArray)},
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
 		});
@@ -108,7 +105,6 @@ export default class MusicVisualization extends TemplateFor3D {
 		await this.camera.position.set(86 / 2, 88 / 3, 84 * 1.2);
 		await this.camera.lookAt(new THREE.Vector3(86/ 2, 0, 88/2));
 		await this.animate();
-		await setTimeout(() => this.playTrack(0), 1000) //autoplay-policy-changes
 	}
 
 	componentWillUnmount() {
@@ -122,6 +118,10 @@ export default class MusicVisualization extends TemplateFor3D {
 		super.animate();
 		this.analyser && this.analyser.getByteFrequencyData(this.dataArray);// frequency
 		this.analyser && this.analyser.getByteTimeDomainData(this.timeByteData);// waveform
+		if(this.waveFormMesh && this.waveFormMesh.geometry) {
+			this.waveFormMesh.geometry.attributes.frequencyData.array = this.dataArray;
+			this.waveFormMesh.geometry.attributes.frequencyData.needsUpdate = true;
+		}
 	}
 
 	async playTrack(trackNumber) {
