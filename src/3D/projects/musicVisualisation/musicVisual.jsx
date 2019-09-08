@@ -2,14 +2,14 @@ import React from "react";
 import {BrowserRouter, Route} from "react-router-dom";
 
 import MusicVisualization from "./musicVisualization/MusicVisualization";
-import MusicVisualization2 from "./musicVisualization2/MusicVisualization";
+import LandSlide from "./landSlide/LandSlide";
 
 export function musicVisualization({ match }){
 	return <div className="App">
 		<BrowserRouter>
 			<div>
 				<Route path={`${match.path}/MusicVisualization`} component={MusicVisualization} />
-				<Route path={`${match.path}/MusicVisualization2`} component={MusicVisualization2} />
+				<Route path={`${match.path}/LandSlide`} component={LandSlide} />
 			</div>
 		</BrowserRouter>
 	</div>;

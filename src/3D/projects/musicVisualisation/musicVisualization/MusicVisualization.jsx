@@ -47,7 +47,7 @@ export default class MusicVisualization extends TemplateFor3D {
 			delete this.audioSrc;
 		}
 		this.audio = new Audio(this.state.treks[trek]);
-		this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+		this.audioCtx = new (AudioContext || window['webkitAudioContext'])();
 		this.audioSrc = this.audioCtx.createMediaElementSource(this.audio);
 		this.analyser = this.audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;
@@ -59,6 +59,9 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.timeByteData = new Uint8Array(bufferLength);
 		this.audioSrc.connect(this.analyser);
 		this.analyser.connect(this.audioCtx.destination);
+		if(this.waveFormMesh){
+			this.waveFormMesh.geometry.attributes.frequencyData.array = this.dataArray;
+		}
 	}
 
 	initCubes() {
@@ -119,7 +122,6 @@ export default class MusicVisualization extends TemplateFor3D {
 		this.analyser && this.analyser.getByteFrequencyData(this.dataArray);// frequency
 		this.analyser && this.analyser.getByteTimeDomainData(this.timeByteData);// waveform
 		if(this.waveFormMesh && this.waveFormMesh.geometry) {
-			this.waveFormMesh.geometry.attributes.frequencyData.array = this.dataArray;
 			this.waveFormMesh.geometry.attributes.frequencyData.needsUpdate = true;
 		}
 	}

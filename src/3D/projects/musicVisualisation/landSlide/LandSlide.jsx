@@ -14,7 +14,7 @@ const trek2 = require("../../../sounds/music/music.mp3");
 const trek1 = require("../../../sounds/music/04_Heaven.flac");
 const trek3 = require("../../../sounds/music/Snow Patrol - What If This Storm Ends.mp3");
 
-export default class MusicVisualization extends TemplateFor3D {
+export default class LandSlide extends TemplateFor3D {
 
 	static CUBE_COUNT = 464;
 	constructor() {
@@ -65,10 +65,10 @@ export default class MusicVisualization extends TemplateFor3D {
 		const instancedBoxGeo = new THREE.InstancedBufferGeometry().copy(new THREE.BoxBufferGeometry(2, 1, 2));
 		instancedBoxGeo.maxInstancedCount = 0;
 
-		const position = new Float32Array(MusicVisualization.CUBE_COUNT * 3);
-		const index = new Float32Array(MusicVisualization.CUBE_COUNT);
+		const position = new Float32Array(LandSlide.CUBE_COUNT * 3);
+		const index = new Float32Array(LandSlide.CUBE_COUNT);
 
-		for (let i = 0; i < MusicVisualization.CUBE_COUNT * 3; i += 3) {
+		for (let i = 0; i < LandSlide.CUBE_COUNT * 3; i += 3) {
 			position[i] = x;
 			position[i + 1] = .5;
 			position[i + 2] = z;
