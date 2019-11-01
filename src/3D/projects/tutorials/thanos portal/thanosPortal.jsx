@@ -5,14 +5,13 @@
 import React from 'react';
 import * as THREE from 'three';
 import TemplateFor3D from '../../../templates/mainTemplate3D';
-import fragmentShader from './portal.frag';
 import vertexShader from './portal.vert';
 const smoke = require(`../../../img/smoke.png`);
 
 export default class thanosPortal extends TemplateFor3D {
 
 	initControls() {
-		// super.initControls();
+		super.initControls();
 		this.camera.position.set(0, 0, 1300);
 	}
 
@@ -21,7 +20,6 @@ export default class thanosPortal extends TemplateFor3D {
 		this.moveQ = new THREE.Quaternion( 0., 0.0, 0.5, 0.0 ).normalize();
 		this.tmpQ = new THREE.Quaternion();
 		this.currentQ = new THREE.Quaternion();
-		super.initLight();
 		this.initControls();
 		this.initPortal();
 		this.initPointLight();
@@ -30,9 +28,10 @@ export default class thanosPortal extends TemplateFor3D {
 
 	initPointLight(){
 		this.portalLight = new THREE.PointLight(0x062d89, 30, 600, 1.7);
-		this.portalLight.position.set(0,0,0);
-		this.portalLight.power = 0;
-		this.scene.add(this.portalLight);
+		this.portalLight.position.set(0,0,300);
+		this.directionalLight = new THREE.DirectionalLight(0xffffff,0.5);
+		this.directionalLight.position.set(0,0,1);
+		this.scene.add(this.directionalLight,this.portalLight);
 	}
 
 	initPortal() {
@@ -53,42 +52,40 @@ export default class thanosPortal extends TemplateFor3D {
 				this.instancedPortalGeo.maxInstancedCount++;
 			}
 
-			this.instancedPortalGeo.addAttribute("portalParticlesPos", new THREE.InstancedBufferAttribute(position, 3));
-			this.instancedPortalGeo.addAttribute("portalParticlesRot", new THREE.InstancedBufferAttribute(new Float32Array(orientations), 4 ).setDynamic(true));
+			this.instancedPortalGeo.addAttribute("instanceOffset", new THREE.InstancedBufferAttribute(position, 3));
+			this.instancedPortalGeo.addAttribute("instanceRotation", new THREE.InstancedBufferAttribute(new Float32Array(orientations), 4 ).setDynamic(true));
 
 			this.uniforms = THREE.UniformsUtils.merge([
 				THREE.UniformsLib['lights'],
 			]);
 
-			this.shaderMaterial = new THREE.ShaderMaterial( {
-				uniforms: {...this.uniforms, texture: {type: "t", value: texture, time: {value: this.clock}}},
-				vertexShader: vertexShader,
-				fragmentShader: fragmentShader,
-				transparent:  true,
+			this.shaderMaterial = new THREE.MeshLambertMaterial( {
+				combine: THREE.MultiplyOperation,
+				reflectivity: 0.8,
+				fog: true,
+				map: texture,
 				side: THREE.DoubleSide,
+				transparent: true,
 				depthWrite: false,
-				lights: true
-			});
+			} );
+
+			this.shaderMaterial.onBeforeCompile = ( shader ) => {
+				shader.vertexShader = vertexShader;
+			};
 
 			const portalMesh = new THREE.Mesh(this.instancedPortalGeo, this.shaderMaterial);
 			this.scene.add(portalMesh);
 		});
-		this.light.position.set(0, 0, 1);
 	}
 
 	animate() {
 		if(!this.looped) return;
 		let delta = this.clock.getDelta();
-		this.portalLight.power = this.portalLight.position.z = 200 + 200 * Math.sin(this.clock.elapsedTime - Math.PI/2);
-		if(this.portalLight.power > 180){
-			this.portalLight.power = this.portalLight.position.z = 180;
-			// if(Math.random() > 0.97) {
-			// 	this.portalLight.power = 180 + Math.random() * 20;
-			// 	this.portalLight.position.z = 180 + Math.random() * 20;
-			// }
+		if(Math.random() > 0.9) {
+			this.portalLight.power = 350 + Math.random()*500;
 		}
 		if(this.instancedPortalGeo){
-			const orientation = this.instancedPortalGeo.attributes.portalParticlesRot;
+			const orientation = this.instancedPortalGeo.attributes.instanceRotation;
 			this.tmpQ.set(this.moveQ.x * delta, this.moveQ.y * delta, this.moveQ.z * delta, 1).normalize();
 			for (let i = 0, il = orientation.count; i < il; i ++) {
 				this.currentQ.fromArray(orientation.array, (i * 4));

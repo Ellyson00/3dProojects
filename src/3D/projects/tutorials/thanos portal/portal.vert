@@ -1,20 +1,60 @@
-varying vec2 vUv;
-varying vec3 vPos;
-varying vec4 mvPosition;
-varying vec3 vNormal;
+#define LAMBERT
 
-attribute vec3 portalParticlesPos;
-attribute vec4 portalParticlesRot;
+// instanced
+attribute vec3 instanceOffset;
+attribute vec4 instanceRotation;
 
-vec3 applyQuaternionToVector(vec4 q, vec3 v){
-	return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
-}
+varying vec3 vLightFront;
+varying vec3 vIndirectFront;
+
+#ifdef DOUBLE_SIDED
+varying vec3 vLightBack;
+varying vec3 vIndirectBack;
+#endif
+
+#include <common>
+#include <uv_pars_vertex>
+#include <uv2_pars_vertex>
+#include <envmap_pars_vertex>
+#include <bsdfs>
+#include <lights_pars_begin>
+#include <color_pars_vertex>
+#include <fog_pars_vertex>
+#include <morphtarget_pars_vertex>
+#include <skinning_pars_vertex>
+#include <shadowmap_pars_vertex>
+#include <logdepthbuf_pars_vertex>
+#include <clipping_planes_pars_vertex>
 
 void main() {
-	vUv = uv;
-	vec3 vPosition = applyQuaternionToVector(portalParticlesRot, position);
-	mvPosition = vec4(portalParticlesPos + vPosition, 1.0);
-	vPos = (modelMatrix * modelViewMatrix * vec4(portalParticlesPos + position, 1.0)).xyz;
-	vNormal = normalMatrix * normal;
-	gl_Position = projectionMatrix * modelViewMatrix * mvPosition;
+
+	#include <uv_vertex>
+	#include <uv2_vertex>
+	#include <color_vertex>
+
+	#include <beginnormal_vertex>
+	#include <morphnormal_vertex>
+	#include <skinbase_vertex>
+	#include <skinnormal_vertex>
+	#include <defaultnormal_vertex>
+
+	#include <begin_vertex>
+
+	// position instanced
+
+	transformed = transformed + 2.0 * cross(instanceRotation.xyz, cross(instanceRotation.xyz, transformed) + instanceRotation.w * transformed);
+	transformed = transformed + instanceOffset;
+
+	#include <morphtarget_vertex>
+	#include <skinning_vertex>
+	#include <project_vertex>
+	#include <logdepthbuf_vertex>
+	#include <clipping_planes_vertex>
+
+	#include <worldpos_vertex>
+	#include <envmap_vertex>
+	#include <lights_lambert_vertex>
+	#include <shadowmap_vertex>
+	#include <fog_vertex>
+
 }
