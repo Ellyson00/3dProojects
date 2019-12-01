@@ -11,6 +11,7 @@ import {testWork} from "./3D/projects/testWorks/testWork.jsx";
 import {Shaders} from "./3D/projects/shaders/Shaders.jsx";
 import {mainFunc} from "./3D/projects/baseFunc/mainFunc.jsx";
 import {musicVisualization} from "./3D/projects/musicVisualisation/musicVisual.jsx";
+import {akella} from "./3D/projects/Akella/akella";
 
 class App extends React.Component {
 	constructor() {
@@ -28,12 +29,12 @@ class App extends React.Component {
 		const {isPanelOpen} = this.state;
 		return (
 			<div className="App">
-				{window.location.pathname === "/menu" && <div>
+				<div>
 					<div className="selectButton">
 						<Button onClick={() => this.setState({isPanelOpen: true})}>Select</Button>
 					</div>
 					<AsidePanel closePanel={this.closePanel.bind(this)} isPanelOpen={isPanelOpen}/>
-				</div>}
+				</div>
 				<BrowserRouter>
 					<div>
 						<Route path="/Codevember" component={Codevember} />
@@ -43,6 +44,7 @@ class App extends React.Component {
 						<Route path="/remakeTutorialWorks" component={TutorialWorks} />
 						<Route path="/mainFunc" component={mainFunc} />
 						<Route path="/testWork" component={testWork} />
+						<Route path="/akella" component={akella} />
 						{/*<Route exact strict path="/" component={/!*Component*!/} />*/}
 					</div>
 				</BrowserRouter>

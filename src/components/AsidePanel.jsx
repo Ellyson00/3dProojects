@@ -17,12 +17,13 @@ export default class AsidePanel extends React.Component {
 			mainFuncPanel: false,
 			tutorialWorks: false,
 			musicVisualisationPanel: false,
-			testWork: false
+			testWork: false,
+			akella: false,
 		}
 	}
 
 	render() {
-		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks, mainFuncPanel, testWork, musicVisualisationPanel} = this.state;
+		const {worksPanel, shadersPanel, codevemberPanel, tutorialWorks, mainFuncPanel, testWork, musicVisualisationPanel, akella} = this.state;
 		const {closePanel, isPanelOpen} = this.props;
 
 		return <SlidingPane from='left'
@@ -87,6 +88,16 @@ export default class AsidePanel extends React.Component {
 						<div>
 							<Button href={"/remakeTutorialWorks/thanosPortal"}>Thanos Portal</Button>
 							<Button href={"/remakeTutorialWorks/rain"}>Rain</Button>
+						</div>
+					</Collapse>
+				</Row>
+				<Row>
+					<Button onClick={() => this.setState({akella: !akella})}
+							  aria-controls="example-collapse-text"
+							  aria-expanded={akella}>Akella</Button>
+					<Collapse in={akella}>
+						<div>
+							<Button href={"/akella/Pepyaka"}>Pepyaka</Button>
 						</div>
 					</Collapse>
 				</Row>
