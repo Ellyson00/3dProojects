@@ -1,12 +1,7 @@
-//varying vec4 mvPosition;
-varying float height;
 varying vec3 vNormal;
-varying vec2 vUv;
 varying vec3 vColor;
 
 uniform float time;
-uniform vec2 uvRate1;
-uniform vec4 resolution;
 
 //	Simplex 3D Noise
 //	by Ian McEwan, Ashima Arts
@@ -83,12 +78,16 @@ float snoise(vec3 v){
                                 dot(p2,x2), dot(p3,x3) ) );
 }
 
+vec3 hsv2rgb(vec3 c){
+  vec4 K = vec4(1.0, 2.0/3.0, 1.0/3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz)* 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
 void main() {
-    vNormal = normal;
-    vUv = uv;
-//	mvPosition = vec4(position, 1.0);
-	float noise = snoise(position * 1. + time/400.);
+	vNormal = normal;
+	float noise = snoise(position * 13. + time/400.);
 	vec3 newposition = position * (noise + 0.5);
-	vColor = vec3(noise);
+	vColor = hsv2rgb(vec3(noise * .1 + 0.02 , 0.8, 0.8));
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.);
 }
