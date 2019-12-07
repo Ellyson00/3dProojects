@@ -3,7 +3,6 @@ import {BrowserRouter, Route} from "react-router-dom";
 
 import Planet from "./planet/Planet";
 import Sky from "./sky/Sky";
-import Grass from "./grass/grass";
 import Aviator from "./aviator/Aviator";
 import PointLights from "./pointLights/PointLights";
 import Portal from "./portal/myCode/Portal";
