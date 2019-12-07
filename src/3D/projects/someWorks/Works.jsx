@@ -15,7 +15,6 @@ export function SomeWorks({match}) {
 				<Route exact stric path={`${match.path}/`} component={Planet} />
 				<Route path={`${match.path}/Planet`} component={Planet} />
 				<Route path={`${match.path}/Sky`} component={Sky} />
-				<Route path={`${match.path}/Grass`} component={Grass} />
 				<Route path={`${match.path}/Aviator`} component={Aviator} />
 				<Route path={`${match.path}/PointLights`} component={PointLights} />
 				<Route path={`${match.path}/Portal`} component={Portal} />

@@ -110,7 +110,6 @@ export default class AsidePanel extends React.Component {
 						<div>
 							<Button href={"/SomeWorks/Planet"}>Planet</Button>
 							<Button href={"/SomeWorks/Sky"}>Sky</Button>
-							<Button href={"/SomeWorks/Grass"}>Grass</Button>
 							<Button href={"/SomeWorks/Aviator"}>Aviator</Button>
 							<Button href={"/SomeWorks/PointLights"}>PointLights</Button>
 							<Button href={"/SomeWorks/Portal"}>Portal</Button>
