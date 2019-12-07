@@ -98,6 +98,7 @@ export default class AsidePanel extends React.Component {
 					<Collapse in={akella}>
 						<div>
 							<Button href={"/akella/Pepyaka"}>Pepyaka</Button>
+							<Button href={"/akella/TriangleWallpaper"}>TriangleWallpaper</Button>
 						</div>
 					</Collapse>
 				</Row>
@@ -110,7 +111,6 @@ export default class AsidePanel extends React.Component {
 							<Button href={"/SomeWorks/Planet"}>Planet</Button>
 							<Button href={"/SomeWorks/Sky"}>Sky</Button>
 							<Button href={"/SomeWorks/Grass"}>Grass</Button>
-							<Button href={"/SomeWorks/TriangleWallpaper"}>TriangleWallpaper</Button>
 							<Button href={"/SomeWorks/Aviator"}>Aviator</Button>
 							<Button href={"/SomeWorks/PointLights"}>PointLights</Button>
 							<Button href={"/SomeWorks/Portal"}>Portal</Button>
