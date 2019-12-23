@@ -47,7 +47,8 @@ export default class MusicVisualization extends TemplateFor3D {
 			delete this.audioSrc;
 		}
 		this.audio = new Audio(this.state.treks[trek]);
-		this.audioCtx = new (AudioContext || window['webkitAudioContext'])();
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+		this.audioCtx = new window.AudioContext();
 		this.audioSrc = this.audioCtx.createMediaElementSource(this.audio);
 		this.analyser = this.audioCtx.createAnalyser();
 		let bufferLength = this.analyser.frequencyBinCount;
