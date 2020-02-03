@@ -98,6 +98,7 @@ export default class AsidePanel extends React.Component {
 					<Collapse in={akella}>
 						<div>
 							<Button href={"/akella/Pepyaka"}>Pepyaka</Button>
+							<Button href={"/akella/DisplacedBox"}>Displaced Box</Button>
 							<Button href={"/akella/TriangleWallpaper"}>TriangleWallpaper</Button>
 							<Button href={"/akella/CreepingStripes"}>Creeping stripes</Button>
 						</div>
