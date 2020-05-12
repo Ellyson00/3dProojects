@@ -239,7 +239,7 @@ export default class Benares extends TemplateFor3D {
 			shader.vertexShader = `
       uniform vec3 corpuscules[${spheresAmount}];
       attribute float sides;
-      constying float vSides;
+      varying float vSides;
   ` + shader.vertexShader;
 			shader.vertexShader = shader.vertexShader.replace(
 				`#include <begin_vertex>`,
@@ -284,7 +284,7 @@ export default class Benares extends TemplateFor3D {
 			shader.fragmentShader = `
         uniform sampler2D texAum;
         uniform float time;
-        constying float vSides;
+        varying float vSides;
 
         //  https://www.shadertoy.com/view/MsS3Wc
         vec3 hsb2rgb( in vec3 c ){
