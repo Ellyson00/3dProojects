@@ -14,6 +14,7 @@ export function akella({ match }){
 				<Route path={`${match.path}/TriangleWallpaper`} component={TriangleWallpaper} />
 				<Route path={`${match.path}/CreepingStripes`} component={CreepingStripes} />
 				<Route path={`${match.path}/DisplacedBox`} component={DisplacedBox} />
+				<Route path={`${match.path}/DisplacedBox`} component={DisplacedBox} />
 			</div>
 		</BrowserRouter>
 	</div>;
